@@ -82,6 +82,19 @@ HANDLES = [
     ("maxwellcopy", 3), ("SaneDhruv", 3), ("faisalziaanwer", 3), ("ankurmittal", 3),
     ("nikunjtaneja_", 3), ("AgustinLebron3", 3), ("tejeshwi_sharma", 3), ("JJEnglert", 3),
     ("Mlada_in", 3),
+
+    # Expanded 2026-05-17 — mined from Rahul's following list (strict operator-only)
+    ("fchollet", 1), ("alexandr_wang", 1), ("vladtenev", 1), ("slashdot", 1),
+    ("EMostaque", 1), ("tunguz", 1),
+    ("davidmarcus", 2), ("moxie", 2), ("shayne_coplan", 2), ("0xgaut", 2),
+    ("scottbelsky", 2), ("billlee", 2), ("Andercot", 2), ("benjitaylor", 2),
+    ("markpinc", 2), ("AlecStapp", 2), ("ibab", 2), ("schrep", 2),
+    ("brivael", 2), ("alanvibe", 2), ("lsanger", 2), ("CJHandmer", 2),
+    ("atmoio", 2), ("sara_spangelo", 2), ("milichab", 2), ("JasonBud", 2),
+    ("ericzelikman", 2), ("aaronburnett", 2), ("djseo", 2),
+    ("byersblake", 3), ("ying11231", 3), ("lm_zheng", 3), ("sampullara", 3),
+    ("wanghaofei", 3), ("jnnfir", 3), ("arnogau", 3), ("jmusk", 3),
+    ("adampbry", 3), ("shawngold", 3),
 ]
 TIER_LOOKUP = {h.lower(): t for h, t in HANDLES}
 
