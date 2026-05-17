@@ -568,14 +568,56 @@ document.getElementById("sort-select").addEventListener("change", e => {
   render();
 });
 
-document.getElementById("btn-refresh").addEventListener("click", () => {
+// Live refresh: triggers GitHub Actions workflow via Cloudflare Worker proxy,
+// polls for the new commit, then reloads when fresh HTML is available.
+const REFRESH_PROXY = "https://x-refresh-proxy.levelupedtech.workers.dev";
+const REFRESH_TOKEN = "Eb4ClMvBa9FU_j2JGtT3imtsOkSquidu";
+document.getElementById("btn-refresh").addEventListener("click", async () => {
   const btn = document.getElementById("btn-refresh");
+  if (btn.classList.contains("spinning")) return; // prevent double-tap
   btn.classList.add("spinning");
-  // Force fresh fetch from network
-  if ("caches" in window) {
-    caches.keys().then(keys => Promise.all(keys.filter(k => k.startsWith("x-reply-queue-")).map(k => caches.delete(k))));
+  btn.querySelector(".refresh-label").textContent = "Pulling…";
+
+  try {
+    // Note current commit SHA so we can detect when fresh
+    let beforeSha = null;
+    try {
+      const before = await fetch(`${REFRESH_PROXY}/status`).then(r => r.json());
+      beforeSha = before.sha;
+    } catch(e) { /* worker may be cold-starting, that's fine */ }
+
+    // Trigger the workflow
+    const r = await fetch(`${REFRESH_PROXY}/refresh?t=${encodeURIComponent(REFRESH_TOKEN)}`);
+    const j = await r.json();
+    if (!j.ok) throw new Error(j.error || "refresh failed");
+    showToast("Pulling fresh tweets… 60-90s", 2500);
+
+    // Poll /status every 8s until SHA changes (workflow finished + committed)
+    const start = Date.now();
+    btn.querySelector(".refresh-label").textContent = "Drafting…";
+    while (Date.now() - start < 150000) { // 2.5min max
+      await new Promise(r => setTimeout(r, 8000));
+      try {
+        const s = await fetch(`${REFRESH_PROXY}/status`).then(r => r.json());
+        if (beforeSha && s.sha && s.sha !== beforeSha) {
+          btn.querySelector(".refresh-label").textContent = "Loading…";
+          showToast("New batch ready ✓", 1500);
+          // Clear SW cache and reload
+          if ("caches" in window) {
+            const keys = await caches.keys();
+            await Promise.all(keys.filter(k => k.startsWith("x-reply-queue-")).map(k => caches.delete(k)));
+          }
+          setTimeout(() => location.reload(), 800);
+          return;
+        }
+      } catch(e) {}
+    }
+    throw new Error("Timed out after 2.5min");
+  } catch (e) {
+    btn.classList.remove("spinning");
+    btn.querySelector(".refresh-label").textContent = "Refresh";
+    showToast("Refresh failed: " + e.message, 3500);
   }
-  setTimeout(() => { location.reload(); }, 300);
 });
 
 // Re-tick countdown every minute
