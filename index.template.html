@@ -2,109 +2,311 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-title" content="X Reply Queue">
-<meta name="theme-color" content="#fafaf9">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, user-scalable=yes">
 <title>X Reply Queue · @Rahul_Reddly</title>
+<meta name="description" content="Daily X reply drafts. Tap Reply A/B and X opens with your draft pre-filled.">
+
+<!-- PWA -->
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#1c1917" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#1c1917" media="(prefers-color-scheme: dark)">
+<meta name="color-scheme" content="light">
+
+<!-- iOS PWA -->
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="X Replies">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="192x192" href="icon-192.png">
+<link rel="icon" type="image/png" sizes="512x512" href="icon-512.png">
+
+<!-- Iframe-friendly: explicitly allow embedding -->
+<meta http-equiv="Content-Security-Policy" content="frame-ancestors *">
+
 <style>
-:root { color-scheme: light; }
-* { box-sizing: border-box; }
-body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; background: #fafaf9; color: #1c1917; margin: 0; padding: 12px; max-width: 760px; margin-left: auto; margin-right: auto; line-height: 1.55; -webkit-font-smoothing: antialiased; }
-.head { display: flex; justify-content: space-between; align-items: flex-start; gap: 10px; margin-bottom: 8px; }
-.head h1 { font-size: 22px; font-weight: 500; margin: 0 0 4px; }
-.head .meta { color: #78716c; font-size: 12px; }
-.refresh-btn { background: #1c1917; color: white; border: none; padding: 9px 14px; border-radius: 8px; font-size: 13px; font-weight: 500; cursor: pointer; white-space: nowrap; }
-.toolbar { margin: 10px 0 16px; padding-bottom: 12px; border-bottom: 0.5px solid #e7e5e4; }
-.filters-row { display: flex; gap: 6px; flex-wrap: wrap; align-items: center; margin-bottom: 10px; }
-.sort-row { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
-.sort-label { font-size: 12px; color: #78716c; font-weight: 500; }
-.sort-select { background: white; border: 0.5px solid #d6d3d1; padding: 7px 11px; border-radius: 8px; font-size: 12px; color: #1c1917; cursor: pointer; flex: 1; max-width: 280px; font-family: inherit; }
-.filter-btn { background: transparent; border: 0.5px solid #d6d3d1; padding: 6px 11px; border-radius: 8px; font-size: 12px; cursor: pointer; color: #44403c; }
-.filter-btn.active { background: #1c1917; color: white; border-color: #1c1917; }
-.stats { font-size: 11px; color: #78716c; width: 100%; margin-top: 4px; }
-.stats b { color: #1c1917; font-weight: 500; }
-.card { background: white; border: 0.5px solid #e7e5e4; border-radius: 12px; padding: 14px 16px; margin-bottom: 12px; }
-.card.skip { background: #fefbf6; border-color: #fde68a; opacity: 0.75; }
-.card.human { background: #f0f9ff; border-color: #bae6fd; }
-.card.author-replied-today { border-color: #fcd34d; border-width: 1px; }
-.card-head { display: flex; gap: 6px; align-items: center; flex-wrap: wrap; margin-bottom: 8px; }
-.tag { display: inline-block; font-size: 10px; padding: 2px 7px; border-radius: 4px; font-weight: 500; }
-.tag-t1 { background: #fef3c7; color: #92400e; }
-.tag-t2 { background: #dcfce7; color: #166534; }
-.tag-t3 { background: #dbeafe; color: #1e40af; }
-.tag-human { background: #e0f2fe; color: #075985; }
-.tag-skip { background: #f5f5f4; color: #57534e; }
-.tag-hot { background: #fee2e2; color: #b91c1c; font-weight: 600; }
-.tag-velocity { background: #fef3c7; color: #92400e; font-weight: 600; }
-.tag-warn { background: #fef9c3; color: #854d0e; font-weight: 500; }
-.author { font-weight: 500; color: #1c1917; text-decoration: none; font-size: 14px; }
-.author-meta { font-size: 11px; color: #78716c; }
-.sort-metric { font-size: 11px; color: #57534e; background: #f5f5f4; padding: 2px 7px; border-radius: 4px; font-weight: 500; margin-left: auto; }
-.tweet { background: #fafaf9; padding: 10px 14px; border-left: 3px solid #d6d3d1; border-radius: 0 6px 6px 0; font-size: 14px; margin: 10px 0; white-space: pre-wrap; }
-.tweet-stats { font-size: 11px; color: #a8a29e; margin-top: 4px; }
-.why { font-size: 11px; color: #78716c; font-style: italic; margin: 8px 0 10px; padding: 4px 8px; background: #f5f5f4; border-radius: 4px; }
-.variants { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 8px; }
-@media (max-width: 600px) { .variants { grid-template-columns: 1fr; } body { padding: 10px; } .head h1 { font-size: 20px; } .sort-select { max-width: none; } }
-.variant { background: #fafaf9; border: 0.5px solid #e7e5e4; border-radius: 8px; padding: 10px 12px; display: flex; flex-direction: column; }
-.variant.posted { background: #f0fdf4; border-color: #86efac; }
-.variant-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; }
-.variant-label { font-size: 10px; font-weight: 500; color: #78716c; letter-spacing: 0.04em; text-transform: uppercase; }
-.variant-text { font-size: 13px; color: #1c1917; line-height: 1.5; flex: 1; margin-bottom: 10px; white-space: pre-wrap; }
-.reply-btn { display: inline-flex; align-items: center; justify-content: center; gap: 6px; background: #1d9bf0; color: white; padding: 10px 14px; border-radius: 8px; font-size: 13px; font-weight: 500; text-decoration: none; min-height: 40px; }
-.variant-actions { display: flex; gap: 6px; margin-top: 6px; }
-.btn-small { font-size: 11px; padding: 6px 10px; border-radius: 6px; border: 0.5px solid #d6d3d1; background: white; cursor: pointer; color: #44403c; flex: 1; display: inline-flex; align-items: center; justify-content: center; gap: 4px; min-height: 32px; }
-.btn-small.posted { background: #16a34a; color: white; border-color: #15803d; }
-.open-btn { display: inline-flex; align-items: center; gap: 6px; background: #0f172a; color: white; padding: 8px 14px; border-radius: 8px; font-size: 12px; text-decoration: none; margin-top: 10px; font-weight: 500; }
-.skip-reason { font-size: 13px; color: #78716c; padding: 8px 0; }
-.empty { text-align: center; padding: 40px 20px; color: #a8a29e; font-size: 14px; }
-.toast { position: fixed; bottom: 16px; left: 50%; transform: translateX(-50%); background: #1c1917; color: white; padding: 9px 18px; border-radius: 8px; font-size: 13px; opacity: 0; transition: opacity 0.2s; pointer-events: none; z-index: 999; }
-.toast.show { opacity: 1; }
-.banner { background: #eff6ff; border: 0.5px solid #bfdbfe; border-radius: 8px; padding: 10px 14px; font-size: 12px; color: #1e40af; margin-bottom: 14px; display: flex; align-items: flex-start; gap: 8px; }
-.author-counter { font-size: 10px; color: #92400e; }
+  :root {
+    color-scheme: light;
+    --bg: #fafaf9;
+    --surface: #ffffff;
+    --surface-2: #f5f5f4;
+    --border: #e7e5e4;
+    --border-2: #d6d3d1;
+    --text: #1c1917;
+    --text-2: #57534e;
+    --text-3: #78716c;
+    --text-mute: #a8a29e;
+    --accent: #1d9bf0;
+    --accent-2: #1a8cd8;
+    --success: #16a34a;
+    --success-bg: #f0fdf4;
+    --warn: #b45309;
+    --warn-bg: #fef3c7;
+    --hot: #b91c1c;
+    --hot-bg: #fee2e2;
+    --info-bg: #eff6ff;
+    --info-text: #1e40af;
+    --t1-bg: #fef3c7; --t1-text: #92400e;
+    --t2-bg: #dcfce7; --t2-text: #166534;
+    --t3-bg: #dbeafe; --t3-text: #1e40af;
+    --human-bg: #e0f2fe; --human-text: #075985;
+    --tap: 44px;
+    --radius: 12px;
+    --radius-sm: 8px;
+    --radius-xs: 6px;
+    --safe-top: env(safe-area-inset-top, 0px);
+    --safe-bottom: env(safe-area-inset-bottom, 0px);
+  }
+  * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+  html, body { margin: 0; padding: 0; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", system-ui, sans-serif;
+    background: var(--bg); color: var(--text);
+    line-height: 1.5; -webkit-font-smoothing: antialiased;
+    overscroll-behavior-y: contain;
+  }
+  .sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; }
+  a { color: inherit; }
+
+  /* Skip link for accessibility */
+  .skip-link { position: absolute; top: -40px; left: 0; background: var(--text); color: white; padding: 8px 12px; z-index: 1000; }
+  .skip-link:focus { top: 0; }
+
+  /* Sticky header */
+  header.app {
+    position: sticky; top: 0; z-index: 10;
+    background: rgba(250,250,249,0.92);
+    backdrop-filter: saturate(180%) blur(12px);
+    -webkit-backdrop-filter: saturate(180%) blur(12px);
+    border-bottom: 0.5px solid var(--border);
+    padding: calc(var(--safe-top) + 10px) 16px 10px;
+  }
+  .row { display: flex; align-items: center; gap: 10px; }
+  .row.wrap { flex-wrap: wrap; }
+  h1 { font-size: 18px; font-weight: 600; margin: 0; letter-spacing: -0.01em; }
+  .meta { font-size: 11px; color: var(--text-3); margin-top: 2px; }
+  .refresh {
+    margin-left: auto;
+    background: var(--text); color: white; border: none;
+    height: 36px; min-width: 36px; padding: 0 12px; border-radius: 18px;
+    font-size: 13px; font-weight: 500; cursor: pointer;
+    display: inline-flex; align-items: center; justify-content: center; gap: 6px;
+  }
+  .refresh:active { transform: scale(0.96); }
+  .refresh .spin { display: inline-block; }
+  .refresh.spinning .spin { animation: spin 1s linear infinite; }
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  /* Today widget */
+  .today {
+    margin: 14px 16px 0;
+    background: var(--surface); border: 0.5px solid var(--border);
+    border-radius: var(--radius); padding: 12px 14px;
+    display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px;
+  }
+  .stat { text-align: center; }
+  .stat-label { font-size: 10px; color: var(--text-3); text-transform: uppercase; letter-spacing: 0.04em; font-weight: 500; }
+  .stat-value { font-size: 22px; font-weight: 600; margin-top: 2px; }
+  .stat-value.accent { color: var(--accent); }
+  .stat-sub { font-size: 10px; color: var(--text-mute); margin-top: 1px; }
+
+  /* Container */
+  main { max-width: 760px; margin: 0 auto; padding: 0 16px 80px; }
+
+  /* Filters */
+  .filters {
+    display: flex; gap: 6px; overflow-x: auto;
+    margin: 14px 0 10px; padding: 2px;
+    scrollbar-width: none;
+  }
+  .filters::-webkit-scrollbar { display: none; }
+  .chip {
+    flex-shrink: 0;
+    height: 32px; padding: 0 14px;
+    border: 0.5px solid var(--border-2);
+    background: transparent; color: var(--text-2);
+    border-radius: 16px; font-size: 13px; cursor: pointer;
+    font-family: inherit;
+    display: inline-flex; align-items: center;
+    transition: all 0.15s;
+  }
+  .chip:active { transform: scale(0.97); }
+  .chip[aria-pressed="true"] { background: var(--text); color: white; border-color: var(--text); }
+
+  /* Sort */
+  .sort {
+    display: flex; align-items: center; gap: 8px; margin-bottom: 14px;
+  }
+  .sort label { font-size: 12px; color: var(--text-3); font-weight: 500; }
+  .sort select {
+    flex: 1; height: 36px; padding: 0 12px;
+    background: var(--surface); border: 0.5px solid var(--border-2);
+    border-radius: var(--radius-sm); font-size: 13px; color: var(--text);
+    font-family: inherit; cursor: pointer; appearance: none;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%2378716c' stroke-width='2'><polyline points='6 9 12 15 18 9'/></svg>");
+    background-repeat: no-repeat; background-position: right 12px center;
+    padding-right: 32px;
+  }
+
+  /* Cards */
+  .card {
+    background: var(--surface); border: 0.5px solid var(--border);
+    border-radius: var(--radius); padding: 14px; margin-bottom: 12px;
+  }
+  .card.skip { background: #fefbf6; border-color: #fde68a; opacity: 0.72; }
+  .card.human { background: #f0f9ff; border-color: #bae6fd; }
+  .card.warn { border-color: #fcd34d; border-width: 1px; }
+  .card-head { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; margin-bottom: 6px; }
+  .tag {
+    display: inline-flex; align-items: center;
+    font-size: 10px; padding: 2px 7px; border-radius: 4px; font-weight: 500;
+    line-height: 1.5;
+  }
+  .tag-t1 { background: var(--t1-bg); color: var(--t1-text); }
+  .tag-t2 { background: var(--t2-bg); color: var(--t2-text); }
+  .tag-t3 { background: var(--t3-bg); color: var(--t3-text); }
+  .tag-human { background: var(--human-bg); color: var(--human-text); }
+  .tag-skip { background: var(--surface-2); color: var(--text-3); }
+  .tag-hot { background: var(--hot-bg); color: var(--hot); font-weight: 600; }
+  .tag-velocity { background: var(--warn-bg); color: var(--warn); font-weight: 600; }
+  .tag-warn { background: #fef9c3; color: #854d0e; font-weight: 500; }
+  .author { font-weight: 500; color: var(--text); text-decoration: none; font-size: 14px; }
+  .author:focus-visible, .chip:focus-visible, .reply-btn:focus-visible, .btn-small:focus-visible, .open-btn:focus-visible, .refresh:focus-visible, select:focus-visible {
+    outline: 2px solid var(--accent); outline-offset: 2px;
+  }
+  .author-meta { font-size: 11px; color: var(--text-3); }
+  .metric { font-size: 11px; color: var(--text-2); background: var(--surface-2); padding: 2px 7px; border-radius: 4px; font-weight: 500; margin-left: auto; }
+  .tweet {
+    background: var(--surface-2); padding: 10px 14px;
+    border-left: 3px solid var(--border-2); border-radius: 0 var(--radius-xs) var(--radius-xs) 0;
+    font-size: 14px; margin: 8px 0; white-space: pre-wrap; word-wrap: break-word;
+  }
+  .tweet-stats { font-size: 11px; color: var(--text-mute); margin-top: 4px; }
+  .why { font-size: 11px; color: var(--text-3); font-style: italic; margin: 8px 0 10px; padding: 5px 9px; background: var(--surface-2); border-radius: var(--radius-xs); }
+
+  /* Variants */
+  .variants { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 8px; }
+  @media (max-width: 640px) { .variants { grid-template-columns: 1fr; } }
+  .variant { background: var(--surface-2); border: 0.5px solid var(--border); border-radius: var(--radius-sm); padding: 11px 12px; display: flex; flex-direction: column; position: relative; }
+  .variant.posted { background: var(--success-bg); border-color: #86efac; }
+  .variant.posted::before { content: "✓"; position: absolute; top: 6px; right: 8px; color: var(--success); font-weight: 700; font-size: 14px; }
+  .variant-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; }
+  .variant-label { font-size: 10px; font-weight: 600; color: var(--text-3); letter-spacing: 0.04em; text-transform: uppercase; }
+  .variant-text { font-size: 13px; color: var(--text); line-height: 1.5; flex: 1; margin-bottom: 10px; white-space: pre-wrap; }
+  .reply-btn {
+    display: inline-flex; align-items: center; justify-content: center; gap: 6px;
+    background: var(--accent); color: white; padding: 0 14px;
+    border-radius: var(--radius-sm); font-size: 13px; font-weight: 500;
+    text-decoration: none; min-height: var(--tap); border: none; cursor: pointer;
+    font-family: inherit;
+  }
+  .reply-btn:active { transform: scale(0.98); background: var(--accent-2); }
+  .variant-actions { display: flex; gap: 6px; margin-top: 6px; }
+  .btn-small {
+    font-size: 11px; padding: 0 10px; border-radius: var(--radius-xs);
+    border: 0.5px solid var(--border-2); background: var(--surface); color: var(--text-2);
+    flex: 1; display: inline-flex; align-items: center; justify-content: center; gap: 4px;
+    min-height: 34px; cursor: pointer; font-family: inherit;
+  }
+  .btn-small:active { transform: scale(0.97); }
+  .btn-small.posted { background: var(--success); color: white; border-color: #15803d; }
+  .open-btn {
+    display: inline-flex; align-items: center; gap: 6px;
+    background: var(--text); color: white; padding: 0 14px;
+    border-radius: var(--radius-sm); font-size: 12px; text-decoration: none;
+    margin-top: 10px; font-weight: 500; min-height: 36px;
+  }
+  .open-btn:active { transform: scale(0.98); }
+  .skip-reason { font-size: 13px; color: var(--text-3); padding: 8px 0; }
+  .empty { text-align: center; padding: 60px 20px; color: var(--text-mute); }
+  .empty-icon { font-size: 36px; margin-bottom: 12px; opacity: 0.5; }
+
+  /* Toast */
+  .toast {
+    position: fixed; bottom: calc(20px + var(--safe-bottom)); left: 50%; transform: translateX(-50%);
+    background: var(--text); color: white; padding: 10px 18px; border-radius: 24px;
+    font-size: 13px; opacity: 0; transition: opacity 0.2s, transform 0.2s;
+    pointer-events: none; z-index: 999; max-width: 90vw;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.18);
+  }
+  .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+  /* Banner */
+  .banner {
+    background: var(--info-bg); border: 0.5px solid #bfdbfe;
+    border-radius: var(--radius); padding: 10px 14px;
+    font-size: 12px; color: var(--info-text); margin: 14px 0;
+    display: flex; align-items: flex-start; gap: 8px;
+  }
+  .banner b { font-weight: 600; }
 </style>
 </head>
 <body>
-<div class="head">
-  <div>
-    <h1>X reply queue</h1>
-    <div class="meta" id="meta-line"></div>
-  </div>
-  <button class="refresh-btn" id="btn-refresh"><span aria-hidden="true">↻</span> Refresh</button>
-</div>
+<a href="#queue" class="skip-link">Skip to reply queue</a>
 
-<div class="banner">
-  <span aria-hidden="true" style="margin-top:1px">ⓘ</span>
-  <div><b>Auto-refreshes daily at 6:30 AM IST.</b> Tap <b>Reply A/B on X</b> to open X with the draft pre-filled. Hit Post on X. Looks 100% native, no automation badge. Cards with a yellow border mean you've already replied to that author in the last 24h — skip per the Author Diversity Scorer rule.</div>
-</div>
-
-<div class="toolbar">
-  <div class="filters-row">
-    <button class="filter-btn active" data-filter="ready">Reply-ready</button>
-    <button class="filter-btn" data-filter="all">All</button>
-    <button class="filter-btn" data-filter="t1">T1</button>
-    <button class="filter-btn" data-filter="t2">T2</button>
-    <button class="filter-btn" data-filter="t3">T3</button>
-    <button class="filter-btn" data-filter="human">Human</button>
-    <button class="filter-btn" data-filter="skip">Skipped</button>
+<header class="app" role="banner">
+  <div class="row">
+    <div>
+      <h1>X reply queue</h1>
+      <div class="meta" id="meta-line"></div>
+    </div>
+    <button class="refresh" id="btn-refresh" aria-label="Refresh queue">
+      <span class="spin" aria-hidden="true">↻</span>
+      <span class="refresh-label">Refresh</span>
+    </button>
   </div>
-  <div class="sort-row">
-    <span class="sort-label">Sort:</span>
-    <select class="sort-select" id="sort-select">
-      <option value="hot">🔥 Hottest right now (engagement per hour)</option>
-      <option value="new">🕐 Newest first</option>
-      <option value="window">💬 Reply window (engagement, not drowned)</option>
-      <option value="tier">🎯 By tier (T1 → T2 → T3)</option>
-      <option value="fit">🧭 Best fit for your lane</option>
-      <option value="reach">📣 Biggest reach (most followers)</option>
-      <option value="small">🌱 Smallest first (relationship plays)</option>
+
+  <div class="today" role="region" aria-label="Today summary">
+    <div class="stat">
+      <div class="stat-label">Replied today</div>
+      <div class="stat-value accent" id="stat-replied">0</div>
+      <div class="stat-sub" id="stat-replied-sub">of 0 drafts</div>
+    </div>
+    <div class="stat">
+      <div class="stat-label">Reply-ready</div>
+      <div class="stat-value" id="stat-ready">0</div>
+      <div class="stat-sub" id="stat-ready-sub">T1·T2·T3</div>
+    </div>
+    <div class="stat">
+      <div class="stat-label">Next refresh</div>
+      <div class="stat-value" id="stat-countdown" style="font-size:16px;line-height:30px">—</div>
+      <div class="stat-sub">6:30 AM IST daily</div>
+    </div>
+  </div>
+</header>
+
+<main>
+  <div class="banner" role="note">
+    <span aria-hidden="true">ⓘ</span>
+    <div><b>1-tap reply:</b> Tap <b>Reply A/B on 𝕏</b>, X opens with the draft pre-filled and threaded. Hit Post. Looks 100% native. ✓ replied today wraps a tweet in yellow border so you don't double-reply (Author Diversity rule).</div>
+  </div>
+
+  <div class="filters" role="tablist" aria-label="Filter tweets">
+    <button class="chip" role="tab" aria-pressed="true" data-filter="ready">Reply-ready</button>
+    <button class="chip" role="tab" aria-pressed="false" data-filter="all">All</button>
+    <button class="chip" role="tab" aria-pressed="false" data-filter="t1">T1</button>
+    <button class="chip" role="tab" aria-pressed="false" data-filter="t2">T2</button>
+    <button class="chip" role="tab" aria-pressed="false" data-filter="t3">T3</button>
+    <button class="chip" role="tab" aria-pressed="false" data-filter="human">Human</button>
+    <button class="chip" role="tab" aria-pressed="false" data-filter="skip">Skipped</button>
+  </div>
+
+  <div class="sort">
+    <label for="sort-select">Sort</label>
+    <select id="sort-select" aria-label="Sort tweets by">
+      <option value="hot">🔥 Hottest now</option>
+      <option value="new">🕐 Newest</option>
+      <option value="window">💬 Reply window</option>
+      <option value="tier">🎯 By tier</option>
+      <option value="fit">🧭 Best fit</option>
+      <option value="reach">📣 Biggest reach</option>
+      <option value="small">🌱 Smallest first</option>
     </select>
   </div>
-  <div class="stats" id="stats-line"></div>
-</div>
 
-<div id="queue"></div>
-<div class="toast" id="toast"></div>
+  <div id="queue" aria-live="polite"></div>
+</main>
+
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
 
 <script>
 const DATA = __DATA_INJECTION__;
@@ -112,20 +314,14 @@ const DATA = __DATA_INJECTION__;
 const FIT_KEYWORDS = ["india","indian","founder","startup","edtech","building","operator","marketing","ads","product","launch","distribution","creator","cohort","paid","pricing","learner","student","course","masterclass","ai","consumer","growth","tier 2","tier 3","bootstrapped","ship","lovable","vibe"];
 
 function fmtNum(n) { return n >= 1000 ? (n/1000).toFixed(n >= 10000 ? 0 : 1) + "K" : String(n); }
-function tierTag(tier) { return `<span class="tag tag-t${tier}">T${tier}</span>`; }
 function getEng(t) { return (t.likes||0) + 5*(t.replies||0) + 3*(t.retweets||0); }
 function getHoursAgo(t) {
   if (!t.createdAt) return 999;
   return Math.max(0.5, (Date.now() - new Date(t.createdAt).getTime()) / 3600000);
 }
 function getVelocity(t) { return getEng(t) / getHoursAgo(t); }
-function getFitScore(t) {
-  const text = (t.text || "").toLowerCase();
-  return FIT_KEYWORDS.filter(k => text.includes(k)).length;
-}
-function getReplyWindow(t) {
-  return getEng(t) / (1 + Math.log(1 + (t.replies||0)) * 0.5);
-}
+function getFitScore(t) { const text = (t.text || "").toLowerCase(); return FIT_KEYWORDS.filter(k => text.includes(k)).length; }
+function getReplyWindow(t) { return getEng(t) / (1 + Math.log(1 + (t.replies||0)) * 0.5); }
 function relativeTime(iso) {
   if (!iso) return "?";
   const ms = Date.now() - new Date(iso).getTime();
@@ -133,131 +329,96 @@ function relativeTime(iso) {
   if (m < 60) return `${m}m ago`;
   const h = Math.round(m / 60);
   if (h < 24) return `${h}h ago`;
-  const d = Math.round(h / 24);
-  return `${d}d ago`;
+  return `${Math.round(h / 24)}d ago`;
 }
 
-// ============================================================================
-// Author Diversity Tracker (algorithm-aligned)
-// Stores per-author "last replied at" in localStorage. Each card shows whether
-// you've replied to this author in the last 24h.
-// ============================================================================
 function authorRepliedToday(handle) {
   const last = localStorage.getItem("author_reply_" + handle.toLowerCase());
-  if (!last) return false;
-  return (Date.now() - parseInt(last)) < 24 * 3600 * 1000;
+  return last ? (Date.now() - parseInt(last)) < 24*3600*1000 : false;
 }
-function markAuthorReplied(handle) {
-  localStorage.setItem("author_reply_" + handle.toLowerCase(), String(Date.now()));
-}
-function authorReplyCount24h(handle) {
-  return authorRepliedToday(handle) ? 1 : 0;
-}
+function markAuthorReplied(handle) { localStorage.setItem("author_reply_" + handle.toLowerCase(), String(Date.now())); }
 
-// ============================================================================
-// Sort
-// ============================================================================
 function sortTweets(tweets, mode) {
   const arr = [...tweets];
-  switch (mode) {
-    case "hot":    arr.sort((a, b) => getVelocity(b) - getVelocity(a)); break;
-    case "new":    arr.sort((a, b) => new Date(b.createdAt||0) - new Date(a.createdAt||0)); break;
-    case "window": arr.sort((a, b) => getReplyWindow(b) - getReplyWindow(a)); break;
-    case "tier":   arr.sort((a, b) => (a.tier - b.tier) || (getEng(b) - getEng(a))); break;
-    case "fit":    arr.sort((a, b) => (getFitScore(b) - getFitScore(a)) || (getEng(b) - getEng(a))); break;
-    case "reach":  arr.sort((a, b) => (b.followers||0) - (a.followers||0)); break;
-    case "small":  arr.sort((a, b) => (a.followers||9e9) - (b.followers||9e9)); break;
-  }
-  // Always push already-replied-to-author to the bottom regardless of sort
-  return arr.sort((a, b) => authorRepliedToday(a.handle) - authorRepliedToday(b.handle));
+  const cmp = { hot: (a,b)=>getVelocity(b)-getVelocity(a),
+    new: (a,b)=>new Date(b.createdAt||0)-new Date(a.createdAt||0),
+    window: (a,b)=>getReplyWindow(b)-getReplyWindow(a),
+    tier: (a,b)=>(a.tier-b.tier)||(getEng(b)-getEng(a)),
+    fit: (a,b)=>(getFitScore(b)-getFitScore(a))||(getEng(b)-getEng(a)),
+    reach: (a,b)=>(b.followers||0)-(a.followers||0),
+    small: (a,b)=>(a.followers||9e9)-(b.followers||9e9) };
+  arr.sort(cmp[mode] || cmp.hot);
+  return arr.sort((a,b) => authorRepliedToday(a.handle) - authorRepliedToday(b.handle));
 }
-
 function sortMetric(t, mode) {
-  switch (mode) {
-    case "hot": return `🔥 ${getVelocity(t).toFixed(0)}/hr`;
-    case "new": return relativeTime(t.createdAt);
-    case "window": return `💬 ${getReplyWindow(t).toFixed(0)}`;
-    case "tier": return `T${t.tier}`;
-    case "fit": return `🧭 ${getFitScore(t)} hits`;
-    case "reach": return `📣 ${fmtNum(t.followers)}`;
-    case "small": return `🌱 ${fmtNum(t.followers)}`;
-    default: return "";
-  }
+  const m = { hot: `🔥 ${getVelocity(t).toFixed(0)}/hr`, new: relativeTime(t.createdAt),
+    window: `💬 ${getReplyWindow(t).toFixed(0)}`, tier: `T${t.tier}`,
+    fit: `🧭 ${getFitScore(t)}`, reach: `📣 ${fmtNum(t.followers)}`, small: `🌱 ${fmtNum(t.followers)}` };
+  return m[mode] || "";
 }
+function intentUrl(tweetId, text) { return `https://x.com/intent/post?text=${encodeURIComponent(text)}&in_reply_to=${tweetId}`; }
+function escapeHtml(s) { return (s||"").replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;"); }
 
-function intentUrl(tweetId, text) {
-  return `https://x.com/intent/post?text=${encodeURIComponent(text)}&in_reply_to=${tweetId}`;
-}
-function escapeHtml(s) { return s.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;"); }
-
-function renderCard(t, sortMode) {
+function renderCard(t, mode) {
   const isSkip = t.decision === "SKIP";
   const isHuman = t.decision === "HUMAN_REPLY";
-  const repliedToday = authorRepliedToday(t.handle);
-  let cardClass = "card";
-  if (isSkip) cardClass += " skip";
-  else if (isHuman) cardClass += " human";
-  if (repliedToday && !isSkip) cardClass += " author-replied-today";
+  const replied = authorRepliedToday(t.handle);
+  let cls = "card";
+  if (isSkip) cls += " skip"; else if (isHuman) cls += " human";
+  if (replied && !isSkip) cls += " warn";
   const posted = JSON.parse(localStorage.getItem("posted_" + t.tweetId) || "[]");
-  const humanBadge = isHuman ? `<span class="tag tag-human">Human</span>` : "";
-  const velocity = getVelocity(t);
-  const hotBadge = (velocity > 30 && !isSkip) ? `<span class="tag tag-hot">🔥 Hot</span>` : "";
-  // 🚀 Phoenix Velocity Filter: high velocity + recent = best opportunity
-  const phoenixBadge = (velocity > 50 && getHoursAgo(t) < 6 && !isSkip) ? `<span class="tag tag-velocity">🚀 Phoenix window</span>` : "";
-  const repliedBadge = repliedToday ? `<span class="tag tag-warn">⚠ Replied today</span>` : "";
-  const metric = `<span class="sort-metric">${sortMetric(t, sortMode)}</span>`;
-
+  const tierTag = `<span class="tag tag-t${t.tier}">T${t.tier}</span>`;
+  const humanTag = isHuman ? `<span class="tag tag-human">Human</span>` : "";
+  const v = getVelocity(t);
+  const hotTag = (v > 30 && !isSkip) ? `<span class="tag tag-hot">🔥 Hot</span>` : "";
+  const phoenixTag = (v > 50 && getHoursAgo(t) < 6 && !isSkip) ? `<span class="tag tag-velocity">🚀 Phoenix</span>` : "";
+  const repliedTag = replied ? `<span class="tag tag-warn">✓ Replied today</span>` : "";
+  const metric = `<span class="metric">${sortMetric(t, mode)}</span>`;
   if (isSkip) {
-    return `<div class="${cardClass}">
-      <div class="card-head">
-        ${tierTag(t.tier)}<span class="tag tag-skip">Skip</span>
-        <a class="author" href="${t.url}" target="_blank">@${t.handle}</a>
-        <span class="author-meta">${t.name} · ${fmtNum(t.followers)} · ${relativeTime(t.createdAt)}</span>
-        ${metric}
-      </div>
+    return `<article class="${cls}" aria-label="Skipped: @${t.handle}">
+      <div class="card-head">${tierTag}<span class="tag tag-skip">Skip</span>
+        <a class="author" href="${t.url}" target="_blank" rel="noopener">@${t.handle}</a>
+        <span class="author-meta">${escapeHtml(t.name)} · ${fmtNum(t.followers)} · ${relativeTime(t.createdAt)}</span>
+        ${metric}</div>
       <div class="tweet">${escapeHtml(t.text)}</div>
-      <div class="skip-reason">ⓘ ${t.skip_reason || ''}</div>
-    </div>`;
+      <div class="skip-reason">ⓘ ${escapeHtml(t.skip_reason||'')}</div>
+    </article>`;
   }
-
-  return `<div class="${cardClass}">
-    <div class="card-head">
-      ${tierTag(t.tier)}${humanBadge}${phoenixBadge}${hotBadge}${repliedBadge}
-      <a class="author" href="${t.url}" target="_blank">@${t.handle}</a>
-      <span class="author-meta">${t.name} · ${fmtNum(t.followers)} · ${relativeTime(t.createdAt)}</span>
-      ${metric}
-    </div>
+  return `<article class="${cls}" aria-label="Tweet from @${t.handle}">
+    <div class="card-head">${tierTag}${humanTag}${phoenixTag}${hotTag}${repliedTag}
+      <a class="author" href="${t.url}" target="_blank" rel="noopener">@${t.handle}</a>
+      <span class="author-meta">${escapeHtml(t.name)} · ${fmtNum(t.followers)} · ${relativeTime(t.createdAt)}</span>
+      ${metric}</div>
     <div class="tweet">${escapeHtml(t.text)}</div>
     <div class="tweet-stats">${fmtNum(t.likes)} likes · ${t.replies} replies · ${fmtNum(t.retweets)} reposts</div>
     ${t.why ? `<div class="why">${escapeHtml(t.why)}</div>` : ""}
     <div class="variants">
-      ${(t.variants||[]).map((v, idx) => `
-        <div class="variant ${posted.includes(idx) ? 'posted' : ''}">
+      ${(t.variants||[]).map((vr, idx) => `
+        <div class="variant ${posted.includes(idx) ? 'posted' : ''}" aria-label="Reply variant ${String.fromCharCode(65 + idx)}: ${vr.mode}">
           <div class="variant-head">
             <span class="variant-label">Reply ${String.fromCharCode(65 + idx)}</span>
-            <span class="variant-label">${v.mode}</span>
+            <span class="variant-label">${vr.mode}</span>
           </div>
-          <div class="variant-text">${escapeHtml(v.text)}</div>
-          <a class="reply-btn" href="${intentUrl(t.tweetId, v.text)}" target="_blank" data-mark="${t.tweetId}-${idx}" data-author="${t.handle}">
+          <div class="variant-text">${escapeHtml(vr.text)}</div>
+          <a class="reply-btn" href="${intentUrl(t.tweetId, vr.text)}" target="_blank" rel="noopener" data-mark="${t.tweetId}-${idx}" data-author="${t.handle}" aria-label="Open X to post reply ${String.fromCharCode(65 + idx)}">
             Reply ${String.fromCharCode(65 + idx)} on 𝕏
           </a>
           <div class="variant-actions">
-            <button class="btn-small btn-copy" data-copy="${escapeHtml(v.text)}">⎘ Copy</button>
-            <button class="btn-small btn-mark ${posted.includes(idx) ? 'posted' : ''}" data-mark="${t.tweetId}-${idx}" data-author="${t.handle}">
+            <button class="btn-small btn-copy" data-copy="${escapeHtml(vr.text)}" aria-label="Copy reply ${String.fromCharCode(65 + idx)}">⎘ Copy</button>
+            <button class="btn-small btn-mark ${posted.includes(idx) ? 'posted' : ''}" data-mark="${t.tweetId}-${idx}" data-author="${t.handle}" aria-pressed="${posted.includes(idx)}" aria-label="Mark reply ${String.fromCharCode(65 + idx)} as posted">
               ${posted.includes(idx) ? '✓ Posted' : '○ Mark'}
             </button>
           </div>
-        </div>
-      `).join("")}
+        </div>`).join("")}
     </div>
-    <a class="open-btn" href="${t.url}" target="_blank">↗ View original tweet</a>
-  </div>`;
+    <a class="open-btn" href="${t.url}" target="_blank" rel="noopener" aria-label="View original tweet on X">↗ View original</a>
+  </article>`;
 }
 
-let currentFilter = "ready";
-let currentSort = "hot";
+let filter = new URLSearchParams(location.search).get("filter") || "ready";
+let sortMode = new URLSearchParams(location.search).get("sort") || localStorage.getItem("x_queue_sort") || "hot";
 
-function applyFilter(tweets, filter) {
+function applyFilter(tweets) {
   if (filter === "ready") return tweets.filter(t => t.decision !== "SKIP");
   if (filter === "t1") return tweets.filter(t => t.tier === 1 && t.decision !== "SKIP");
   if (filter === "t2") return tweets.filter(t => t.tier === 2 && t.decision !== "SKIP");
@@ -269,14 +430,36 @@ function applyFilter(tweets, filter) {
 
 function render() {
   const queue = document.getElementById("queue");
-  let tweets = applyFilter(DATA.tweets, currentFilter);
-  tweets = sortTweets(tweets, currentSort);
+  let tweets = sortTweets(applyFilter(DATA.tweets), sortMode);
   if (tweets.length === 0) {
-    queue.innerHTML = `<div class="empty">No tweets in this view.</div>`;
+    queue.innerHTML = `<div class="empty"><div class="empty-icon">∅</div>No tweets in this view. Try a different filter.</div>`;
   } else {
-    queue.innerHTML = tweets.map(t => renderCard(t, currentSort)).join("");
+    queue.innerHTML = tweets.map(t => renderCard(t, sortMode)).join("");
   }
   wireUp();
+}
+
+function postedCountToday() {
+  let count = 0;
+  for (const t of DATA.tweets) {
+    const arr = JSON.parse(localStorage.getItem("posted_" + t.tweetId) || "[]");
+    if (arr.length > 0) count++;
+  }
+  return count;
+}
+
+function nextRefreshCountdown() {
+  // 01:00 UTC = 6:30 AM IST, Mon-Fri
+  const now = new Date();
+  const next = new Date(now);
+  next.setUTCHours(1, 0, 0, 0);
+  while (next <= now || next.getUTCDay() === 0 || next.getUTCDay() === 6) {
+    next.setUTCDate(next.getUTCDate() + 1);
+  }
+  const ms = next - now;
+  const h = Math.floor(ms / 3600000);
+  const m = Math.floor((ms % 3600000) / 60000);
+  return h > 24 ? `${Math.floor(h/24)}d ${h%24}h` : `${h}h ${m}m`;
 }
 
 function updateStats() {
@@ -285,17 +468,24 @@ function updateStats() {
   const t1 = DATA.tweets.filter(t => t.tier === 1 && t.decision !== "SKIP").length;
   const t2 = DATA.tweets.filter(t => t.tier === 2 && t.decision !== "SKIP").length;
   const t3 = DATA.tweets.filter(t => t.tier === 3 && t.decision !== "SKIP").length;
-  const repliedToday = DATA.tweets.filter(t => authorRepliedToday(t.handle)).length;
-  document.getElementById("stats-line").innerHTML = `<b>${ready}</b> ready · T1 <b>${t1}</b> · T2 <b>${t2}</b> · T3 <b>${t3}</b> · ${skip} skip · <span style="color:#92400e">${repliedToday} already replied today</span>`;
+  const replied = postedCountToday();
+  document.getElementById("stat-replied").textContent = replied;
+  document.getElementById("stat-replied-sub").textContent = `of ${ready} drafts`;
+  document.getElementById("stat-ready").textContent = ready;
+  document.getElementById("stat-ready-sub").textContent = `T1 ${t1} · T2 ${t2} · T3 ${t3}`;
+  document.getElementById("stat-countdown").textContent = nextRefreshCountdown();
   const d = new Date(DATA.generatedAt);
-  document.getElementById("meta-line").textContent = `Last refresh ${d.toLocaleString("en-IN", { dateStyle: "medium", timeStyle: "short" })} · ${DATA.accounts} accounts · auto-cron 6:30 AM IST`;
+  const istFmt = d.toLocaleString("en-IN", { hour: "numeric", minute: "2-digit", day: "numeric", month: "short", timeZone: "Asia/Kolkata" });
+  document.getElementById("meta-line").textContent = `Refreshed ${istFmt} IST · ${DATA.accounts} accounts · auto-cron 6:30 IST Mon-Fri`;
 }
 
-function showToast(msg) {
+function showToast(msg, ms = 1800) {
   const t = document.getElementById("toast");
   t.textContent = msg;
   t.classList.add("show");
-  setTimeout(() => t.classList.remove("show"), 1800);
+  clearTimeout(t._tid);
+  t._tid = setTimeout(() => t.classList.remove("show"), ms);
+  if (navigator.vibrate) navigator.vibrate(8);
 }
 
 function markPosted(key, author) {
@@ -310,63 +500,60 @@ function markPosted(key, author) {
     localStorage.setItem(sk, JSON.stringify(arr));
     if (author) markAuthorReplied(author);
   }
-  updateStats();
-  render();
+  updateStats(); render();
 }
 
 function wireUp() {
-  document.querySelectorAll(".btn-copy").forEach(b => {
-    b.addEventListener("click", () => {
-      const text = b.getAttribute("data-copy").replace(/&quot;/g,'"').replace(/&amp;/g,'&').replace(/&lt;/g,'<').replace(/&gt;/g,'>');
-      navigator.clipboard.writeText(text).then(() => showToast("Copied."));
-    });
-  });
-  document.querySelectorAll(".btn-mark").forEach(b => {
-    b.addEventListener("click", () => markPosted(b.getAttribute("data-mark"), b.getAttribute("data-author")));
-  });
-  document.querySelectorAll(".reply-btn").forEach(b => {
-    b.addEventListener("click", () => {
-      const key = b.getAttribute("data-mark");
-      const author = b.getAttribute("data-author");
-      const [tweetId, idx] = key.split("-");
-      const sk = "posted_" + tweetId;
-      const arr = JSON.parse(localStorage.getItem(sk) || "[]");
-      const i = parseInt(idx);
-      if (!arr.includes(i)) {
-        arr.push(i);
-        localStorage.setItem(sk, JSON.stringify(arr));
-        if (author) markAuthorReplied(author);
-      }
-      setTimeout(() => { updateStats(); render(); }, 600);
-    });
-  });
+  document.querySelectorAll(".btn-copy").forEach(b => b.addEventListener("click", () => {
+    const text = b.getAttribute("data-copy").replace(/&quot;/g,'"').replace(/&amp;/g,'&').replace(/&lt;/g,'<').replace(/&gt;/g,'>');
+    navigator.clipboard.writeText(text).then(() => showToast("Copied ✓"));
+  }));
+  document.querySelectorAll(".btn-mark").forEach(b => b.addEventListener("click", () => markPosted(b.getAttribute("data-mark"), b.getAttribute("data-author"))));
+  document.querySelectorAll(".reply-btn").forEach(b => b.addEventListener("click", () => {
+    const key = b.getAttribute("data-mark");
+    const author = b.getAttribute("data-author");
+    const [tweetId, idx] = key.split("-");
+    const sk = "posted_" + tweetId;
+    const arr = JSON.parse(localStorage.getItem(sk) || "[]");
+    const i = parseInt(idx);
+    if (!arr.includes(i)) { arr.push(i); localStorage.setItem(sk, JSON.stringify(arr)); if (author) markAuthorReplied(author); }
+    if (navigator.vibrate) navigator.vibrate(8);
+    setTimeout(() => { updateStats(); render(); }, 600);
+  }));
 }
 
-document.querySelectorAll(".filter-btn").forEach(b => {
-  b.addEventListener("click", () => {
-    document.querySelectorAll(".filter-btn").forEach(x => x.classList.remove("active"));
-    b.classList.add("active");
-    currentFilter = b.getAttribute("data-filter");
-    render();
-  });
-});
+document.querySelectorAll(".chip").forEach(b => b.addEventListener("click", () => {
+  document.querySelectorAll(".chip").forEach(x => x.setAttribute("aria-pressed", "false"));
+  b.setAttribute("aria-pressed", "true");
+  filter = b.getAttribute("data-filter");
+  render();
+}));
+document.querySelector(`.chip[data-filter="${filter}"]`)?.setAttribute("aria-pressed", "true");
 
-document.getElementById("sort-select").addEventListener("change", (e) => {
-  currentSort = e.target.value;
-  localStorage.setItem("x_queue_sort", currentSort);
+document.getElementById("sort-select").value = sortMode;
+document.getElementById("sort-select").addEventListener("change", e => {
+  sortMode = e.target.value;
+  localStorage.setItem("x_queue_sort", sortMode);
   render();
 });
 
-const savedSort = localStorage.getItem("x_queue_sort");
-if (savedSort) {
-  currentSort = savedSort;
-  document.getElementById("sort-select").value = savedSort;
-}
-
-// Refresh button: trigger GitHub Actions workflow_dispatch
 document.getElementById("btn-refresh").addEventListener("click", () => {
-  showToast("Refresh runs daily at 6:30 AM IST. For a manual run, trigger 'refresh' workflow on GitHub.");
+  const btn = document.getElementById("btn-refresh");
+  btn.classList.add("spinning");
+  // Force fresh fetch from network
+  if ("caches" in window) {
+    caches.keys().then(keys => Promise.all(keys.filter(k => k.startsWith("x-reply-queue-")).map(k => caches.delete(k))));
+  }
+  setTimeout(() => { location.reload(); }, 300);
 });
+
+// Re-tick countdown every minute
+setInterval(updateStats, 60000);
+
+// Service worker registration
+if ("serviceWorker" in navigator) {
+  navigator.serviceWorker.register("sw.js").catch(e => console.log("SW reg failed:", e));
+}
 
 updateStats();
 render();
