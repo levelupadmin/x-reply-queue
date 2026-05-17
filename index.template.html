@@ -277,7 +277,7 @@
 <main>
   <div class="banner" role="note">
     <span aria-hidden="true">ⓘ</span>
-    <div><b>1-tap reply:</b> Tap <b>Reply A/B on 𝕏</b>, X opens with the draft pre-filled and threaded. Hit Post. Looks 100% native. ✓ replied today wraps a tweet in yellow border so you don't double-reply (Author Diversity rule).</div>
+    <div><b>1-tap reply:</b> Tap <b>Reply A/B on 𝕏</b>. The X app opens directly with the draft pre-filled and threaded. Hit Post. (Falls back to tweet URL with reply copied to clipboard if X app missing.) ✓ wraps any tweet whose author you've already replied to today (Author Diversity rule).</div>
   </div>
 
   <div class="filters" role="tablist" aria-label="Filter tweets">
@@ -356,7 +356,17 @@ function sortMetric(t, mode) {
     fit: `🧭 ${getFitScore(t)}`, reach: `📣 ${fmtNum(t.followers)}`, small: `🌱 ${fmtNum(t.followers)}` };
   return m[mode] || "";
 }
-function intentUrl(tweetId, text) { return `https://x.com/intent/post?text=${encodeURIComponent(text)}&in_reply_to=${tweetId}`; }
+// Build a reply URL that opens the X app directly on mobile (twitter:// scheme).
+// Falls back to x.com web intent on desktop. The @author prefix is REQUIRED for
+// the X app to link the reply correctly via in_reply_to_status_id.
+const IS_MOBILE = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+function intentUrl(tweetId, text, authorHandle) {
+  const msgWithMention = `@${authorHandle} ${text}`;
+  if (IS_MOBILE) {
+    return `twitter://post?message=${encodeURIComponent(msgWithMention)}&in_reply_to_status_id=${tweetId}`;
+  }
+  return `https://x.com/intent/post?text=${encodeURIComponent(text)}&in_reply_to=${tweetId}`;
+}
 function escapeHtml(s) { return (s||"").replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;"); }
 
 function renderCard(t, mode) {
@@ -400,7 +410,7 @@ function renderCard(t, mode) {
             <span class="variant-label">${vr.mode}</span>
           </div>
           <div class="variant-text">${escapeHtml(vr.text)}</div>
-          <a class="reply-btn" href="${intentUrl(t.tweetId, vr.text)}" target="_blank" rel="noopener" data-mark="${t.tweetId}-${idx}" data-author="${t.handle}" aria-label="Open X to post reply ${String.fromCharCode(65 + idx)}">
+          <a class="reply-btn" href="${intentUrl(t.tweetId, vr.text, t.handle)}" ${IS_MOBILE ? '' : 'target="_blank" rel="noopener"'} data-mark="${t.tweetId}-${idx}" data-author="${t.handle}" data-fallback="${t.url}" aria-label="Open X to post reply ${String.fromCharCode(65 + idx)}">
             Reply ${String.fromCharCode(65 + idx)} on 𝕏
           </a>
           <div class="variant-actions">
@@ -509,15 +519,36 @@ function wireUp() {
     navigator.clipboard.writeText(text).then(() => showToast("Copied ✓"));
   }));
   document.querySelectorAll(".btn-mark").forEach(b => b.addEventListener("click", () => markPosted(b.getAttribute("data-mark"), b.getAttribute("data-author"))));
-  document.querySelectorAll(".reply-btn").forEach(b => b.addEventListener("click", () => {
+  document.querySelectorAll(".reply-btn").forEach(b => b.addEventListener("click", (e) => {
     const key = b.getAttribute("data-mark");
     const author = b.getAttribute("data-author");
+    const fallback = b.getAttribute("data-fallback");
     const [tweetId, idx] = key.split("-");
     const sk = "posted_" + tweetId;
     const arr = JSON.parse(localStorage.getItem(sk) || "[]");
     const i = parseInt(idx);
     if (!arr.includes(i)) { arr.push(i); localStorage.setItem(sk, JSON.stringify(arr)); if (author) markAuthorReplied(author); }
     if (navigator.vibrate) navigator.vibrate(8);
+
+    // Copy reply text to clipboard as a safety net (in case the X app deep-link
+    // doesn't catch — user can paste manually). Use the text from the variant.
+    const tweet = DATA.tweets.find(t => t.tweetId === tweetId);
+    const replyText = tweet?.variants?.[i]?.text;
+    if (replyText && navigator.clipboard) {
+      navigator.clipboard.writeText(`@${author} ${replyText}`).catch(() => {});
+    }
+
+    // On mobile, if the twitter:// scheme doesn't fire within 1.5s, fall back
+    // to opening the tweet URL (a Universal Link that the X app does handle).
+    if (IS_MOBILE && fallback) {
+      const start = Date.now();
+      setTimeout(() => {
+        if (document.visibilityState === "visible" && (Date.now() - start) > 1400) {
+          showToast("X app not detected. Opening tweet (text copied, long-press to paste)…", 2800);
+          setTimeout(() => { window.location.href = fallback; }, 700);
+        }
+      }, 1500);
+    }
     setTimeout(() => { updateStats(); render(); }, 600);
   }));
 }
