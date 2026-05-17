@@ -1,0 +1,44 @@
+name: Refresh X reply queue
+
+on:
+  schedule:
+    # 01:00 UTC = 06:30 AM IST, Monday through Friday
+    - cron: '0 1 * * 1-5'
+  workflow_dispatch:
+    # Manual trigger from GitHub UI / mobile app
+
+permissions:
+  contents: write
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Run refresh
+        env:
+          APIFY_TOKEN: ${{ secrets.APIFY_TOKEN }}
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          BREVO_API_KEY: ${{ secrets.BREVO_API_KEY }}
+          RECIPIENT_EMAIL: ${{ secrets.RECIPIENT_EMAIL }}
+        run: python refresh.py
+
+      - name: Commit and push if changed
+        run: |
+          git config user.name "x-reply-engine-bot"
+          git config user.email "bot@leveluplearning.in"
+          git add index.html state.json
+          if git diff --staged --quiet; then
+            echo "No changes to commit"
+          else
+            git commit -m "Auto-refresh $(date -u +'%Y-%m-%d %H:%M UTC')"
+            git push
+          fi
