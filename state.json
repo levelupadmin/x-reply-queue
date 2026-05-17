@@ -1,16 +1,20 @@
 {
-  "lastRefresh": "2026-05-17T15:36:05.981106+00:00",
-  "ready": 17,
-  "skipped": 4,
+  "lastRefresh": "2026-05-17T21:37:44.230822+00:00",
+  "ready": 20,
+  "skipped": 2,
   "by_tier": {
     "1": 9,
-    "2": 8,
+    "2": 11,
     "3": 0
   },
   "hot_5": [
     {
       "handle": "aakashgupta",
       "text": "Pizza Hut corporate spent seven years killing the exact thing this guy is bringing back. And his stores are now some of the busiest in the entire chain.\n\nTim Sparks, President of Daland Corporation, i"
+    },
+    {
+      "handle": "SahilBloom",
+      "text": "There is clear scientific evidence that the people you surround yourself with determine your outcomes.\n\nThe Pygmalion Effect is the name of the behavioral phenomenon where we rise to the level of expe"
     },
     {
       "handle": "SandeepMall",
@@ -23,10 +27,6 @@
     {
       "handle": "levelsio",
       "text": "Very interesting data:\n\n- Cold bedroom AC confirmed to be great for sleep (esp for men)\n- Seperate blankets from bf/gf great for sleep (esp for men)\n- Sleeping alone is great for men but bad for women"
-    },
-    {
-      "handle": "kunalb11",
-      "text": "AI adoption is steeper among the paranoid than the smart."
     }
   ]
 }
