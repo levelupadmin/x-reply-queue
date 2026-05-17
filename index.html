@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="X Reply Queue">
+<meta name="theme-color" content="#fafaf9">
+<title>X Reply Queue · @Rahul_Reddly</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/dist/tabler-icons.min.css">
+</head>
+<body>
+<style>
+:root { color-scheme: light; }
+* { box-sizing: border-box; }
+body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; background: #fafaf9; color: #1c1917; margin: 0; padding: 12px; max-width: 760px; margin-left: auto; margin-right: auto; line-height: 1.55; -webkit-font-smoothing: antialiased; }
+.sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0,0,0,0); }
+.head { display: flex; justify-content: space-between; align-items: flex-start; gap: 10px; margin-bottom: 8px; }
+.head h1 { font-size: 22px; font-weight: 500; margin: 0 0 4px; }
+.head .meta { color: #78716c; font-size: 12px; }
+.refresh-btn { background: #1c1917; color: white; border: none; padding: 9px 14px; border-radius: 8px; font-size: 13px; font-weight: 500; cursor: pointer; display: inline-flex; align-items: center; gap: 6px; white-space: nowrap; }
+.refresh-btn:hover { background: #292524; }
+.toolbar { display: flex; gap: 6px; flex-wrap: wrap; align-items: center; margin: 10px 0 16px; padding-bottom: 12px; border-bottom: 0.5px solid #e7e5e4; }
+.filter-btn { background: transparent; border: 0.5px solid #d6d3d1; padding: 6px 11px; border-radius: 8px; font-size: 12px; cursor: pointer; color: #44403c; }
+.filter-btn.active { background: #1c1917; color: white; border-color: #1c1917; }
+.stats { font-size: 11px; color: #78716c; width: 100%; margin-top: 4px; }
+.stats b { color: #1c1917; font-weight: 500; }
+.card { background: white; border: 0.5px solid #e7e5e4; border-radius: 12px; padding: 14px 16px; margin-bottom: 12px; }
+.card.skip { background: #fefbf6; border-color: #fde68a; opacity: 0.75; }
+.card.human { background: #f0f9ff; border-color: #bae6fd; }
+.card-head { display: flex; gap: 6px; align-items: center; flex-wrap: wrap; margin-bottom: 8px; }
+.tag { display: inline-block; font-size: 10px; padding: 2px 7px; border-radius: 4px; font-weight: 500; }
+.tag-t1 { background: #fef3c7; color: #92400e; }
+.tag-t2 { background: #dcfce7; color: #166534; }
+.tag-t3 { background: #dbeafe; color: #1e40af; }
+.tag-human { background: #e0f2fe; color: #075985; }
+.tag-skip { background: #f5f5f4; color: #57534e; }
+.author { font-weight: 500; color: #1c1917; text-decoration: none; font-size: 14px; }
+.author:hover { text-decoration: underline; }
+.author-meta { font-size: 11px; color: #78716c; }
+.tweet { background: #fafaf9; padding: 10px 14px; border-left: 3px solid #d6d3d1; border-radius: 0 6px 6px 0; font-size: 14px; margin: 10px 0; white-space: pre-wrap; line-height: 1.55; }
+.tweet-stats { font-size: 11px; color: #a8a29e; margin-top: 4px; }
+.why { font-size: 11px; color: #78716c; font-style: italic; margin: 8px 0 10px; padding: 4px 8px; background: #f5f5f4; border-radius: 4px; }
+.variants { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 8px; }
+@media (max-width: 600px) { .variants { grid-template-columns: 1fr; } body { padding: 10px; } .head h1 { font-size: 20px; } }
+.variant { background: #fafaf9; border: 0.5px solid #e7e5e4; border-radius: 8px; padding: 10px 12px; display: flex; flex-direction: column; }
+.variant.posted { background: #f0fdf4; border-color: #86efac; }
+.variant-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; }
+.variant-label { font-size: 10px; font-weight: 500; color: #78716c; letter-spacing: 0.04em; text-transform: uppercase; }
+.variant-text { font-size: 13px; color: #1c1917; line-height: 1.5; flex: 1; margin-bottom: 10px; white-space: pre-wrap; }
+.reply-btn { display: inline-flex; align-items: center; justify-content: center; gap: 6px; background: #1d9bf0; color: white; padding: 10px 14px; border-radius: 8px; font-size: 13px; font-weight: 500; text-decoration: none; border: none; cursor: pointer; min-height: 40px; }
+.reply-btn:hover { background: #1a8cd8; }
+.variant-actions { display: flex; gap: 6px; margin-top: 6px; }
+.btn-small { font-size: 11px; padding: 6px 10px; border-radius: 6px; border: 0.5px solid #d6d3d1; background: white; cursor: pointer; color: #44403c; flex: 1; display: inline-flex; align-items: center; justify-content: center; gap: 4px; min-height: 32px; }
+.btn-small:hover { background: #f5f5f4; }
+.btn-small.posted { background: #16a34a; color: white; border-color: #15803d; }
+.open-btn { display: inline-flex; align-items: center; gap: 6px; background: #0f172a; color: white; padding: 8px 14px; border-radius: 8px; font-size: 12px; text-decoration: none; margin-top: 10px; font-weight: 500; }
+.open-btn:hover { background: #1e293b; }
+.skip-reason { font-size: 13px; color: #78716c; padding: 8px 0; }
+.empty { text-align: center; padding: 40px 20px; color: #a8a29e; font-size: 14px; }
+.toast { position: fixed; bottom: 16px; left: 50%; transform: translateX(-50%); background: #1c1917; color: white; padding: 9px 18px; border-radius: 8px; font-size: 13px; opacity: 0; transition: opacity 0.2s; pointer-events: none; z-index: 999; }
+.toast.show { opacity: 1; }
+.banner { background: #eff6ff; border: 0.5px solid #bfdbfe; border-radius: 8px; padding: 10px 14px; font-size: 12px; color: #1e40af; margin-bottom: 14px; display: flex; align-items: flex-start; gap: 8px; }
+.banner b { font-weight: 500; }
+</style>
+
+<h2 class="sr-only">X Reply Queue. Tier 1, 2, and 3 tweets with two pre-drafted reply variants each. Click Reply on X to open the X composer pre-filled.</h2>
+
+<div class="head">
+  <div>
+    <h1>X reply queue</h1>
+    <div class="meta" id="meta-line">Master Reply Prompt v2 · 106 accounts monitored</div>
+  </div>
+  <button class="refresh-btn" id="btn-refresh"><i class="ti ti-refresh" aria-hidden="true"></i>Refresh</button>
+</div>
+
+<div class="banner">
+  <i class="ti ti-info-circle" aria-hidden="true" style="margin-top:1px"></i>
+  <div><b>How to use:</b> Pick A or B per tweet. Tap <b>Reply A/B on X</b> and X opens with the reply pre-filled, threaded to the original tweet. Hit Post on X. Looks 100% native, no automation badge.</div>
+</div>
+
+<div class="toolbar">
+  <button class="filter-btn active" data-filter="ready">Reply-ready</button>
+  <button class="filter-btn" data-filter="all">All</button>
+  <button class="filter-btn" data-filter="t1">T1 only</button>
+  <button class="filter-btn" data-filter="t2">T2 only</button>
+  <button class="filter-btn" data-filter="t3">T3 only</button>
+  <button class="filter-btn" data-filter="human">Human only</button>
+  <button class="filter-btn" data-filter="skip">Skipped</button>
+  <div class="stats" id="stats-line"></div>
+</div>
+
+<div id="queue"></div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+const DATA = {
+  generatedAt: "2026-05-15T22:30:00Z",
+  source: "Apify + Master Reply Prompt v2",
+  accounts: 106,
+  tweets: [
+    {
+      tweetId: "2053811007265378408", tier: 1, decision: "REPLY", handle: "SahilBloom", name: "Sahil Bloom", followers: 1159157, posted: "4d ago", likes: 4126, replies: 88, retweets: 290,
+      text: "Always take yourself seriously. Stop showing up in the world like it was an accident. Do the little things to show up as the best version of yourself. Move your body daily. Eat real foods. Get good sleep. Buy a few outfits that fit. Maintain good hygiene rituals. Move slowly and",
+      url: "https://x.com/SahilBloom/status/2053811007265378408",
+      why: "Generic life-advice tweet. Personal-observation framing required.",
+      variants: [
+        { mode: "SHARPENER", text: "I keep noticing it shows up as how seriously you take the next 60 minutes, not the next 10 years. Decade thinking is easy. Whether you respect today's calendar is where the version of you actually changes." },
+        { mode: "HONEST QUESTION", text: "What's the smallest version of this you tried first? Looking for the entry-level rep before I commit to the philosophy." }
+      ]
+    },
+    {
+      tweetId: "2054923736932069774", tier: 1, decision: "HUMAN_REPLY", handle: "Nithin0dha", name: "Nithin Kamath", followers: 830223, posted: "1d ago", likes: 2700, replies: 145, retweets: 380,
+      text: "One thing that feels under-discussed in all the conversations about attracting foreign capital into India is the Indian diaspora.\n\nThere is a large population of NRIs who are emotionally and financially interested in investing in India. But today, for many of them, the process of",
+      url: "https://x.com/Nithin0dha/status/2054923736932069774",
+      why: "National-flavor topic outside operator lane. Engage as a person rather than skip.",
+      variants: [
+        { mode: "HUMAN REPLY", text: "The diaspora piece is wild to watch from inside India. Cousins in the US sending capital home through informal channels still beats most of the official structures they've tried." },
+        { mode: "HONEST QUESTION", text: "Has anyone tracked what share of diaspora capital actually ends up in markets versus property and weddings? My guess is the second two still dwarf the first by an embarrassing margin." }
+      ]
+    },
+    {
+      tweetId: "2054566985657196791", tier: 1, decision: "REPLY", handle: "SahilBloom", name: "Sahil Bloom", followers: 1159157, posted: "2d ago", likes: 3293, replies: 88, retweets: 240,
+      text: "Nobody told you this about success: Rent is due every single day. A lot of people seem to think that after you make it you can coast in the idyllic land of success. This is wrong. Every single day, you have to fight to earn your seat at the table. And that fight gets more intense",
+      url: "https://x.com/SahilBloom/status/2054566985657196791",
+      why: "Life advice. Concrete examples available.",
+      variants: [
+        { mode: "SHARPENER", text: "I keep seeing the rent show up as the small unglamorous things. Returning the call you've been avoiding. Saying no to the meeting that would be easy to say yes to. Most rent days are invisible from the outside." },
+        { mode: "HONEST QUESTION", text: "What's been your most expensive rent day in the last 12 months? Asking because mine were never the dramatic ones. Always the quiet ones nobody noticed." }
+      ]
+    },
+    {
+      tweetId: "2054894497369051345", tier: 1, decision: "REPLY", handle: "rajshamani", name: "Raj Shamani", followers: 200000, posted: "1d ago", likes: 2308, replies: 110, retweets: 240,
+      text: "The moment something feels urgent, your brain narrows its focus and stops considering alternatives. Urgency is the most effective way to make yourself stick to your goals.",
+      url: "https://x.com/rajshamani/status/2054894497369051345",
+      why: "Continuation of his urgency theme. Avoid v1's know-it-all tone.",
+      variants: [
+        { mode: "SHARPENER", text: "Twice in the last year I shipped the wrong thing because a fake deadline narrowed me too early. The skill I'm still bad at is staying wide-open while moving fast." },
+        { mode: "HONEST QUESTION", text: "How do you tell apart urgency that focuses you from urgency that just tunnel-visions you? I get the two confused way more often than I'd like to admit." }
+      ]
+    },
+    {
+      tweetId: "2053334547878801571", tier: 1, decision: "HUMAN_REPLY", handle: "Nithin0dha", name: "Nithin Kamath", followers: 830223, posted: "5d ago", likes: 2298, replies: 98, retweets: 230,
+      text: "All health talk and all, but could not resist Kolkata's street-side, sweet Pan. @karthikrangappa caught me in the act.",
+      url: "https://x.com/Nithin0dha/status/2053334547878801571",
+      why: "Personal travel/food post. HUMAN_REPLY mode.",
+      variants: [
+        { mode: "HUMAN REPLY", text: "Kolkata pan is unbeatable. The mistake I make every trip is having one on day one and then nothing else measuring up." },
+        { mode: "HUMAN REPLY", text: "That guilty look says you knew exactly what you were doing. Worth it though." }
+      ]
+    },
+    {
+      tweetId: "2052252082808205460", tier: 1, decision: "REPLY", handle: "rajshamani", name: "Raj Shamani", followers: 200000, posted: "8d ago", likes: 2070, replies: 110, retweets: 240,
+      text: "Intelligence is the most overrated trait in business. The world is run by people who can make a decision while everyone around them is panicking. Smart people lose to calm people every time the room gets difficult.",
+      url: "https://x.com/rajshamani/status/2052252082808205460",
+      why: "Question mode is the safe play. SHARPENER got flagged for tonality in v1.",
+      variants: [
+        { mode: "HONEST QUESTION", text: "Where would you draw the line? I've seen brilliant founders ship and average founders ship. What I can't reverse-engineer is what makes the decision happen at all when nobody knows what to do." },
+        { mode: "SHARPENER", text: "Hiring across 36 months, the trait that's surprised me as a predictor of shipping is discomfort tolerance, not IQ. The sharpest people I've worked with sometimes froze when nobody else knew what to do." }
+      ]
+    },
+    {
+      tweetId: "2046238133851992093", tier: 1, decision: "HUMAN_REPLY", handle: "nikhilkamathcio", name: "Nikhil Kamath", followers: 580001, posted: "25d ago", likes: 1723, replies: 78, retweets: 200,
+      text: "Episode out now: Ajay Banga took Mastercard from $30 billion to $360 billion, quit, and now runs the World Bank. He says life is 50% luck — but most people leave their luck on the station platform and forget about it.",
+      url: "https://x.com/nikhilkamathcio/status/2046238133851992093",
+      why: "Podcast announcement. HUMAN_REPLY with observation about guest framing.",
+      variants: [
+        { mode: "HUMAN REPLY", text: "Banga's 50/50 framing was the part that got me when I heard him on another show. The luck half is what most founder content underweights." },
+        { mode: "HONEST QUESTION", text: "Did he get into what specifically pushed Mastercard from 30 to 360? Asking because the leverage points at that scale are different from anything most operators ever touch." }
+      ]
+    },
+    {
+      tweetId: "2053855771042164916", tier: 1, decision: "REPLY", handle: "nikhilkamathcio", name: "Nikhil Kamath", followers: 580001, posted: "4d ago", likes: 1697, replies: 88, retweets: 175,
+      text: "The world still runs on the dollar.\n\nBut countries are quietly hedging out: buying gold, trading in non-USD pairs, building payment rails outside SWIFT.\n\nUPI has been incredible for India to say the least.\n\nTo friends championing dollar-backed stablecoins, specifically",
+      url: "https://x.com/nikhilkamathcio/status/2053855771042164916",
+      why: "Adjacent to Indian payment psychology. Can engage humbly.",
+      variants: [
+        { mode: "HONEST QUESTION", text: "The piece I keep wondering about is whether UPI rails scale abroad through diaspora corridors first or through state-to-state deals. The bottom-up version feels more durable but slower. Curious which you think wins." },
+        { mode: "SHARPENER", text: "What I've been watching is UPI eating retail-amount cross-border friction before it ever touches institutional flows. Different layer, different threat, slower headlines." }
+      ]
+    },
+    {
+      tweetId: "2054802387450163666", tier: 1, decision: "REPLY", handle: "warikoo", name: "Ankur Warikoo", followers: 400000, posted: "1d ago", likes: 1036, replies: 78, retweets: 84,
+      text: "The hardest part of becoming successful is realizing your old friends are not always going to grow with you.",
+      url: "https://x.com/warikoo/status/2054802387450163666",
+      why: "Personal/emotional life advice. Question mode safer than sharpener.",
+      variants: [
+        { mode: "HONEST QUESTION", text: "Has it been the friends pulling away, or you finding it harder to be present in conversations that haven't changed? Asking because I can't always tell the direction myself." },
+        { mode: "SHARPENER", text: "I've found it splits into two. Some old friends grow in different directions but stay. The ones who can't tolerate your change leave on their own. Both count as growing apart but only one stings." }
+      ]
+    },
+    {
+      tweetId: "2050053679106187660", tier: 1, decision: "REPLY", handle: "kunalb11", name: "Kunal Shah", followers: 1200000, posted: "14d ago", likes: 938, replies: 75, retweets: 85,
+      text: "GLPs are modern version of an ancient hack: reduce desire, reduce suffering.\n\nReligions spent centuries teaching detachment.\nScience just turned it into an injection.",
+      url: "https://x.com/kunalb11/status/2050053679106187660",
+      why: "Philosophical / society take. Sharpener with personal observation works.",
+      variants: [
+        { mode: "SHARPENER", text: "I keep noticing the asymmetry. Detachment through discipline builds something on the way. Detachment through injection skips the building. The product is similar, the person who arrives is different." },
+        { mode: "HONEST QUESTION", text: "Wondering if the religions were after detachment, or if detachment was the side effect of doing the harder thing of attention. The injection has the first without the second." }
+      ]
+    },
+    {
+      tweetId: "2051919390703280502", tier: 1, decision: "REPLY", handle: "warikoo", name: "Ankur Warikoo", followers: 400000, posted: "9d ago", likes: 936, replies: 64, retweets: 72,
+      text: "Nobody has ever told me they regret spending less time on their phone.",
+      url: "https://x.com/warikoo/status/2051919390703280502",
+      why: "One-liner truism. Personal observation works.",
+      variants: [
+        { mode: "SHARPENER", text: "What I keep noticing is the regret shape. Nobody regrets less phone, but a few people I know regret over-correcting. The phone-free identity, the digital detox personality. Middle path is harder to claim." },
+        { mode: "HONEST QUESTION", text: "Same. Curious what your test has been for cutting phone time without it becoming another self-improvement performance? Mine keeps slipping back." }
+      ]
+    },
+    {
+      tweetId: "2047245844832002222", tier: 1, decision: "REPLY", handle: "kunalb11", name: "Kunal Shah", followers: 1200000, posted: "22d ago", likes: 908, replies: 88, retweets: 70,
+      text: "Pre AI for tech companies focus was key.\n\nPost AI wonder if focus become a limiting factor.",
+      url: "https://x.com/kunalb11/status/2047245844832002222",
+      why: "Operator/AI question Rahul has skin in.",
+      variants: [
+        { mode: "HONEST QUESTION", text: "Stuck on this same question. Focus narrows your surface area for compounding. Now the cheap surface area might be the better bet. Have you settled on which?" },
+        { mode: "SHARPENER", text: "What I've started doing is splitting focus by horizon. Quarterly: still focus, because someone has to ship. Yearly: deliberately wider, because the tools shift the map every 90 days." }
+      ]
+    },
+    {
+      tweetId: "2054077108268535938", tier: 1, decision: "REPLY", handle: "warikoo", name: "Ankur Warikoo", followers: 400000, posted: "3d ago", likes: 897, replies: 56, retweets: 78,
+      text: "I built a company worth $100M.\nI lost all of it.\n\nThe only thing that survived was the version of me that learned how to start again.\nWorth more than the company.",
+      url: "https://x.com/warikoo/status/2054077108268535938",
+      why: "Personal narrative. Don't try to one-up. Question that respects the story.",
+      variants: [
+        { mode: "HONEST QUESTION", text: "What was the version of you that survived? Most founder restart stories skip the middle and jump to the next venture. That middle is the part nobody talks about and the part everyone actually needs." },
+        { mode: "HUMAN REPLY", text: "The version that learned to start again is the only thing worth keeping anyway. Buildings burn. Practice doesn't." }
+      ]
+    },
+    {
+      tweetId: "2051310543823356240", tier: 1, decision: "REPLY", handle: "nikhilkamathcio", name: "Nikhil Kamath", followers: 580001, posted: "11d ago", likes: 817, replies: 45, retweets: 60,
+      text: "Episode out now: Sharp man at 80, i asked him how - he said puzzles.\n\nFor someone to have returned near 20 percent IRR for decades on a $100B corpus is ridiculous, lots to learn from this..",
+      url: "https://x.com/nikhilkamathcio/status/2051310543823356240",
+      why: "Life advice + investment podcast. Question is the natural fit.",
+      variants: [
+        { mode: "HONEST QUESTION", text: "Did he say which puzzles? Wondering if it's the structured kind (chess, sudoku) or the open-ended kind (figuring out a new business model every year). The second protects you more I think, but it's harder to prescribe." },
+        { mode: "SHARPENER", text: "There's a version of this I keep seeing in operators too. The ones who stay sharp aren't necessarily the smartest, they're the ones who deliberately stay in problems they don't know the answer to." }
+      ]
+    },
+    {
+      tweetId: "2053895524886139033", tier: 1, decision: "HUMAN_REPLY", handle: "kunalb11", name: "Kunal Shah", followers: 1200000, posted: "4d ago", likes: 380, replies: 61, retweets: 35,
+      text: "Do you plan to buy gold in next 12 months",
+      url: "https://x.com/kunalb11/status/2053895524886139033",
+      why: "Short market poll. Brief human reply works.",
+      variants: [
+        { mode: "HUMAN REPLY", text: "Probably not. Gold buying in my family is wedding-month locked, not market-locked. The discount needed to break that pattern is huge." },
+        { mode: "HONEST QUESTION", text: "What signal would change your mind in 12 months? Most of my Indian friends are buying for weddings and gifting either way. The macro view is almost decorative." }
+      ]
+    },
+    {
+      tweetId: "2049770841043574992", tier: 1, decision: "SKIP", handle: "Nithin0dha", name: "Nithin Kamath", followers: 830223, posted: "15d ago", likes: 2400, replies: 88, retweets: 200,
+      text: "Who are the people who continue to \"buy the dip\"? Where's all this money coming from?",
+      url: "https://x.com/Nithin0dha/status/2049770841043574992",
+      skip_reason: "Short markets question. Cannot add value without inventing a stat, and not in markets lane."
+    },
+    {
+      tweetId: "2054969233826787385", tier: 1, decision: "SKIP", handle: "deepakshenoy", name: "Deepak Shenoy", followers: 282525, posted: "1d ago", likes: 580, replies: 36, retweets: 62,
+      text: "This. It's insane how complex it is for NRIs to buy a mutual fund or stock in india. They can buy property easier.",
+      url: "https://x.com/deepakshenoy/status/2054969233826787385",
+      skip_reason: "Finance/policy specific to NRI investing. Outside lane and no credible angle."
+    },
+    {
+      tweetId: "2054867819171619310", tier: 1, decision: "SKIP", handle: "deepakshenoy", name: "Deepak Shenoy", followers: 282525, posted: "1d ago", likes: 371, replies: 18, retweets: 32,
+      text: "My letter in our factsheet this month. It's on Climbing a wall of worry. Will post the whole text and links in the following tweets.",
+      url: "https://x.com/deepakshenoy/status/2054867819171619310",
+      skip_reason: "Self-promo of newsletter. Like is enough, no reply value."
+    }
+  ]
+};
+
+function fmtNum(n) { return n >= 1000 ? (n/1000).toFixed(n >= 10000 ? 0 : 1) + "K" : String(n); }
+
+function tierTag(tier) { return `<span class="tag tag-t${tier}">T${tier}</span>`; }
+
+function intentUrl(tweetId, text) {
+  return `https://x.com/intent/post?text=${encodeURIComponent(text)}&in_reply_to=${tweetId}`;
+}
+
+function escapeHtml(s) { return s.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;"); }
+
+function renderCard(t) {
+  const isSkip = t.decision === "SKIP";
+  const isHuman = t.decision === "HUMAN_REPLY";
+  const cardClass = isSkip ? "card skip" : (isHuman ? "card human" : "card");
+  const posted = JSON.parse(localStorage.getItem("posted_" + t.tweetId) || "[]");
+  const humanBadge = isHuman ? `<span class="tag tag-human">Human</span>` : "";
+
+  if (isSkip) {
+    return `<div class="${cardClass}" data-tier="${t.tier}" data-decision="SKIP">
+      <div class="card-head">
+        ${tierTag(t.tier)}<span class="tag tag-skip">Skip</span>
+        <a class="author" href="${t.url}" target="_blank">@${t.handle}</a>
+        <span class="author-meta">${t.name} · ${fmtNum(t.followers)} followers · ${t.posted}</span>
+      </div>
+      <div class="tweet">${escapeHtml(t.text)}</div>
+      <div class="skip-reason"><i class="ti ti-info-circle" aria-hidden="true"></i> ${t.skip_reason}</div>
+    </div>`;
+  }
+
+  return `<div class="${cardClass}" data-tier="${t.tier}" data-decision="${t.decision}">
+    <div class="card-head">
+      ${tierTag(t.tier)}${humanBadge}
+      <a class="author" href="${t.url}" target="_blank">@${t.handle}</a>
+      <span class="author-meta">${t.name} · ${fmtNum(t.followers)} followers · ${t.posted}</span>
+    </div>
+    <div class="tweet">${escapeHtml(t.text)}</div>
+    <div class="tweet-stats">${fmtNum(t.likes)} likes · ${t.replies} replies · ${fmtNum(t.retweets)} reposts</div>
+    ${t.why ? `<div class="why">${escapeHtml(t.why)}</div>` : ""}
+    <div class="variants">
+      ${t.variants.map((v, idx) => `
+        <div class="variant ${posted.includes(idx) ? 'posted' : ''}" data-tweet="${t.tweetId}" data-idx="${idx}">
+          <div class="variant-head">
+            <span class="variant-label">Reply ${String.fromCharCode(65 + idx)}</span>
+            <span class="variant-label">${v.mode}</span>
+          </div>
+          <div class="variant-text">${escapeHtml(v.text)}</div>
+          <a class="reply-btn" href="${intentUrl(t.tweetId, v.text)}" target="_blank" data-mark="${t.tweetId}-${idx}">
+            <i class="ti ti-brand-x" aria-hidden="true"></i>Reply ${String.fromCharCode(65 + idx)} on X
+          </a>
+          <div class="variant-actions">
+            <button class="btn-small btn-copy" data-copy="${escapeHtml(v.text)}"><i class="ti ti-copy" aria-hidden="true"></i>Copy</button>
+            <button class="btn-small btn-mark ${posted.includes(idx) ? 'posted' : ''}" data-mark="${t.tweetId}-${idx}">
+              ${posted.includes(idx) ? '<i class="ti ti-check"></i>Posted' : '<i class="ti ti-circle"></i>Mark'}
+            </button>
+          </div>
+        </div>
+      `).join("")}
+    </div>
+    <a class="open-btn" href="${t.url}" target="_blank"><i class="ti ti-external-link" aria-hidden="true"></i>View original tweet</a>
+  </div>`;
+}
+
+function render(filter) {
+  const queue = document.getElementById("queue");
+  let tweets = DATA.tweets;
+  if (filter === "ready") tweets = tweets.filter(t => t.decision === "REPLY" || t.decision === "HUMAN_REPLY");
+  else if (filter === "t1") tweets = tweets.filter(t => t.tier === 1 && t.decision !== "SKIP");
+  else if (filter === "t2") tweets = tweets.filter(t => t.tier === 2 && t.decision !== "SKIP");
+  else if (filter === "t3") tweets = tweets.filter(t => t.tier === 3 && t.decision !== "SKIP");
+  else if (filter === "human") tweets = tweets.filter(t => t.decision === "HUMAN_REPLY");
+  else if (filter === "skip") tweets = tweets.filter(t => t.decision === "SKIP");
+  if (tweets.length === 0) {
+    queue.innerHTML = `<div class="empty">No tweets in this view. Hit Refresh for a fresh pull.</div>`;
+  } else {
+    queue.innerHTML = tweets.map(renderCard).join("");
+  }
+  wireUp();
+}
+
+function updateStats() {
+  const ready = DATA.tweets.filter(t => t.decision !== "SKIP").length;
+  const skip = DATA.tweets.filter(t => t.decision === "SKIP").length;
+  const t1 = DATA.tweets.filter(t => t.tier === 1 && t.decision !== "SKIP").length;
+  const t2 = DATA.tweets.filter(t => t.tier === 2 && t.decision !== "SKIP").length;
+  const t3 = DATA.tweets.filter(t => t.tier === 3 && t.decision !== "SKIP").length;
+  document.getElementById("stats-line").innerHTML = `<b>${ready}</b> ready · T1 <b>${t1}</b> · T2 <b>${t2}</b> · T3 <b>${t3}</b> · ${skip} skip`;
+  const d = new Date(DATA.generatedAt);
+  document.getElementById("meta-line").textContent = `Last refreshed ${d.toLocaleString("en-IN", { dateStyle: "medium", timeStyle: "short" })} · ${DATA.accounts} accounts · Prompt v2`;
+}
+
+function showToast(msg) {
+  const t = document.getElementById("toast");
+  t.textContent = msg;
+  t.classList.add("show");
+  setTimeout(() => t.classList.remove("show"), 1800);
+}
+
+function markPosted(key) {
+  const [tweetId, idx] = key.split("-");
+  const storageKey = "posted_" + tweetId;
+  const arr = JSON.parse(localStorage.getItem(storageKey) || "[]");
+  const i = parseInt(idx);
+  if (arr.includes(i)) {
+    localStorage.setItem(storageKey, JSON.stringify(arr.filter(x => x !== i)));
+  } else {
+    arr.push(i);
+    localStorage.setItem(storageKey, JSON.stringify(arr));
+  }
+  render(currentFilter);
+}
+
+function wireUp() {
+  document.querySelectorAll(".btn-copy").forEach(b => {
+    b.addEventListener("click", () => {
+      const text = b.getAttribute("data-copy").replace(/&quot;/g,'"').replace(/&amp;/g,'&').replace(/&lt;/g,'<').replace(/&gt;/g,'>');
+      navigator.clipboard.writeText(text).then(() => showToast("Copied. Paste it on X."));
+    });
+  });
+  document.querySelectorAll(".btn-mark").forEach(b => {
+    b.addEventListener("click", () => markPosted(b.getAttribute("data-mark")));
+  });
+  document.querySelectorAll(".reply-btn").forEach(b => {
+    b.addEventListener("click", () => {
+      const key = b.getAttribute("data-mark");
+      const [tweetId, idx] = key.split("-");
+      const storageKey = "posted_" + tweetId;
+      const arr = JSON.parse(localStorage.getItem(storageKey) || "[]");
+      const i = parseInt(idx);
+      if (!arr.includes(i)) {
+        arr.push(i);
+        localStorage.setItem(storageKey, JSON.stringify(arr));
+      }
+      setTimeout(() => render(currentFilter), 600);
+    });
+  });
+}
+
+let currentFilter = "ready";
+document.querySelectorAll(".filter-btn").forEach(b => {
+  b.addEventListener("click", () => {
+    document.querySelectorAll(".filter-btn").forEach(x => x.classList.remove("active"));
+    b.classList.add("active");
+    currentFilter = b.getAttribute("data-filter");
+    render(currentFilter);
+  });
+});
+
+document.getElementById("btn-refresh").addEventListener("click", () => {
+  if (typeof sendPrompt === "function") {
+    sendPrompt("Refresh the X reply queue with a fresh Apify pull and updated reply drafts using Master Reply Prompt v2.");
+  } else {
+    showToast("Open chat and ask: 'refresh the X reply queue'");
+  }
+});
+
+updateStats();
+render("ready");
+</script>
+
+</body>
+</html>
