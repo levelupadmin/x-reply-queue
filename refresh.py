@@ -33,11 +33,14 @@ RECIPIENT_EMAIL = os.environ.get("RECIPIENT_EMAIL", "ceo@leveluplearning.in")
 
 APIFY_ACTOR = "61RPP7dywgiy0JPD0"  # apidojo/tweet-scraper
 OPENAI_MODEL = "gpt-4.1-mini"  # cheap, fast, equally good for this task
-HOURS_LOOKBACK = 24  # widen vs the 12h on phone, gives a richer pool
-MAX_TWEETS_FETCH = 500
+HOURS_LOOKBACK = 48  # widened from 24h — Tier 3 accounts don't post daily
+MAX_TWEETS_FETCH = 800
 
-# Tier budgets (replies per day)
-TIER_BUDGET = {1: 6, 2: 10, 3: 6}
+# Tier budgets (replies per day, with buffer for SKIPs)
+TIER_BUDGET = {1: 8, 2: 14, 3: 10}
+
+# Engagement floor (lower for Tier 3 to surface smaller-account fresh tweets)
+ENG_FLOOR = {1: 50, 2: 15, 3: 5}
 
 # Mute keywords — pre-ranking filter per the 2026 algorithm's MutedKeywordFilter
 MUTE_KEYWORDS = [
@@ -212,8 +215,11 @@ def passes_filter(t, now):
     if replies > 200:
         return False, "drowned"
     engagement = likes + 5 * replies + 3 * retweets
-    if engagement < 10:
-        return False, "low engagement"
+    # Tier-aware engagement floor: lower for T3, higher for T1
+    handle = (t.get("author", {}).get("userName") or "").lower()
+    tier = TIER_LOOKUP.get(handle, 3)
+    if engagement < ENG_FLOOR.get(tier, 10):
+        return False, f"engagement below T{tier} floor"
     lower = text.lower()
     for kw in MUTE_KEYWORDS:
         if kw in lower:
