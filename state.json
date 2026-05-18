@@ -1,16 +1,20 @@
 {
-  "lastRefresh": "2026-05-18T16:51:21.995149+00:00",
-  "ready": 20,
+  "lastRefresh": "2026-05-18T20:01:56.290100+00:00",
+  "ready": 23,
   "skipped": 5,
   "by_tier": {
     "1": 11,
-    "2": 9,
+    "2": 12,
     "3": 0
   },
   "hot_5": [
     {
       "handle": "svembu",
       "text": "Ultimately, after a lot of people inside weighed in on my X post, we decided not to expand WFH because the productivity of face to face problem solving is much higher in R&amp;D. I have experienced th"
+    },
+    {
+      "handle": "SahilBloom",
+      "text": "Major life hack: Quiet progress. Learn to work without validation. No announcement. No hype. No applause. Build when nobody\u2019s watching. Write when nobody\u2019s reading. Train when nobody\u2019s cheering. It do"
     },
     {
       "handle": "aakashgupta",
@@ -23,10 +27,6 @@
     {
       "handle": "rajshamani",
       "text": "The fastest way to be taken seriously is to remove translation work. Don\u2019t make people decode what you want, what you do, or why you matter. Confusing people get ignored. Clear people get opportunitie"
-    },
-    {
-      "handle": "SahilBloom",
-      "text": "There is clear scientific evidence that the people you surround yourself with determine your outcomes.\n\nThe Pygmalion Effect is the name of the behavioral phenomenon where we rise to the level of expe"
     }
   ]
 }
