@@ -1,32 +1,32 @@
 {
-  "lastRefresh": "2026-05-19T05:06:20.233253+00:00",
-  "ready": 18,
-  "skipped": 8,
+  "lastRefresh": "2026-05-19T10:17:48.678583+00:00",
+  "ready": 17,
+  "skipped": 11,
   "by_tier": {
-    "1": 9,
-    "2": 9,
+    "1": 7,
+    "2": 10,
     "3": 0
   },
   "hot_5": [
+    {
+      "handle": "aakashgupta",
+      "text": "What you're watching is a 24-year-old whose brain was hemorrhaging while his body kept boxing.\n\nSimiso Buthelezi was winning this fight. Dominated all 10 rounds. His trainer said he barely took a clea"
+    },
     {
       "handle": "SahilBloom",
       "text": "Major life hack: Quiet progress. Learn to work without validation. No announcement. No hype. No applause. Build when nobody\u2019s watching. Write when nobody\u2019s reading. Train when nobody\u2019s cheering. It do"
     },
     {
-      "handle": "Nithin0dha",
-      "text": "Dad\u2019s favourite song. Missing him today.\nRecorded \u201cSaranga teri yaad mein\u201d and shared it with the team, and they insisted I put it up.\n\nFair warning, I\u2019m no singer. \ud83d\ude2c https://t.co/ect7TFA0VK"
-    },
-    {
-      "handle": "lennysan",
-      "text": "Our 3yo got really into reading, in large part thanks to @once_reading. They have a really thoughtfully designed reading program, including these super cute physical books that our son is hooked on. h"
-    },
-    {
-      "handle": "dvassallo",
-      "text": "Just ran my first (slow) half marathon. I can't imagine this being the halfway point of a run! \ud83d\udc80 https://t.co/ps9QgCR4MB"
+      "handle": "paraschopra",
+      "text": "It's funny how nihilism is both a cause and the cure for panic in life."
     },
     {
       "handle": "warikoo",
       "text": "Stop reading productivity books. \n\nJust delete the 4 apps that are stealing your attention. \n\nThat is the entire productivity stack."
+    },
+    {
+      "handle": "dvassallo",
+      "text": "Just ran my first (slow) half marathon. I can't imagine this being the halfway point of a run! \ud83d\udc80 https://t.co/ps9QgCR4MB"
     }
   ]
 }
