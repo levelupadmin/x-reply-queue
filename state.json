@@ -1,32 +1,32 @@
 {
-  "lastRefresh": "2026-05-20T20:38:45.636124+00:00",
-  "ready": 17,
-  "skipped": 11,
+  "lastRefresh": "2026-05-21T05:12:35.730692+00:00",
+  "ready": 19,
+  "skipped": 9,
   "by_tier": {
     "1": 7,
-    "2": 10,
+    "2": 12,
     "3": 0
   },
   "hot_5": [
+    {
+      "handle": "dvassallo",
+      "text": "My office when I worked at Amazon: https://t.co/pLKgvNNFeV"
+    },
     {
       "handle": "SahilBloom",
       "text": "Everyone needs to read this...\n\nBlack Coffee Theory\n\n(a visual thread) https://t.co/DIztxHlewk"
     },
     {
+      "handle": "aakashgupta",
+      "text": "Stingray reproduction is one of the most alien systems in vertebrate biology, and the stress birth you're watching is the least weird part.\n\nStingrays are ovoviviparous. The eggs hatch inside the moth"
+    },
+    {
+      "handle": "arindam___paul",
+      "text": "The layoffs are brutal\n\nIt is only the beginning. Most people in Indian IT and tech still have no idea what\u2019s about to happen\n\nIts going to get a lot darker before it gets bright again"
+    },
+    {
       "handle": "paraschopra",
       "text": "All vibecoders eventually realize that the difficulty was never in building the product; rather it was in acquiring users."
-    },
-    {
-      "handle": "deepakshenoy",
-      "text": "I hope this makes India more healthy :) Palm oil prices going up might be the best thing for India as it looks for substitutes - and then we can put higher duties on Palm oil when they reduce prices l"
-    },
-    {
-      "handle": "warikoo",
-      "text": "Why is my morning routine structured the way it is?\n\nI wake up between 4:30\u20135 a.m. every day (including weekends)\nFirst thing I do is sip a glass of water for 10-15 minutes.\nThis allows me to wake up "
-    },
-    {
-      "handle": "banglani",
-      "text": "Any recommendations for a weekend brunch spot in Delhi?\n\nNot particular about cuisine - just want an atmospheric, comfortable place to spend 3-4 hours with my friends over food and drink. South Delhi "
     }
   ]
 }
