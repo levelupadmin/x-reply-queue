@@ -5,12 +5,11 @@ X Reply Engine — daily refresh script.
 Runs from GitHub Actions cron (01:00 UTC = 06:30 AM IST, Mon-Fri).
 Scrapes 109 X accounts via Apify, filters, drafts 2 reply variants per qualifying
 tweet using GPT-4.1-mini with Master Reply Prompt v2, writes index.html (GitHub Pages
-auto-rebuilds), emails Rahul a summary via Brevo.
+auto-rebuilds). No email is sent; Rahul reads the queue in the web app.
 
 Required env vars:
     APIFY_TOKEN
     OPENAI_API_KEY
-    BREVO_API_KEY
 """
 import json
 import os
@@ -28,8 +27,6 @@ from pathlib import Path
 
 APIFY_TOKEN = os.environ["APIFY_TOKEN"]
 OPENAI_API_KEY = os.environ["OPENAI_API_KEY"]
-BREVO_API_KEY = os.environ.get("BREVO_API_KEY", "")
-RECIPIENT_EMAIL = os.environ.get("RECIPIENT_EMAIL", "ceo@leveluplearning.in")
 
 APIFY_ACTOR = "61RPP7dywgiy0JPD0"  # apidojo/tweet-scraper
 OPENAI_MODEL = "gpt-4.1-mini"  # cheap, fast, equally good for this task
@@ -108,7 +105,6 @@ He is an operator, not a thought leader. He posts receipts, not theories.
 
 # RECEIPTS HE MAY CITE (the ONLY facts you may use)
 - 70,000+ paid learners on his platform (refer as "we" / "my startup" / "the cohort I'm building" — NEVER name the brand)
-- Pricing experiments at ₹400, ₹600, ₹8K, ₹50K+ tiers (₹600 outconverted ₹400 by ~11% on the same course)
 - Indian buyer psychology: "Indian buyers price-signal trust, not affordability"
 - Free webinars: ~4% show-up. Paid ₹100 micropaywall: ~38% show-up.
 - Built masterclass app on Lovable in 6 weeks with VdoCipher DRM
@@ -137,6 +133,7 @@ NEVER invent stats. NEVER cite courses he doesn't teach (no chess, no fitness, n
 - NEVER fabricate stats not in the receipts library.
 - NEVER use thought-leader phrasings: "Worth distinguishing", "The truth is", "Most founders treat", "Most people miss". Replace with "I keep noticing", "the version that worked for me", "what I keep seeing".
 - CONCRETE OR SKIP. Every reply needs one specific real number, situation, named phenomenon, or pointed question.
+- VARY YOUR RECEIPTS. Do not lean on the same stat or anecdote across replies. Spread across the receipts library; when no fresh concrete receipt fits, use SHARPENER or HONEST_QUESTION instead of forcing a repeated number.
 
 # 4 REPLY MODES
 1. RECEIPT — share a specific Rahul experience from the receipts library. Concrete required.
@@ -355,45 +352,6 @@ def render_html(data_obj, generated_at, ready_count, skip_count):
 
 
 # ============================================================================
-# 5. BREVO EMAIL
-# ============================================================================
-
-def send_email(ready_count, skip_count, by_tier, top_hot):
-    if not BREVO_API_KEY:
-        log("BREVO_API_KEY not set, skipping email")
-        return
-    date_str = datetime.now(timezone.utc).astimezone(timezone(timedelta(hours=5, minutes=30))).strftime("%a %d %b %Y")
-    subject = f"X reply queue ready · {date_str} · {ready_count} tweets to engage"
-    page_url = "https://levelupadmin.github.io/x-reply-queue/"
-    hot_rows = ""
-    for h in top_hot[:5]:
-        hot_rows += f'<li>@{h["handle"]} — {h["text"][:120]}...</li>'
-    html = f"""
-<div style="font-family: -apple-system, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; color: #1c1917;">
-  <h1 style="font-size: 22px; font-weight: 500;">X reply queue ready</h1>
-  <p style="color: #78716c; font-size: 14px;">Generated {datetime.now(timezone.utc).strftime("%H:%M UTC")} · {ready_count} reply-ready · {by_tier.get(1,0)} T1 · {by_tier.get(2,0)} T2 · {by_tier.get(3,0)} T3 · {skip_count} skipped</p>
-  <p style="margin: 20px 0;">
-    <a href="{page_url}" style="background: #1d9bf0; color: white; padding: 12px 24px; border-radius: 8px; text-decoration: none; font-weight: 500;">Open the queue →</a>
-  </p>
-  <h2 style="font-size: 16px; font-weight: 500; margin-top: 28px;">Top 5 hottest right now</h2>
-  <ol style="font-size: 14px; line-height: 1.6;">{hot_rows}</ol>
-  <p style="color: #a8a29e; font-size: 12px; margin-top: 32px;">Tap a tweet on the page, hit "Reply A/B on X", post natively. ~25 min for the whole queue.</p>
-</div>"""
-    body = {
-        "sender": {"name": "X Reply Engine", "email": "admin@leveluplearning.in"},
-        "to": [{"email": RECIPIENT_EMAIL}],
-        "subject": subject,
-        "htmlContent": html,
-    }
-    headers = {"api-key": BREVO_API_KEY, "accept": "application/json"}
-    try:
-        r = http_json("https://api.brevo.com/v3/smtp/email", data=body, headers=headers, timeout=30)
-        log(f"  Brevo email sent: messageId={r.get('messageId')}")
-    except Exception as e:
-        log(f"  Brevo error: {e}")
-
-
-# ============================================================================
 # MAIN
 # ============================================================================
 
@@ -454,7 +412,6 @@ def main():
     }
     Path(__file__).parent.joinpath("state.json").write_text(json.dumps(state, indent=2))
 
-    send_email(len(ready), len(skipped), by_tier, top_hot)
     log("DONE")
 
 
