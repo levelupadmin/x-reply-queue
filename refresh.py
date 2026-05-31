@@ -31,7 +31,9 @@ OPENAI_API_KEY = os.environ["OPENAI_API_KEY"]
 APIFY_ACTOR = "61RPP7dywgiy0JPD0"  # apidojo/tweet-scraper
 OPENAI_MODEL = "gpt-4.1-mini"  # cheap, fast, equally good for this task
 HOURS_LOOKBACK = 48  # widened from 24h — Tier 3 accounts don't post daily
-MAX_TWEETS_FETCH = 1200  # per-run tweet ceiling across all accounts
+MAX_TWEETS_FETCH = 1200  # legacy total ceiling (kept for reference)
+T12_FETCH = 1000  # latest tweets across T1/T2 handles
+T3_FETCH = 700    # dedicated T3 pass so rising-voice long tail is not crowded out
 SELF_HANDLE = "rahul_reddy"  # Rahul's own account, for growth + reply tracking  # raised for ~392-account list (was 800 at 109 accounts)
 
 # Tier budgets (replies per day, with buffer for SKIPs)
@@ -191,18 +193,31 @@ def http_json(url, data=None, headers=None, method=None, timeout=120):
 # 1. APIFY SCRAPE
 # ============================================================================
 
-def scrape_apify():
-    log(f"Scraping Apify for {len(HANDLES)} handles, last {HOURS_LOOKBACK}h, max {MAX_TWEETS_FETCH} tweets")
+def _scrape_batch(handles, max_items):
+    if not handles:
+        return []
     url = f"https://api.apify.com/v2/acts/{APIFY_ACTOR}/run-sync-get-dataset-items?token={APIFY_TOKEN}"
-    body = {
-        "twitterHandles": [h for h, _ in HANDLES],
-        "maxItems": MAX_TWEETS_FETCH,
-        "sort": "Latest",
-        "tweetLanguage": "en",
-    }
-    tweets = http_json(url, data=body, timeout=180)
-    log(f"Apify returned {len(tweets)} items")
-    return [t for t in tweets if isinstance(t, dict) and isinstance(t.get("author"), dict)]
+    body = {"twitterHandles": handles, "maxItems": max_items, "sort": "Latest", "tweetLanguage": "en"}
+    items = http_json(url, data=body, timeout=240)
+    return [t for t in items if isinstance(t, dict) and isinstance(t.get("author"), dict)]
+
+
+def scrape_apify():
+    t12 = [h for h, t in HANDLES if t in (1, 2)]
+    t3 = [h for h, t in HANDLES if t == 3]
+    log(f"Scraping Apify: {len(t12)} T1/T2 handles + dedicated {len(t3)} T3 pass, last {HOURS_LOOKBACK}h")
+    batch_a = _scrape_batch(t12, T12_FETCH)
+    batch_b = _scrape_batch(t3, T3_FETCH)  # dedicated T3 pass so the long tail surfaces
+    seen, out = set(), []
+    for t in batch_a + batch_b:
+        tid = t.get("id")
+        if tid and tid in seen:
+            continue
+        if tid:
+            seen.add(tid)
+        out.append(t)
+    log(f"Apify returned {len(batch_a)} (T1/T2) + {len(batch_b)} (T3) = {len(out)} unique")
+    return out
 
 
 # ============================================================================

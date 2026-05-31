@@ -396,9 +396,9 @@ function sortMetric(t, mode) {
 // the X app to link the reply correctly via in_reply_to_status_id.
 const IS_MOBILE = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
 function intentUrl(tweetId, text, authorHandle) {
-  const msgWithMention = `@${authorHandle} ${text}`;
+  // No @mention prefix needed: X threads via in_reply_to_status_id and already shows "Replying to @user".
   if (IS_MOBILE) {
-    return `twitter://post?message=${encodeURIComponent(msgWithMention)}&in_reply_to_status_id=${tweetId}`;
+    return `twitter://post?message=${encodeURIComponent(text)}&in_reply_to_status_id=${tweetId}`;
   }
   return `https://x.com/intent/post?text=${encodeURIComponent(text)}&in_reply_to=${tweetId}`;
 }
@@ -572,7 +572,7 @@ function wireUp() {
     const tweet = DATA.tweets.find(t => t.tweetId === tweetId);
     const replyText = tweet?.variants?.[i]?.text;
     if (replyText && navigator.clipboard) {
-      navigator.clipboard.writeText(`@${author} ${replyText}`).catch(() => {});
+      navigator.clipboard.writeText(replyText).catch(() => {});
     }
 
     // On mobile, if the twitter:// scheme doesn't fire within 1.5s, fall back
