@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, user-scalable=yes">
-<title>X Reply Queue · @Rahul_Reddly</title>
+<title>X Reply Queue · @rahul_reddy</title>
 <meta name="description" content="Daily X reply drafts. Tap Reply A/B and X opens with your draft pre-filled.">
 
 <!-- PWA -->
@@ -509,6 +509,7 @@ function markPosted(key, author) {
     arr.push(i);
     localStorage.setItem(sk, JSON.stringify(arr));
     if (author) markAuthorReplied(author);
+    logPick(tweetId, i, "posted");
   }
   updateStats(); render();
 }
@@ -528,6 +529,7 @@ function wireUp() {
     const arr = JSON.parse(localStorage.getItem(sk) || "[]");
     const i = parseInt(idx);
     if (!arr.includes(i)) { arr.push(i); localStorage.setItem(sk, JSON.stringify(arr)); if (author) markAuthorReplied(author); }
+    logPick(tweetId, i, "reply_click");
     if (navigator.vibrate) navigator.vibrate(8);
 
     // Copy reply text to clipboard as a safety net (in case the X app deep-link
@@ -572,6 +574,18 @@ document.getElementById("sort-select").addEventListener("change", e => {
 // polls for the new commit, then reloads when fresh HTML is available.
 const REFRESH_PROXY = "https://x-refresh-proxy.levelupedtech.workers.dev";
 const REFRESH_TOKEN = "Eb4ClMvBa9FU_j2JGtT3imtsOkSquidu";
+function logPick(tweetId, idx, action) {
+  try {
+    const t = DATA.tweets.find(x => x.tweetId === tweetId);
+    if (!t) return;
+    const v = (t.variants || [])[idx] || {};
+    fetch(`${REFRESH_PROXY}/log?t=${encodeURIComponent(REFRESH_TOKEN)}`, {
+      method: "POST", headers: { "Content-Type": "application/json" },
+      keepalive: true,
+      body: JSON.stringify({ tweetId, handle: t.handle, tier: t.tier, mode: v.mode || "", variant: String.fromCharCode(65+idx), action })
+    }).catch(() => {});
+  } catch (e) {}
+}
 document.getElementById("btn-refresh").addEventListener("click", async () => {
   const btn = document.getElementById("btn-refresh");
   if (btn.classList.contains("spinning")) return; // prevent double-tap

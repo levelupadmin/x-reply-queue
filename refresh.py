@@ -131,6 +131,41 @@ SKIP if: pure link, drowned (>200 replies), political/religious/mute-keyword-ris
 ALWAYS exactly 2 variants when decision is REPLY or HUMAN_REPLY. Different modes preferred."""
 
 
+def load_learnings():
+    """Read learnings.jsonl (written by the worker /log endpoint) and summarize
+    Rahul's actual mode preferences per tier, to gently bias drafting."""
+    from collections import Counter
+    path = Path(__file__).parent / "learnings.jsonl"
+    if not path.exists():
+        return ""
+    per_tier = {1: Counter(), 2: Counter(), 3: Counter()}
+    n = 0
+    for line in path.read_text(encoding="utf-8").splitlines():
+        line = line.strip()
+        if not line:
+            continue
+        try:
+            e = json.loads(line)
+        except Exception:
+            continue
+        if e.get("action") not in ("posted", "reply_click"):
+            continue
+        tier = e.get("tier")
+        mode = (e.get("mode") or "").upper()
+        if tier in per_tier and mode:
+            per_tier[tier][mode] += 1
+            n += 1
+    if n < 5:
+        return ""
+    out = ["# RAHUL'S OBSERVED PREFERENCES",
+           "(from %d of his real picks; when two modes both fit, lean toward what he actually posts)" % n]
+    for tier in (1, 2, 3):
+        top = per_tier[tier].most_common(2)
+        if top:
+            out.append("- Tier %d: " % tier + ", ".join("%s (%d)" % (m, c) for m, c in top))
+    return "\n".join(out)
+
+
 # ============================================================================
 # HELPERS
 # ============================================================================
@@ -243,7 +278,7 @@ def rank_and_allocate(tweets):
 # 3. OPENAI DRAFTS
 # ============================================================================
 
-def draft_reply(tweet):
+def draft_reply(tweet, learned=""):
     handle = tweet["author"]["userName"]
     name = tweet["author"].get("name", "")
     text = tweet.get("fullText") or tweet.get("text", "")
@@ -259,7 +294,7 @@ def draft_reply(tweet):
     body = {
         "model": OPENAI_MODEL,
         "messages": [
-            {"role": "system", "content": MASTER_PROMPT},
+            {"role": "system", "content": MASTER_PROMPT + (("\n\n" + learned) if learned else "")},
             {"role": "user", "content": user_prompt},
         ],
         "temperature": 0.7,
@@ -342,9 +377,12 @@ def main():
     log(f"After rank+allocate (1 per author): {len(selected)}")
 
     drafts = []
+    learned = load_learnings()
+    if learned:
+        log("Applying learned preferences from past picks")
     for i, t in enumerate(selected):
         log(f"  Drafting {i+1}/{len(selected)}: @{t['author']['userName']}")
-        d = draft_reply(t)
+        d = draft_reply(t, learned)
         d["_tweet"] = t
         drafts.append(d)
 
