@@ -5,21 +5,16 @@
   "note": "core = locked hand-picked accounts, never auto-removed. synced = auto-managed: source 'following' rows are added/removed by sync-following.yml based on who @rahul_reddy follows; source 'discovery' rows are sticky seeds.",
   "counts": {
    "core": 141,
-   "synced": 251,
-   "total": 392,
-   "core_by_tier": {
-    "1": 27,
-    "2": 67,
-    "3": 47
-   },
+   "synced": 238,
+   "total": 379,
    "synced_by_tier": {
-    "1": 46,
-    "2": 61,
-    "3": 144
+    "1": 44,
+    "2": 56,
+    "3": 138
    },
    "synced_by_source": {
     "discovery": 42,
-    "following": 209
+    "following": 196
    }
   }
  },
@@ -696,13 +691,6 @@
    "added": "2026-05-31"
   },
   {
-   "handle": "gregisenberg",
-   "tier": 1,
-   "source": "following",
-   "category": "founder",
-   "added": "2026-05-31"
-  },
-  {
    "handle": "thejustinwelsh",
    "tier": 1,
    "source": "following",
@@ -791,13 +779,6 @@
    "tier": 1,
    "source": "following",
    "category": "creator",
-   "added": "2026-05-31"
-  },
-  {
-   "handle": "benedictevans",
-   "tier": 1,
-   "source": "following",
-   "category": "investor",
    "added": "2026-05-31"
   },
   {
@@ -1018,13 +999,6 @@
    "added": "2026-05-31"
   },
   {
-   "handle": "ljin18",
-   "tier": 2,
-   "source": "following",
-   "category": "writer",
-   "added": "2026-05-31"
-  },
-  {
    "handle": "JulianGoldieSEO",
    "tier": 2,
    "source": "following",
@@ -1032,31 +1006,10 @@
    "added": "2026-05-31"
   },
   {
-   "handle": "RomeenSheth",
-   "tier": 2,
-   "source": "following",
-   "category": "founder",
-   "added": "2026-05-31"
-  },
-  {
    "handle": "BrettFromDJ",
    "tier": 2,
    "source": "following",
    "category": "creator",
-   "added": "2026-05-31"
-  },
-  {
-   "handle": "aviralbhat",
-   "tier": 2,
-   "source": "following",
-   "category": "investor",
-   "added": "2026-05-31"
-  },
-  {
-   "handle": "wizofecom",
-   "tier": 2,
-   "source": "following",
-   "category": "marketer",
    "added": "2026-05-31"
   },
   {
@@ -1082,13 +1035,6 @@
   },
   {
    "handle": "BrentBeshore",
-   "tier": 2,
-   "source": "following",
-   "category": "founder",
-   "added": "2026-05-31"
-  },
-  {
-   "handle": "BeingPractical",
    "tier": 2,
    "source": "following",
    "category": "founder",
@@ -1634,24 +1580,10 @@
    "added": "2026-05-31"
   },
   {
-   "handle": "arnav_kumar",
-   "tier": 3,
-   "source": "following",
-   "category": "founder",
-   "added": "2026-05-31"
-  },
-  {
    "handle": "LessEgoMoreData",
    "tier": 3,
    "source": "following",
    "category": "marketer",
-   "added": "2026-05-31"
-  },
-  {
-   "handle": "TheStartupTN",
-   "tier": 3,
-   "source": "following",
-   "category": "operator",
    "added": "2026-05-31"
   },
   {
@@ -1757,20 +1689,6 @@
    "tier": 3,
    "source": "following",
    "category": "investor",
-   "added": "2026-05-31"
-  },
-  {
-   "handle": "SinglaAnirudh",
-   "tier": 3,
-   "source": "following",
-   "category": "marketer",
-   "added": "2026-05-31"
-  },
-  {
-   "handle": "theadityadas",
-   "tier": 3,
-   "source": "following",
-   "category": "designer",
    "added": "2026-05-31"
   },
   {
@@ -1943,13 +1861,6 @@
   },
   {
    "handle": "HasanAHk5",
-   "tier": 3,
-   "source": "following",
-   "category": "marketer",
-   "added": "2026-05-31"
-  },
-  {
-   "handle": "PaidAdPrinciple",
    "tier": 3,
    "source": "following",
    "category": "marketer",
@@ -2191,13 +2102,6 @@
    "tier": 3,
    "source": "following",
    "category": "creator",
-   "added": "2026-05-31"
-  },
-  {
-   "handle": "kichamurthy",
-   "tier": 3,
-   "source": "following",
-   "category": "founder",
    "added": "2026-05-31"
   },
   {
