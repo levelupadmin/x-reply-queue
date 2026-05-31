@@ -1,0 +1,36 @@
+name: Sync following to handles
+
+on:
+  schedule:
+    # 02:00 UTC Sunday = 07:30 AM IST Sunday (a day before Monday's reply run)
+    - cron: '0 2 * * 0'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Sync following
+        env:
+          APIFY_TOKEN: ${{ secrets.APIFY_TOKEN }}
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+        run: python sync_following.py
+      - name: Commit handles.json if changed
+        run: |
+          git config user.name "x-reply-engine-bot"
+          git config user.email "bot@leveluplearning.in"
+          git add handles.json
+          if git diff --staged --quiet; then
+            echo "No follow changes this week"
+          else
+            git commit -m "Sync following $(date -u +'%Y-%m-%d')"
+            git push
+          fi

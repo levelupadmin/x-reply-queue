@@ -1,0 +1,2977 @@
+{
+ "_meta": {
+  "x_handle": "rahul_reddy",
+  "updated": "2026-05-31",
+  "note": "core = locked hand-picked accounts, never auto-removed. synced = auto-managed: source 'following' rows are added/removed by sync-following.yml based on who @rahul_reddy follows; source 'discovery' rows are sticky seeds.",
+  "counts": {
+   "core": 141,
+   "synced": 251,
+   "total": 392,
+   "core_by_tier": {
+    "1": 27,
+    "2": 67,
+    "3": 47
+   },
+   "synced_by_tier": {
+    "1": 46,
+    "2": 61,
+    "3": 144
+   },
+   "synced_by_source": {
+    "discovery": 42,
+    "following": 209
+   }
+  }
+ },
+ "core": [
+  {
+   "handle": "kunalb11",
+   "tier": 1
+  },
+  {
+   "handle": "Nithin0dha",
+   "tier": 1
+  },
+  {
+   "handle": "nikhilkamathcio",
+   "tier": 1
+  },
+  {
+   "handle": "RonnieScrewvala",
+   "tier": 1
+  },
+  {
+   "handle": "warikoo",
+   "tier": 1
+  },
+  {
+   "handle": "SahilBloom",
+   "tier": 1
+  },
+  {
+   "handle": "vijayshekhar",
+   "tier": 1
+  },
+  {
+   "handle": "amasad",
+   "tier": 1
+  },
+  {
+   "handle": "Suhail",
+   "tier": 1
+  },
+  {
+   "handle": "svembu",
+   "tier": 1
+  },
+  {
+   "handle": "deepakshenoy",
+   "tier": 1
+  },
+  {
+   "handle": "gauravmunjal",
+   "tier": 1
+  },
+  {
+   "handle": "levelsio",
+   "tier": 1
+  },
+  {
+   "handle": "david_perell",
+   "tier": 1
+  },
+  {
+   "handle": "dvassallo",
+   "tier": 1
+  },
+  {
+   "handle": "rajshamani",
+   "tier": 1
+  },
+  {
+   "handle": "Varunmayya",
+   "tier": 1
+  },
+  {
+   "handle": "mrgirish",
+   "tier": 1
+  },
+  {
+   "handle": "theAkashAnand",
+   "tier": 1
+  },
+  {
+   "handle": "PrashBhat",
+   "tier": 1
+  },
+  {
+   "handle": "AravSrinivas",
+   "tier": 1
+  },
+  {
+   "handle": "iRadhikaGupta",
+   "tier": 2
+  },
+  {
+   "handle": "paraschopra",
+   "tier": 2
+  },
+  {
+   "handle": "aakashgupta",
+   "tier": 2
+  },
+  {
+   "handle": "sidin",
+   "tier": 2
+  },
+  {
+   "handle": "jspujji",
+   "tier": 2
+  },
+  {
+   "handle": "sbikh",
+   "tier": 2
+  },
+  {
+   "handle": "Rahul_J_Mathur",
+   "tier": 2
+  },
+  {
+   "handle": "aditya_kondawar",
+   "tier": 2
+  },
+  {
+   "handle": "SandeepMall",
+   "tier": 2
+  },
+  {
+   "handle": "banglani",
+   "tier": 2
+  },
+  {
+   "handle": "sajithpai",
+   "tier": 2
+  },
+  {
+   "handle": "ravihanda",
+   "tier": 2
+  },
+  {
+   "handle": "arindam___paul",
+   "tier": 2
+  },
+  {
+   "handle": "upadhyay_harsh1",
+   "tier": 2
+  },
+  {
+   "handle": "dharmeshba",
+   "tier": 2
+  },
+  {
+   "handle": "manan_0308",
+   "tier": 2
+  },
+  {
+   "handle": "bhatnaturally",
+   "tier": 2
+  },
+  {
+   "handle": "alexabelonix",
+   "tier": 2
+  },
+  {
+   "handle": "AmanHasNoName_2",
+   "tier": 2
+  },
+  {
+   "handle": "saxenasaheb",
+   "tier": 2
+  },
+  {
+   "handle": "shantanugoel",
+   "tier": 2
+  },
+  {
+   "handle": "vinaykrsinghal",
+   "tier": 2
+  },
+  {
+   "handle": "ThEbmr",
+   "tier": 2
+  },
+  {
+   "handle": "dineshpaii",
+   "tier": 2
+  },
+  {
+   "handle": "lennysan",
+   "tier": 2
+  },
+  {
+   "handle": "hnshah",
+   "tier": 2
+  },
+  {
+   "handle": "joulee",
+   "tier": 2
+  },
+  {
+   "handle": "patio11",
+   "tier": 2
+  },
+  {
+   "handle": "noahkagan",
+   "tier": 2
+  },
+  {
+   "handle": "swyx",
+   "tier": 2
+  },
+  {
+   "handle": "deedydas",
+   "tier": 2
+  },
+  {
+   "handle": "brian_lovin",
+   "tier": 2
+  },
+  {
+   "handle": "karrisaarinen",
+   "tier": 2
+  },
+  {
+   "handle": "rsms",
+   "tier": 2
+  },
+  {
+   "handle": "ridd_design",
+   "tier": 2
+  },
+  {
+   "handle": "andybudd",
+   "tier": 2
+  },
+  {
+   "handle": "davidhoang",
+   "tier": 2
+  },
+  {
+   "handle": "ttorres",
+   "tier": 2
+  },
+  {
+   "handle": "bandanjot",
+   "tier": 2
+  },
+  {
+   "handle": "gibsonbiddle",
+   "tier": 2
+  },
+  {
+   "handle": "bindureddy",
+   "tier": 2
+  },
+  {
+   "handle": "Ajain112",
+   "tier": 2
+  },
+  {
+   "handle": "Ravisutanjani",
+   "tier": 2
+  },
+  {
+   "handle": "championswimmer",
+   "tier": 2
+  },
+  {
+   "handle": "vikpai",
+   "tier": 3
+  },
+  {
+   "handle": "brahma_4u",
+   "tier": 3
+  },
+  {
+   "handle": "saybwala",
+   "tier": 3
+  },
+  {
+   "handle": "khyatimaloo",
+   "tier": 3
+  },
+  {
+   "handle": "shobhitic",
+   "tier": 3
+  },
+  {
+   "handle": "mahikaa101",
+   "tier": 3
+  },
+  {
+   "handle": "nush_1320",
+   "tier": 3
+  },
+  {
+   "handle": "indiesoftwaredv",
+   "tier": 3
+  },
+  {
+   "handle": "YABAJI",
+   "tier": 3
+  },
+  {
+   "handle": "7rahulc",
+   "tier": 3
+  },
+  {
+   "handle": "jasonyimco",
+   "tier": 3
+  },
+  {
+   "handle": "Vanshi_agr",
+   "tier": 3
+  },
+  {
+   "handle": "monali_dambre",
+   "tier": 3
+  },
+  {
+   "handle": "iPuneetGupta",
+   "tier": 3
+  },
+  {
+   "handle": "cm3positive",
+   "tier": 3
+  },
+  {
+   "handle": "anuragwho",
+   "tier": 3
+  },
+  {
+   "handle": "tssheth",
+   "tier": 3
+  },
+  {
+   "handle": "anushkkaayy",
+   "tier": 3
+  },
+  {
+   "handle": "stablemark_",
+   "tier": 3
+  },
+  {
+   "handle": "an2_yea",
+   "tier": 3
+  },
+  {
+   "handle": "chadjanis",
+   "tier": 3
+  },
+  {
+   "handle": "kennandavison",
+   "tier": 3
+  },
+  {
+   "handle": "RomanEcom",
+   "tier": 3
+  },
+  {
+   "handle": "MaxGrant__",
+   "tier": 3
+  },
+  {
+   "handle": "ecom_cork",
+   "tier": 3
+  },
+  {
+   "handle": "richzou",
+   "tier": 3
+  },
+  {
+   "handle": "kylejeong",
+   "tier": 3
+  },
+  {
+   "handle": "colejaczko",
+   "tier": 3
+  },
+  {
+   "handle": "maxwellcopy",
+   "tier": 3
+  },
+  {
+   "handle": "SaneDhruv",
+   "tier": 3
+  },
+  {
+   "handle": "faisalziaanwer",
+   "tier": 3
+  },
+  {
+   "handle": "ankurmittal",
+   "tier": 3
+  },
+  {
+   "handle": "nikunjtaneja_",
+   "tier": 3
+  },
+  {
+   "handle": "AgustinLebron3",
+   "tier": 3
+  },
+  {
+   "handle": "tejeshwi_sharma",
+   "tier": 3
+  },
+  {
+   "handle": "JJEnglert",
+   "tier": 3
+  },
+  {
+   "handle": "Mlada_in",
+   "tier": 3
+  },
+  {
+   "handle": "fchollet",
+   "tier": 1
+  },
+  {
+   "handle": "alexandr_wang",
+   "tier": 1
+  },
+  {
+   "handle": "vladtenev",
+   "tier": 1
+  },
+  {
+   "handle": "slashdot",
+   "tier": 1
+  },
+  {
+   "handle": "EMostaque",
+   "tier": 1
+  },
+  {
+   "handle": "tunguz",
+   "tier": 1
+  },
+  {
+   "handle": "davidmarcus",
+   "tier": 2
+  },
+  {
+   "handle": "moxie",
+   "tier": 2
+  },
+  {
+   "handle": "shayne_coplan",
+   "tier": 2
+  },
+  {
+   "handle": "0xgaut",
+   "tier": 2
+  },
+  {
+   "handle": "scottbelsky",
+   "tier": 2
+  },
+  {
+   "handle": "billlee",
+   "tier": 2
+  },
+  {
+   "handle": "Andercot",
+   "tier": 2
+  },
+  {
+   "handle": "benjitaylor",
+   "tier": 2
+  },
+  {
+   "handle": "markpinc",
+   "tier": 2
+  },
+  {
+   "handle": "AlecStapp",
+   "tier": 2
+  },
+  {
+   "handle": "ibab",
+   "tier": 2
+  },
+  {
+   "handle": "schrep",
+   "tier": 2
+  },
+  {
+   "handle": "brivael",
+   "tier": 2
+  },
+  {
+   "handle": "alanvibe",
+   "tier": 2
+  },
+  {
+   "handle": "lsanger",
+   "tier": 2
+  },
+  {
+   "handle": "CJHandmer",
+   "tier": 2
+  },
+  {
+   "handle": "atmoio",
+   "tier": 2
+  },
+  {
+   "handle": "sara_spangelo",
+   "tier": 2
+  },
+  {
+   "handle": "milichab",
+   "tier": 2
+  },
+  {
+   "handle": "JasonBud",
+   "tier": 2
+  },
+  {
+   "handle": "ericzelikman",
+   "tier": 2
+  },
+  {
+   "handle": "aaronburnett",
+   "tier": 2
+  },
+  {
+   "handle": "djseo",
+   "tier": 2
+  },
+  {
+   "handle": "byersblake",
+   "tier": 3
+  },
+  {
+   "handle": "ying11231",
+   "tier": 3
+  },
+  {
+   "handle": "lm_zheng",
+   "tier": 3
+  },
+  {
+   "handle": "sampullara",
+   "tier": 3
+  },
+  {
+   "handle": "wanghaofei",
+   "tier": 3
+  },
+  {
+   "handle": "jnnfir",
+   "tier": 3
+  },
+  {
+   "handle": "arnogau",
+   "tier": 3
+  },
+  {
+   "handle": "jmusk",
+   "tier": 3
+  },
+  {
+   "handle": "adampbry",
+   "tier": 3
+  },
+  {
+   "handle": "shawngold",
+   "tier": 3
+  }
+ ],
+ "synced": [
+  {
+   "handle": "naval",
+   "tier": 1,
+   "source": "discovery",
+   "category": "founder",
+   "added": "2026-05-31"
+  },
+  {
+   "handle": "pmarca",
+   "tier": 1,
+   "source": "following",
+   "category": "founder",
+   "added": "2026-05-31"
+  },
+  {
+   "handle": "paulg",
+   "tier": 1,
+   "source": "discovery",
+   "category": "founder",
+   "added": "2026-05-31"
+  },
+  {
+   "handle": "Dir_Lokesh",
+   "tier": 1,
+   "source": "following",
+   "category": "creator",
+   "added": "2026-05-31"
+  },
+  {
+   "handle": "NoLimitGains",
+   "tier": 1,
+   "source": "discovery",
+   "category": "founder",
+   "added": "2026-05-31"
+  },
+  {
+   "handle": "claudeai",
+   "tier": 1,
+   "source": "discovery",
+   "category": "ai",
+   "added": "2026-05-31"
+  },
+  {
+   "handle": "Nelsondilpkumar",
+   "tier": 1,
+   "source": "following",
+   "category": "creator",
+   "added": "2026-05-31"
+  },
+  {
+   "handle": "AlexHormozi",
+   "tier": 1,
+   "source": "following",
+   "category": "founder",
+   "added": "2026-05-31"
+  },
+  {
+   "handle": "gdb",
+   "tier": 1,
+   "source": "following",
+   "category": "ai",
+   "added": "2026-05-31"
+  },
+  {
+   "handle": "thedankoe",
+   "tier": 1,
+   "source": "following",
+   "category": "founder",
+   "added": "2026-05-31"
+  },
+  {
+   "handle": "Imaginary_Ones",
+   "tier": 1,
+   "source": "following",
+   "category": "founder",
+   "added": "2026-05-31"
+  },
+  {
+   "handle": "RyanHoliday",
+   "tier": 1,
+   "source": "following",
+   "category": "writer",
+   "added": "2026-05-31"
+  },
+  {
+   "handle": "PalmerLuckey",
+   "tier": 1,
+   "source": "following",
+   "category": "founder",
+   "added": "2026-05-31"
+  },
+  {
+   "handle": "TrungTPhan",
+   "tier": 1,
+   "source": "following",
+   "category": "writer|creator",
+   "added": "2026-05-31"
+  },
+  {
+   "handle": "alexisohanian",
+   "tier": 1,
+   "source": "discovery",
+   "category": "founder",
+   "added": "2026-05-31"
+  },
+  {
+   "handle": "gregisenberg",
+   "tier": 1,
+   "source": "following",
+   "category": "founder",
+   "added": "2026-05-31"
+  },
+  {
+   "handle": "thejustinwelsh",
+   "tier": 1,
+   "source": "following",
+   "category": "creator",
+   "added": "2026-05-31"
+  },
+  {
+   "handle": "orangebook",
+   "tier": 1,
+   "source": "following",
+   "category": "creator",
+   "added": "2026-05-31"
+  },
+  {
+   "handle": "aaditsh",
+   "tier": 1,
+   "source": "following",
+   "category": "creator",
+   "added": "2026-05-31"
+  },
+  {
+   "handle": "ShaanVP",
+   "tier": 1,
+   "source": "following",
+   "category": "creator",
+   "added": "2026-05-31"
+  },
+  {
+   "handle": "blakeaburge",
+   "tier": 1,
+   "source": "following",
+   "category": "creator",
+   "added": "2026-05-31"
+  },
+  {
+   "handle": "hardmaru",
+   "tier": 1,
+   "source": "following",
+   "category": "ai",
+   "added": "2026-05-31"
+  },
+  {
+   "handle": "matt_gray_",
+   "tier": 1,
+   "source": "following",
+   "category": "founder",
+   "added": "2026-05-31"
+  },
+  {
+   "handle": "shl",
+   "tier": 1,
+   "source": "following",
+   "category": "founder",
+   "added": "2026-05-31"
+  },
+  {
+   "handle": "thesamparr",
+   "tier": 1,
+   "source": "following",
+   "category": "founder",
+   "added": "2026-05-31"
+  },
+  {
+   "handle": "heyeaslo",
+   "tier": 1,
+   "source": "following",
+   "category": "creator",
+   "added": "2026-05-31"
+  },
+  {
+   "handle": "visualizevalue",
+   "tier": 1,
+   "source": "following",
+   "category": "creator",
+   "added": "2026-05-31"
+  },
+  {
+   "handle": "AlexAndBooks_",
+   "tier": 1,
+   "source": "following",
+   "category": "creator",
+   "added": "2026-05-31"
+  },
+  {
+   "handle": "AliAbdaal",
+   "tier": 1,
+   "source": "following",
+   "category": "creator",
+   "added": "2026-05-31"
+  },
+  {
+   "handle": "benedictevans",
+   "tier": 1,
+   "source": "following",
+   "category": "investor",
+   "added": "2026-05-31"
+  },
+  {
+   "handle": "patrick_oshag",
+   "tier": 1,
+   "source": "following",
+   "category": "investor",
+   "added": "2026-05-31"
+  },
+  {
+   "handle": "shreyas",
+   "tier": 1,
+   "source": "discovery",
+   "category": "founder",
+   "added": "2026-05-31"
+  },
+  {
+   "handle": "agazdecki",
+   "tier": 1,
+   "source": "following",
+   "category": "founder",
+   "added": "2026-05-31"
+  },
+  {
+   "handle": "businessbarista",
+   "tier": 1,
+   "source": "following",
+   "category": "founder",
+   "added": "2026-05-31"
+  },
+  {
+   "handle": "sivers",
+   "tier": 1,
+   "source": "following",
+   "category": "creator",
+   "added": "2026-05-31"
+  },
+  {
+   "handle": "WrongsToWrite",
+   "tier": 1,
+   "source": "following",
+   "category": "writer",
+   "added": "2026-05-31"
+  },
+  {
+   "handle": "zebulgar",
+   "tier": 1,
+   "source": "following",
+   "category": "founder",
+   "added": "2026-05-31"
+  },
+  {
+   "handle": "ItsKieranDrew",
+   "tier": 1,
+   "source": "following",
+   "category": "creator",
+   "added": "2026-05-31"
+  },
+  {
+   "handle": "GrammarHippy",
+   "tier": 1,
+   "source": "following",
+   "category": "creator|writer",
+   "added": "2026-05-31"
+  },
+  {
+   "handle": "ryanbreslow",
+   "tier": 1,
+   "source": "following",
+   "category": "founder",
+   "added": "2026-05-31"
+  },
+  {
+   "handle": "nasdaily",
+   "tier": 1,
+   "source": "following",
+   "category": "creator",
+   "added": "2026-05-31"
+  },
+  {
+   "handle": "viditaatrey",
+   "tier": 1,
+   "source": "following",
+   "category": "founder",
+   "added": "2026-05-31"
+  },
+  {
+   "handle": "jsngr",
+   "tier": 1,
+   "source": "discovery",
+   "category": "founder",
+   "added": "2026-05-31"
+  },
+  {
+   "handle": "KateBour",
+   "tier": 1,
+   "source": "following",
+   "category": "founder|creator",
+   "added": "2026-05-31"
+  },
+  {
+   "handle": "thatroblennon",
+   "tier": 1,
+   "source": "following",
+   "category": "founder|ai|product",
+   "added": "2026-05-31"
+  },
+  {
+   "handle": "rogie",
+   "tier": 1,
+   "source": "discovery",
+   "category": "creator",
+   "added": "2026-05-31"
+  },
+  {
+   "handle": "sweatystartup",
+   "tier": 2,
+   "source": "following",
+   "category": "founder|operator",
+   "added": "2026-05-31"
+  },
+  {
+   "handle": "dickiebush",
+   "tier": 2,
+   "source": "following",
+   "category": "creator",
+   "added": "2026-05-31"
+  },
+  {
+   "handle": "cursor_ai",
+   "tier": 2,
+   "source": "following",
+   "category": "ai",
+   "added": "2026-05-31"
+  },
+  {
+   "handle": "8ap",
+   "tier": 2,
+   "source": "discovery",
+   "category": "creator",
+   "added": "2026-05-31"
+  },
+  {
+   "handle": "george__mack",
+   "tier": 2,
+   "source": "following",
+   "category": "creator",
+   "added": "2026-05-31"
+  },
+  {
+   "handle": "waitin4agi_",
+   "tier": 2,
+   "source": "discovery",
+   "category": "creator",
+   "added": "2026-05-31"
+  },
+  {
+   "handle": "Julian",
+   "tier": 2,
+   "source": "following",
+   "category": "investor",
+   "added": "2026-05-31"
+  },
+  {
+   "handle": "heyBarsee",
+   "tier": 2,
+   "source": "following",
+   "category": "ai",
+   "added": "2026-05-31"
+  },
+  {
+   "handle": "nathanbaugh27",
+   "tier": 2,
+   "source": "following",
+   "category": "writer",
+   "added": "2026-05-31"
+  },
+  {
+   "handle": "wolfejosh",
+   "tier": 2,
+   "source": "following",
+   "category": "investor",
+   "added": "2026-05-31"
+  },
+  {
+   "handle": "goodside",
+   "tier": 2,
+   "source": "following",
+   "category": "ai",
+   "added": "2026-05-31"
+  },
+  {
+   "handle": "FoundersPodcast",
+   "tier": 2,
+   "source": "following",
+   "category": "founder",
+   "added": "2026-05-31"
+  },
+  {
+   "handle": "arvidkahl",
+   "tier": 2,
+   "source": "following",
+   "category": "founder",
+   "added": "2026-05-31"
+  },
+  {
+   "handle": "alexgarcia_atx",
+   "tier": 2,
+   "source": "following",
+   "category": "creator",
+   "added": "2026-05-31"
+  },
+  {
+   "handle": "Psy_of_Money",
+   "tier": 2,
+   "source": "following",
+   "category": "writer",
+   "added": "2026-05-31"
+  },
+  {
+   "handle": "ljin18",
+   "tier": 2,
+   "source": "following",
+   "category": "writer",
+   "added": "2026-05-31"
+  },
+  {
+   "handle": "JulianGoldieSEO",
+   "tier": 2,
+   "source": "following",
+   "category": "marketer",
+   "added": "2026-05-31"
+  },
+  {
+   "handle": "RomeenSheth",
+   "tier": 2,
+   "source": "following",
+   "category": "founder",
+   "added": "2026-05-31"
+  },
+  {
+   "handle": "BrettFromDJ",
+   "tier": 2,
+   "source": "following",
+   "category": "creator",
+   "added": "2026-05-31"
+  },
+  {
+   "handle": "aviralbhat",
+   "tier": 2,
+   "source": "following",
+   "category": "investor",
+   "added": "2026-05-31"
+  },
+  {
+   "handle": "wizofecom",
+   "tier": 2,
+   "source": "following",
+   "category": "marketer",
+   "added": "2026-05-31"
+  },
+  {
+   "handle": "chandrarsrikant",
+   "tier": 2,
+   "source": "discovery",
+   "category": "operator",
+   "added": "2026-05-31"
+  },
+  {
+   "handle": "adriankuleszo",
+   "tier": 2,
+   "source": "following",
+   "category": "designer",
+   "added": "2026-05-31"
+  },
+  {
+   "handle": "amandanat",
+   "tier": 2,
+   "source": "following",
+   "category": "marketer|creator",
+   "added": "2026-05-31"
+  },
+  {
+   "handle": "BrentBeshore",
+   "tier": 2,
+   "source": "following",
+   "category": "founder",
+   "added": "2026-05-31"
+  },
+  {
+   "handle": "BeingPractical",
+   "tier": 2,
+   "source": "following",
+   "category": "founder",
+   "added": "2026-05-31"
+  },
+  {
+   "handle": "arpit_bhayani",
+   "tier": 2,
+   "source": "following",
+   "category": "founder",
+   "added": "2026-05-31"
+  },
+  {
+   "handle": "_buildspace",
+   "tier": 2,
+   "source": "following",
+   "category": "creator",
+   "added": "2026-05-31"
+  },
+  {
+   "handle": "RobDance_",
+   "tier": 2,
+   "source": "following",
+   "category": "founder",
+   "added": "2026-05-31"
+  },
+  {
+   "handle": "acquiredotcom",
+   "tier": 2,
+   "source": "following",
+   "category": "founder",
+   "added": "2026-05-31"
+  },
+  {
+   "handle": "chiragbarjatya",
+   "tier": 2,
+   "source": "following",
+   "category": "founder",
+   "added": "2026-05-31"
+  },
+  {
+   "handle": "latasrinivasan",
+   "tier": 2,
+   "source": "following",
+   "category": "other",
+   "added": "2026-05-31"
+  },
+  {
+   "handle": "VaniKola",
+   "tier": 2,
+   "source": "following",
+   "category": "investor",
+   "added": "2026-05-31"
+  },
+  {
+   "handle": "AcquiredFM",
+   "tier": 2,
+   "source": "following",
+   "category": "creator",
+   "added": "2026-05-31"
+  },
+  {
+   "handle": "TheKenWeb",
+   "tier": 2,
+   "source": "following",
+   "category": "other",
+   "added": "2026-05-31"
+  },
+  {
+   "handle": "tanayj",
+   "tier": 2,
+   "source": "following",
+   "category": "investor",
+   "added": "2026-05-31"
+  },
+  {
+   "handle": "financewsharan",
+   "tier": 2,
+   "source": "following",
+   "category": "founder",
+   "added": "2026-05-31"
+  },
+  {
+   "handle": "TheProductfolks",
+   "tier": 2,
+   "source": "discovery",
+   "category": "operator",
+   "added": "2026-05-31"
+  },
+  {
+   "handle": "BetaList",
+   "tier": 2,
+   "source": "following",
+   "category": "founder",
+   "added": "2026-05-31"
+  },
+  {
+   "handle": "theandreboso",
+   "tier": 2,
+   "source": "following",
+   "category": "marketer",
+   "added": "2026-05-31"
+  },
+  {
+   "handle": "acagamic",
+   "tier": 2,
+   "source": "following",
+   "category": "ai",
+   "added": "2026-05-31"
+  },
+  {
+   "handle": "honam",
+   "tier": 2,
+   "source": "following",
+   "category": "investor",
+   "added": "2026-05-31"
+  },
+  {
+   "handle": "MarketingMax",
+   "tier": 2,
+   "source": "following",
+   "category": "marketer|founder",
+   "added": "2026-05-31"
+  },
+  {
+   "handle": "roshanpateI",
+   "tier": 2,
+   "source": "following",
+   "category": "founder",
+   "added": "2026-05-31"
+  },
+  {
+   "handle": "femkesvs",
+   "tier": 2,
+   "source": "discovery",
+   "category": "designer",
+   "added": "2026-05-31"
+  },
+  {
+   "handle": "danmall",
+   "tier": 2,
+   "source": "discovery",
+   "category": "creator",
+   "added": "2026-05-31"
+  },
+  {
+   "handle": "Kalaari",
+   "tier": 2,
+   "source": "following",
+   "category": "investor",
+   "added": "2026-05-31"
+  },
+  {
+   "handle": "edtechdigest",
+   "tier": 2,
+   "source": "following",
+   "category": "edtech",
+   "added": "2026-05-31"
+  },
+  {
+   "handle": "FedotOff90",
+   "tier": 2,
+   "source": "following",
+   "category": "marketer",
+   "added": "2026-05-31"
+  },
+  {
+   "handle": "miggi",
+   "tier": 2,
+   "source": "discovery",
+   "category": "designer",
+   "added": "2026-05-31"
+  },
+  {
+   "handle": "BKartRed",
+   "tier": 2,
+   "source": "following",
+   "category": "investor",
+   "added": "2026-05-31"
+  },
+  {
+   "handle": "miten",
+   "tier": 2,
+   "source": "following",
+   "category": "founder",
+   "added": "2026-05-31"
+  },
+  {
+   "handle": "alexcornell",
+   "tier": 2,
+   "source": "discovery",
+   "category": "designer",
+   "added": "2026-05-31"
+  },
+  {
+   "handle": "dashboardlim",
+   "tier": 2,
+   "source": "following",
+   "category": "founder|ai",
+   "added": "2026-05-31"
+  },
+  {
+   "handle": "supermemory",
+   "tier": 2,
+   "source": "following",
+   "category": "ai",
+   "added": "2026-05-31"
+  },
+  {
+   "handle": "emergentlabs",
+   "tier": 2,
+   "source": "following",
+   "category": "founder",
+   "added": "2026-05-31"
+  },
+  {
+   "handle": "kushalbhagia",
+   "tier": 2,
+   "source": "following",
+   "category": "investor",
+   "added": "2026-05-31"
+  },
+  {
+   "handle": "hiunicornstudio",
+   "tier": 2,
+   "source": "following",
+   "category": "creator",
+   "added": "2026-05-31"
+  },
+  {
+   "handle": "sriramkri",
+   "tier": 2,
+   "source": "following",
+   "category": "investor",
+   "added": "2026-05-31"
+  },
+  {
+   "handle": "MIF_India",
+   "tier": 2,
+   "source": "following",
+   "category": "edtech|founder",
+   "added": "2026-05-31"
+  },
+  {
+   "handle": "bevenky",
+   "tier": 2,
+   "source": "following",
+   "category": "founder|ai",
+   "added": "2026-05-31"
+  },
+  {
+   "handle": "Seanfrank",
+   "tier": 3,
+   "source": "following",
+   "category": "founder",
+   "added": "2026-05-31"
+  },
+  {
+   "handle": "heyblake",
+   "tier": 3,
+   "source": "following",
+   "category": "writer",
+   "added": "2026-05-31"
+  },
+  {
+   "handle": "BRannegger",
+   "tier": 3,
+   "source": "following",
+   "category": "founder",
+   "added": "2026-05-31"
+  },
+  {
+   "handle": "loganstorti",
+   "tier": 3,
+   "source": "following",
+   "category": "marketer",
+   "added": "2026-05-31"
+  },
+  {
+   "handle": "JoinBlind",
+   "tier": 3,
+   "source": "following",
+   "category": "other",
+   "added": "2026-05-31"
+  },
+  {
+   "handle": "jain_harshit",
+   "tier": 3,
+   "source": "following",
+   "category": "operator",
+   "added": "2026-05-31"
+  },
+  {
+   "handle": "every",
+   "tier": 3,
+   "source": "following",
+   "category": "ai",
+   "added": "2026-05-31"
+  },
+  {
+   "handle": "SchmelebeckPPC",
+   "tier": 3,
+   "source": "following",
+   "category": "marketer",
+   "added": "2026-05-31"
+  },
+  {
+   "handle": "rosspower",
+   "tier": 3,
+   "source": "following",
+   "category": "founder",
+   "added": "2026-05-31"
+  },
+  {
+   "handle": "lukettobin",
+   "tier": 3,
+   "source": "following",
+   "category": "founder",
+   "added": "2026-05-31"
+  },
+  {
+   "handle": "ElevCap",
+   "tier": 3,
+   "source": "following",
+   "category": "investor",
+   "added": "2026-05-31"
+  },
+  {
+   "handle": "OnTheGrapevine",
+   "tier": 3,
+   "source": "following",
+   "category": "ai",
+   "added": "2026-05-31"
+  },
+  {
+   "handle": "CarlWeische",
+   "tier": 3,
+   "source": "following",
+   "category": "founder",
+   "added": "2026-05-31"
+  },
+  {
+   "handle": "amuldotexe",
+   "tier": 3,
+   "source": "following",
+   "category": "operator",
+   "added": "2026-05-31"
+  },
+  {
+   "handle": "VivanVatsa",
+   "tier": 3,
+   "source": "following",
+   "category": "founder",
+   "added": "2026-05-31"
+  },
+  {
+   "handle": "npparikh6",
+   "tier": 3,
+   "source": "discovery",
+   "category": "investor",
+   "added": "2026-05-31"
+  },
+  {
+   "handle": "AkshayNarisetti",
+   "tier": 3,
+   "source": "following",
+   "category": "founder",
+   "added": "2026-05-31"
+  },
+  {
+   "handle": "IstvanicMarin",
+   "tier": 3,
+   "source": "following",
+   "category": "marketer",
+   "added": "2026-05-31"
+  },
+  {
+   "handle": "philoedit",
+   "tier": 3,
+   "source": "following",
+   "category": "creator",
+   "added": "2026-05-31"
+  },
+  {
+   "handle": "sourfraser",
+   "tier": 3,
+   "source": "following",
+   "category": "marketer",
+   "added": "2026-05-31"
+  },
+  {
+   "handle": "theoscarhoole",
+   "tier": 3,
+   "source": "following",
+   "category": "marketer",
+   "added": "2026-05-31"
+  },
+  {
+   "handle": "oliverkenyon",
+   "tier": 3,
+   "source": "following",
+   "category": "marketer",
+   "added": "2026-05-31"
+  },
+  {
+   "handle": "vijayanands",
+   "tier": 3,
+   "source": "following",
+   "category": "founder",
+   "added": "2026-05-31"
+  },
+  {
+   "handle": "entrackr",
+   "tier": 3,
+   "source": "following",
+   "category": "founder",
+   "added": "2026-05-31"
+  },
+  {
+   "handle": "Shane___Martin",
+   "tier": 3,
+   "source": "following",
+   "category": "founder",
+   "added": "2026-05-31"
+  },
+  {
+   "handle": "faltoo",
+   "tier": 3,
+   "source": "discovery",
+   "category": "founder",
+   "added": "2026-05-31"
+  },
+  {
+   "handle": "vaibhavbetter",
+   "tier": 3,
+   "source": "following",
+   "category": "investor",
+   "added": "2026-05-31"
+  },
+  {
+   "handle": "_buildd",
+   "tier": 3,
+   "source": "following",
+   "category": "operator",
+   "added": "2026-05-31"
+  },
+  {
+   "handle": "ganeshsonawane",
+   "tier": 3,
+   "source": "following",
+   "category": "founder",
+   "added": "2026-05-31"
+  },
+  {
+   "handle": "oliverwhudson",
+   "tier": 3,
+   "source": "following",
+   "category": "marketer",
+   "added": "2026-05-31"
+  },
+  {
+   "handle": "bionicreading",
+   "tier": 3,
+   "source": "following",
+   "category": "creator",
+   "added": "2026-05-31"
+  },
+  {
+   "handle": "MotwaniSuhas",
+   "tier": 3,
+   "source": "following",
+   "category": "operator",
+   "added": "2026-05-31"
+  },
+  {
+   "handle": "keshavchan",
+   "tier": 3,
+   "source": "following",
+   "category": "designer",
+   "added": "2026-05-31"
+  },
+  {
+   "handle": "nrmangal",
+   "tier": 3,
+   "source": "discovery",
+   "category": "investor",
+   "added": "2026-05-31"
+  },
+  {
+   "handle": "context",
+   "tier": 3,
+   "source": "following",
+   "category": "ai",
+   "added": "2026-05-31"
+  },
+  {
+   "handle": "TheWriterWoman_",
+   "tier": 3,
+   "source": "following",
+   "category": "founder|marketer|creator",
+   "added": "2026-05-31"
+  },
+  {
+   "handle": "gaze_observer",
+   "tier": 3,
+   "source": "discovery",
+   "category": "investor",
+   "added": "2026-05-31"
+  },
+  {
+   "handle": "SashaMirchi",
+   "tier": 3,
+   "source": "following",
+   "category": "investor",
+   "added": "2026-05-31"
+  },
+  {
+   "handle": "rokhladnik",
+   "tier": 3,
+   "source": "following",
+   "category": "marketer",
+   "added": "2026-05-31"
+  },
+  {
+   "handle": "lossfunk",
+   "tier": 3,
+   "source": "following",
+   "category": "ai",
+   "added": "2026-05-31"
+  },
+  {
+   "handle": "damienghader",
+   "tier": 3,
+   "source": "following",
+   "category": "founder|creator",
+   "added": "2026-05-31"
+  },
+  {
+   "handle": "hirect_india",
+   "tier": 3,
+   "source": "following",
+   "category": "founder",
+   "added": "2026-05-31"
+  },
+  {
+   "handle": "arnav_kumar",
+   "tier": 3,
+   "source": "following",
+   "category": "founder",
+   "added": "2026-05-31"
+  },
+  {
+   "handle": "LessEgoMoreData",
+   "tier": 3,
+   "source": "following",
+   "category": "marketer",
+   "added": "2026-05-31"
+  },
+  {
+   "handle": "TheStartupTN",
+   "tier": 3,
+   "source": "following",
+   "category": "operator",
+   "added": "2026-05-31"
+  },
+  {
+   "handle": "_skris",
+   "tier": 3,
+   "source": "following",
+   "category": "founder",
+   "added": "2026-05-31"
+  },
+  {
+   "handle": "dtcpages",
+   "tier": 3,
+   "source": "following",
+   "category": "founder",
+   "added": "2026-05-31"
+  },
+  {
+   "handle": "aditichoprax",
+   "tier": 3,
+   "source": "following",
+   "category": "creator",
+   "added": "2026-05-31"
+  },
+  {
+   "handle": "thecaptableco",
+   "tier": 3,
+   "source": "following",
+   "category": "other",
+   "added": "2026-05-31"
+  },
+  {
+   "handle": "Bootstraprs",
+   "tier": 3,
+   "source": "following",
+   "category": "founder",
+   "added": "2026-05-31"
+  },
+  {
+   "handle": "CMX",
+   "tier": 3,
+   "source": "following",
+   "category": "creator",
+   "added": "2026-05-31"
+  },
+  {
+   "handle": "dvbydt",
+   "tier": 3,
+   "source": "following",
+   "category": "investor",
+   "added": "2026-05-31"
+  },
+  {
+   "handle": "kevinlu625",
+   "tier": 3,
+   "source": "following",
+   "category": "founder",
+   "added": "2026-05-31"
+  },
+  {
+   "handle": "sgourley",
+   "tier": 3,
+   "source": "following",
+   "category": "founder|ai",
+   "added": "2026-05-31"
+  },
+  {
+   "handle": "ombharatiya",
+   "tier": 3,
+   "source": "following",
+   "category": "ai",
+   "added": "2026-05-31"
+  },
+  {
+   "handle": "rchowdhri",
+   "tier": 3,
+   "source": "following",
+   "category": "investor",
+   "added": "2026-05-31"
+  },
+  {
+   "handle": "Anvartis1ng",
+   "tier": 3,
+   "source": "following",
+   "category": "marketer",
+   "added": "2026-05-31"
+  },
+  {
+   "handle": "abhshkdz",
+   "tier": 3,
+   "source": "following",
+   "category": "founder",
+   "added": "2026-05-31"
+  },
+  {
+   "handle": "Goyal4Gagan",
+   "tier": 3,
+   "source": "following",
+   "category": "investor",
+   "added": "2026-05-31"
+  },
+  {
+   "handle": "Primevp_in",
+   "tier": 3,
+   "source": "following",
+   "category": "investor",
+   "added": "2026-05-31"
+  },
+  {
+   "handle": "SinglaAnirudh",
+   "tier": 3,
+   "source": "following",
+   "category": "marketer",
+   "added": "2026-05-31"
+  },
+  {
+   "handle": "theadityadas",
+   "tier": 3,
+   "source": "following",
+   "category": "designer",
+   "added": "2026-05-31"
+  },
+  {
+   "handle": "RazorpayX",
+   "tier": 3,
+   "source": "following",
+   "category": "operator",
+   "added": "2026-05-31"
+  },
+  {
+   "handle": "ishankhatri_",
+   "tier": 3,
+   "source": "following",
+   "category": "marketer",
+   "added": "2026-05-31"
+  },
+  {
+   "handle": "MattOrlic",
+   "tier": 3,
+   "source": "following",
+   "category": "founder",
+   "added": "2026-05-31"
+  },
+  {
+   "handle": "cryptofelon",
+   "tier": 3,
+   "source": "following",
+   "category": "creator",
+   "added": "2026-05-31"
+  },
+  {
+   "handle": "EcomMame",
+   "tier": 3,
+   "source": "following",
+   "category": "founder",
+   "added": "2026-05-31"
+  },
+  {
+   "handle": "ikevinadams",
+   "tier": 3,
+   "source": "following",
+   "category": "creator",
+   "added": "2026-05-31"
+  },
+  {
+   "handle": "Adithpodhar",
+   "tier": 3,
+   "source": "following",
+   "category": "investor",
+   "added": "2026-05-31"
+  },
+  {
+   "handle": "adswithani",
+   "tier": 3,
+   "source": "following",
+   "category": "marketer",
+   "added": "2026-05-31"
+  },
+  {
+   "handle": "iKyu_HQ",
+   "tier": 3,
+   "source": "following",
+   "category": "creator",
+   "added": "2026-05-31"
+  },
+  {
+   "handle": "RohanPaliwal7",
+   "tier": 3,
+   "source": "following",
+   "category": "founder",
+   "added": "2026-05-31"
+  },
+  {
+   "handle": "rapperliftsbars",
+   "tier": 3,
+   "source": "discovery",
+   "category": "creator",
+   "added": "2026-05-31"
+  },
+  {
+   "handle": "pantea_pipar",
+   "tier": 3,
+   "source": "discovery",
+   "category": "creator",
+   "added": "2026-05-31"
+  },
+  {
+   "handle": "SatinTweety",
+   "tier": 3,
+   "source": "discovery",
+   "category": "creator",
+   "added": "2026-05-31"
+  },
+  {
+   "handle": "SommyWritesWeb3",
+   "tier": 3,
+   "source": "discovery",
+   "category": "creator",
+   "added": "2026-05-31"
+  },
+  {
+   "handle": "YAStartup",
+   "tier": 3,
+   "source": "following",
+   "category": "founder",
+   "added": "2026-05-31"
+  },
+  {
+   "handle": "solcomma",
+   "tier": 3,
+   "source": "discovery",
+   "category": "creator",
+   "added": "2026-05-31"
+  },
+  {
+   "handle": "dprank",
+   "tier": 3,
+   "source": "following",
+   "category": "other",
+   "added": "2026-05-31"
+  },
+  {
+   "handle": "nicholasychua",
+   "tier": 3,
+   "source": "following",
+   "category": "marketer",
+   "added": "2026-05-31"
+  },
+  {
+   "handle": "cem_verghese",
+   "tier": 3,
+   "source": "following",
+   "category": "operator",
+   "added": "2026-05-31"
+  },
+  {
+   "handle": "Mehhart",
+   "tier": 3,
+   "source": "discovery",
+   "category": "creator",
+   "added": "2026-05-31"
+  },
+  {
+   "handle": "at_altspace",
+   "tier": 3,
+   "source": "following",
+   "category": "other",
+   "added": "2026-05-31"
+  },
+  {
+   "handle": "tdmckinlay",
+   "tier": 3,
+   "source": "following",
+   "category": "marketer",
+   "added": "2026-05-31"
+  },
+  {
+   "handle": "sufiyangigani",
+   "tier": 3,
+   "source": "discovery",
+   "category": "founder",
+   "added": "2026-05-31"
+  },
+  {
+   "handle": "aniket_abncap",
+   "tier": 3,
+   "source": "discovery",
+   "category": "investor",
+   "added": "2026-05-31"
+  },
+  {
+   "handle": "HasanAHk5",
+   "tier": 3,
+   "source": "following",
+   "category": "marketer",
+   "added": "2026-05-31"
+  },
+  {
+   "handle": "PaidAdPrinciple",
+   "tier": 3,
+   "source": "following",
+   "category": "marketer",
+   "added": "2026-05-31"
+  },
+  {
+   "handle": "0xdrakey1",
+   "tier": 3,
+   "source": "discovery",
+   "category": "creator",
+   "added": "2026-05-31"
+  },
+  {
+   "handle": "north_star_says",
+   "tier": 3,
+   "source": "following",
+   "category": "founder|ai|operator",
+   "added": "2026-05-31"
+  },
+  {
+   "handle": "VeekshithCRai",
+   "tier": 3,
+   "source": "following",
+   "category": "founder|saas|creator",
+   "added": "2026-05-31"
+  },
+  {
+   "handle": "abewolke",
+   "tier": 3,
+   "source": "following",
+   "category": "founder",
+   "added": "2026-05-31"
+  },
+  {
+   "handle": "PagarBook",
+   "tier": 3,
+   "source": "following",
+   "category": "founder",
+   "added": "2026-05-31"
+  },
+  {
+   "handle": "TykeInvest",
+   "tier": 3,
+   "source": "following",
+   "category": "founder",
+   "added": "2026-05-31"
+  },
+  {
+   "handle": "dhruv_toshniwal",
+   "tier": 3,
+   "source": "discovery",
+   "category": "founder",
+   "added": "2026-05-31"
+  },
+  {
+   "handle": "LEO1__in",
+   "tier": 3,
+   "source": "following",
+   "category": "founder",
+   "added": "2026-05-31"
+  },
+  {
+   "handle": "muskjar",
+   "tier": 3,
+   "source": "discovery",
+   "category": "founder",
+   "added": "2026-05-31"
+  },
+  {
+   "handle": "jon_lerner",
+   "tier": 3,
+   "source": "discovery",
+   "category": "founder",
+   "added": "2026-05-31"
+  },
+  {
+   "handle": "AnirudhP",
+   "tier": 3,
+   "source": "following",
+   "category": "creator",
+   "added": "2026-05-31"
+  },
+  {
+   "handle": "curiouscartel",
+   "tier": 3,
+   "source": "following",
+   "category": "creator",
+   "added": "2026-05-31"
+  },
+  {
+   "handle": "rviranjansingh",
+   "tier": 3,
+   "source": "following",
+   "category": "founder|operator",
+   "added": "2026-05-31"
+  },
+  {
+   "handle": "7hundredand77",
+   "tier": 3,
+   "source": "discovery",
+   "category": "creator",
+   "added": "2026-05-31"
+  },
+  {
+   "handle": "realjackie_",
+   "tier": 3,
+   "source": "discovery",
+   "category": "creator",
+   "added": "2026-05-31"
+  },
+  {
+   "handle": "Varos_com",
+   "tier": 3,
+   "source": "following",
+   "category": "ai",
+   "added": "2026-05-31"
+  },
+  {
+   "handle": "LevelUp_edu",
+   "tier": 3,
+   "source": "following",
+   "category": "edtech|creator",
+   "added": "2026-05-31"
+  },
+  {
+   "handle": "crypt_shprd",
+   "tier": 3,
+   "source": "discovery",
+   "category": "marketer",
+   "added": "2026-05-31"
+  },
+  {
+   "handle": "humworkai",
+   "tier": 3,
+   "source": "following",
+   "category": "ai",
+   "added": "2026-05-31"
+  },
+  {
+   "handle": "averma12",
+   "tier": 3,
+   "source": "discovery",
+   "category": "ai",
+   "added": "2026-05-31"
+  },
+  {
+   "handle": "Aadhithya_D2003",
+   "tier": 3,
+   "source": "following",
+   "category": "ai",
+   "added": "2026-05-31"
+  },
+  {
+   "handle": "DanielGPT2022",
+   "tier": 3,
+   "source": "discovery",
+   "category": "creator",
+   "added": "2026-05-31"
+  },
+  {
+   "handle": "aryanghosh01",
+   "tier": 3,
+   "source": "following",
+   "category": "edtech|creator",
+   "added": "2026-05-31"
+  },
+  {
+   "handle": "maahinpuri",
+   "tier": 3,
+   "source": "following",
+   "category": "founder",
+   "added": "2026-05-31"
+  },
+  {
+   "handle": "derek_t_lo",
+   "tier": 3,
+   "source": "following",
+   "category": "founder",
+   "added": "2026-05-31"
+  },
+  {
+   "handle": "mercury_build",
+   "tier": 3,
+   "source": "following",
+   "category": "ai",
+   "added": "2026-05-31"
+  },
+  {
+   "handle": "savan_sanandiya",
+   "tier": 3,
+   "source": "following",
+   "category": "creator|filmmaker|india",
+   "added": "2026-05-31"
+  },
+  {
+   "handle": "itzmuaz_",
+   "tier": 3,
+   "source": "discovery",
+   "category": "creator",
+   "added": "2026-05-31"
+  },
+  {
+   "handle": "fwd_app",
+   "tier": 3,
+   "source": "following",
+   "category": "edtech",
+   "added": "2026-05-31"
+  },
+  {
+   "handle": "praseedjagan",
+   "tier": 3,
+   "source": "following",
+   "category": "operator",
+   "added": "2026-05-31"
+  },
+  {
+   "handle": "henryharboe",
+   "tier": 3,
+   "source": "discovery",
+   "category": "operator",
+   "added": "2026-05-31"
+  },
+  {
+   "handle": "bolstart",
+   "tier": 3,
+   "source": "following",
+   "category": "founder",
+   "added": "2026-05-31"
+  },
+  {
+   "handle": "DiptiNow",
+   "tier": 3,
+   "source": "discovery",
+   "category": "marketer",
+   "added": "2026-05-31"
+  },
+  {
+   "handle": "iamsmookherjee",
+   "tier": 3,
+   "source": "following",
+   "category": "creator",
+   "added": "2026-05-31"
+  },
+  {
+   "handle": "kichamurthy",
+   "tier": 3,
+   "source": "following",
+   "category": "founder",
+   "added": "2026-05-31"
+  },
+  {
+   "handle": "oshin_dre",
+   "tier": 3,
+   "source": "discovery",
+   "category": "creator",
+   "added": "2026-05-31"
+  },
+  {
+   "handle": "anjalibodempudi",
+   "tier": 3,
+   "source": "following",
+   "category": "marketer",
+   "added": "2026-05-31"
+  },
+  {
+   "handle": "YutikaGhiya",
+   "tier": 3,
+   "source": "following",
+   "category": "founder",
+   "added": "2026-05-31"
+  },
+  {
+   "handle": "pranavharihara1",
+   "tier": 3,
+   "source": "following",
+   "category": "creator",
+   "added": "2026-05-31"
+  },
+  {
+   "handle": "twinkle_barot_",
+   "tier": 3,
+   "source": "following",
+   "category": "founder|operator|ai",
+   "added": "2026-05-31"
+  },
+  {
+   "handle": "Riverwalk_VC",
+   "tier": 3,
+   "source": "following",
+   "category": "investor",
+   "added": "2026-05-31"
+  },
+  {
+   "handle": "shivam_11",
+   "tier": 3,
+   "source": "discovery",
+   "category": "founder",
+   "added": "2026-05-31"
+  },
+  {
+   "handle": "GauravGPunjabi",
+   "tier": 3,
+   "source": "following",
+   "category": "founder|writer|ai",
+   "added": "2026-05-31"
+  },
+  {
+   "handle": "RACHITBAJPAI7",
+   "tier": 3,
+   "source": "following",
+   "category": "writer",
+   "added": "2026-05-31"
+  },
+  {
+   "handle": "Level_Up_Film",
+   "tier": 3,
+   "source": "following",
+   "category": "creator|filmmaker",
+   "added": "2026-05-31"
+  },
+  {
+   "handle": "elixir_bash",
+   "tier": 3,
+   "source": "following",
+   "category": "ai|designer|creator",
+   "added": "2026-05-31"
+  },
+  {
+   "handle": "iz_izu_",
+   "tier": 3,
+   "source": "following",
+   "category": "creator",
+   "added": "2026-05-31"
+  },
+  {
+   "handle": "vikraanthmurali",
+   "tier": 3,
+   "source": "following",
+   "category": "creator",
+   "added": "2026-05-31"
+  },
+  {
+   "handle": "Poongundran",
+   "tier": 3,
+   "source": "following",
+   "category": "operator",
+   "added": "2026-05-31"
+  },
+  {
+   "handle": "NehaSharmatips",
+   "tier": 3,
+   "source": "following",
+   "category": "creator",
+   "added": "2026-05-31"
+  },
+  {
+   "handle": "monica_sethiya",
+   "tier": 3,
+   "source": "following",
+   "category": "product|creator",
+   "added": "2026-05-31"
+  },
+  {
+   "handle": "Hiresh1403",
+   "tier": 3,
+   "source": "following",
+   "category": "edtech|founder",
+   "added": "2026-05-31"
+  },
+  {
+   "handle": "AbhiramTvs",
+   "tier": 3,
+   "source": "following",
+   "category": "founder|creator",
+   "added": "2026-05-31"
+  },
+  {
+   "handle": "editor_kishore",
+   "tier": 3,
+   "source": "following",
+   "category": "creator|filmmaker",
+   "added": "2026-05-31"
+  },
+  {
+   "handle": "Sanuprakash_",
+   "tier": 3,
+   "source": "following",
+   "category": "marketer",
+   "added": "2026-05-31"
+  },
+  {
+   "handle": "Avinash51282795",
+   "tier": 3,
+   "source": "following",
+   "category": "creator",
+   "added": "2026-05-31"
+  }
+ ],
+ "_evaluated": [
+  "0xdrakey1",
+  "0xgaut",
+  "0xmend",
+  "11mahmoudali9g1",
+  "36kba9g1i9qt9p8",
+  "48lawsofpowerr",
+  "5cd2c3elz9nax0",
+  "7hundredand77",
+  "7rahulc",
+  "7screenstudio",
+  "8ap",
+  "__premkumar__",
+  "_buildd",
+  "_buildspace",
+  "_nithee___",
+  "_skris",
+  "aadhithya_d2003",
+  "aaditsh",
+  "aakashgupta",
+  "aakhanpp",
+  "aaronburnett",
+  "abewolke",
+  "abhijitashok21",
+  "abhiramtvs",
+  "abhisheksanth14",
+  "abhshkdz",
+  "acagamic",
+  "acquiredfm",
+  "acquiredotcom",
+  "adage",
+  "adampbry",
+  "adarshrjha",
+  "adithpodhar",
+  "aditichoprax",
+  "aditya_kondawar",
+  "adriankuleszo",
+  "adswithani",
+  "agazdecki",
+  "agustinlebron3",
+  "ajain112",
+  "akashwanie0dg",
+  "akhsy0dkk",
+  "akii_1031",
+  "akshaynarisetti",
+  "alanvibe",
+  "alecstapp",
+  "alexabelonix",
+  "alexandbooks_",
+  "alexandr_wang",
+  "alexcornell",
+  "alexgarcia_atx",
+  "alexhormozi",
+  "alexisohanian",
+  "aliabdaal",
+  "alsraiehou1438",
+  "amandanat",
+  "amanhasnoname_2",
+  "amasad",
+  "amuldotexe",
+  "an2_yea",
+  "andercot",
+  "andybudd",
+  "aniket_abncap",
+  "anirudhp",
+  "anjalibodempudi",
+  "ankurmittal",
+  "antoniopal4k",
+  "anuragwho",
+  "anushkkaayy",
+  "anvartis1ng",
+  "aphofer",
+  "aravsrinivas",
+  "arindam___paul",
+  "arnav_kumar",
+  "arnogau",
+  "arpit_bhayani",
+  "arsenal_fan02",
+  "arvidkahl",
+  "aryanghosh01",
+  "asia_decode2",
+  "at_altspace",
+  "ath1sh_k",
+  "atmoio",
+  "averma12",
+  "avinash51282795",
+  "aviralbhat",
+  "awardthistweet",
+  "aysemedran",
+  "bandanjot",
+  "banglani",
+  "barbaraker22157",
+  "basaveswart",
+  "basebrainhq",
+  "beingpractical",
+  "benedictevans",
+  "benjitaylor",
+  "berlin415304",
+  "betalist",
+  "bevenky",
+  "bhatnaturally",
+  "bhogleharsha",
+  "bijald",
+  "billlee",
+  "bindureddy",
+  "bionicreading",
+  "bkartred",
+  "blakeaburge",
+  "bluefroggnft",
+  "bolstart",
+  "boluwatifedeco",
+  "bootstraprs",
+  "brahma_4u",
+  "brannegger",
+  "brentbeshore",
+  "brettfromdj",
+  "brian_lovin",
+  "brivael",
+  "businessbarista",
+  "byersblake",
+  "captainqba",
+  "carlweische",
+  "carrollcre91139",
+  "carryhq_",
+  "cem_verghese",
+  "chadgelina",
+  "chadjanis",
+  "championswimmer",
+  "chandramoulik99",
+  "chandrarsrikant",
+  "charliioface",
+  "chinthanagababu",
+  "chiragbarjatya",
+  "cine_man_1",
+  "cipherstraus",
+  "cjhandmer",
+  "claudeai",
+  "cm3positive",
+  "cmanoramya",
+  "cmx",
+  "colejaczko",
+  "compound",
+  "context",
+  "crypt_shprd",
+  "cryptofelon",
+  "cryptosis1_web3",
+  "cthanaram1",
+  "curiouscartel",
+  "curiouskolandha",
+  "cursor_ai",
+  "damienghader",
+  "danielgpt2022",
+  "danmall",
+  "dashboardlim",
+  "david_perell",
+  "davidhoang",
+  "davidmarcus",
+  "daze91378",
+  "deedydas",
+  "deekshi64587092",
+  "deepakabbot",
+  "deepakshenoy",
+  "deityfnf",
+  "derek_t_lo",
+  "dffrnthq",
+  "dhanenthiran_r",
+  "dharmeshba",
+  "dhruv_toshniwal",
+  "dickiebush",
+  "dineshpaii",
+  "diptinow",
+  "dir_lokesh",
+  "djseo",
+  "dprank",
+  "dtcpages",
+  "dudespostingws",
+  "dv2o2va5s64oj5",
+  "dvassallo",
+  "dvbydt",
+  "ecom_cork",
+  "ecomaurelius",
+  "ecommame",
+  "ecomwithbrook",
+  "editor_kishore",
+  "edtechdigest",
+  "elevcap",
+  "elixir_bash",
+  "elonmusk",
+  "emergentlabs",
+  "emostaque",
+  "entrackr",
+  "ericzelikman",
+  "every",
+  "fafo_tv",
+  "faisalthemen",
+  "faisalziaanwer",
+  "faltoo",
+  "fchollet",
+  "fedotoff90",
+  "femkesvs",
+  "financewsharan",
+  "founderspodcast",
+  "fplclare",
+  "fundamentdao",
+  "fwd_app",
+  "gabbbarsingh",
+  "ganeshsonawane",
+  "gauravgpunjabi",
+  "gauravmunjal",
+  "gautamps25",
+  "gawatona1970",
+  "gaze_observer",
+  "gdb",
+  "gemalaurajgx",
+  "george__mack",
+  "gharkekalesh",
+  "gibsonbiddle",
+  "goodside",
+  "goyal4gagan",
+  "gramergolpo",
+  "grammarhippy",
+  "gregisenberg",
+  "gunatamilselvan",
+  "halohre",
+  "happyhappysameb",
+  "hardmaru",
+  "hasanahk5",
+  "henryharboe",
+  "heybarsee",
+  "heyblake",
+  "heyeaslo",
+  "hirect_india",
+  "hiresh1403",
+  "hiunicornstudio",
+  "hnshah",
+  "hofpost",
+  "honam",
+  "honnokou",
+  "hosseinkhoshra2",
+  "hubermanlab",
+  "humworkai",
+  "iamsmookherjee",
+  "iamtheshakthi",
+  "ibab",
+  "icccbeaapantony",
+  "iecrasea449609",
+  "ihuoma_chukwuuu",
+  "ikevinadams",
+  "ikyu_hq",
+  "imaginary_ones",
+  "imanthanjoshi",
+  "imvkohli",
+  "indiesoftwaredv",
+  "ipuneetgupta",
+  "iradhikagupta",
+  "ishankhatri_",
+  "istvanicmarin",
+  "itskierandrew",
+  "itzmuaz_",
+  "iz_izu_",
+  "jacobginsburg",
+  "jain_harshit",
+  "jasonbud",
+  "jasonyimco",
+  "jayanthan_jay",
+  "jeffreallyaaron",
+  "jenniferjoha3l",
+  "jenzenan",
+  "jingjing_li",
+  "jjenglert",
+  "jmspool",
+  "jmusk",
+  "jnnfir",
+  "johnroshan",
+  "joinblind",
+  "jon_lerner",
+  "jordanhaswings",
+  "joshuapnoq45",
+  "joulee",
+  "jsngr",
+  "jspujji",
+  "jtm7b705ni156d",
+  "julian",
+  "juliangoldieseo",
+  "justpit5",
+  "kalaari",
+  "kanglangjne4",
+  "kappturelights",
+  "karangi08464976",
+  "karrisaarinen",
+  "karthiksubbaraj",
+  "kartipc",
+  "kasoziedrini354",
+  "katebour",
+  "kennandavison",
+  "keshavchan",
+  "kevinlu625",
+  "khyatimaloo",
+  "kichamurthy",
+  "kirby999x",
+  "kongkamfvjr",
+  "kpaxs",
+  "kunalb11",
+  "kushalbhagia",
+  "kvschethan",
+  "kylejeong",
+  "latasrinivasan",
+  "laycounsellor",
+  "leninkarikaalan",
+  "lennysan",
+  "leo1__in",
+  "lessegomoredata",
+  "level_up_film",
+  "levelsio",
+  "levelup_ed",
+  "levelup_edu",
+  "lewishamilton",
+  "likeliot5u",
+  "lithteyfrlkq",
+  "ljin18",
+  "llisabethqzvh",
+  "lm_zheng",
+  "loayzaalani123",
+  "loganstorti",
+  "lorabbits",
+  "lossfunk",
+  "lsanger",
+  "lukettobin",
+  "maahinpuri",
+  "maasimazhai",
+  "mahikaa101",
+  "manan_0308",
+  "mani27065",
+  "manikpc2000",
+  "margzp2",
+  "marketingmax",
+  "markpinc",
+  "matt_gray_",
+  "matthew_lima1",
+  "mattorlic",
+  "maxgrant__",
+  "maxwellcopy",
+  "mdlmrx",
+  "mehhart",
+  "mercury_build",
+  "metaverse_up",
+  "mhdnihad14657",
+  "mif_india",
+  "miggi",
+  "milichab",
+  "millie_chauhan",
+  "milysayhi",
+  "ming_lan30006",
+  "missnamimt5",
+  "miten",
+  "mlada_in",
+  "mmmelyl",
+  "mnengechristo",
+  "monali_dambre",
+  "monica_sethiya",
+  "moonknight_szn",
+  "morningcontext",
+  "motivateme247",
+  "motwanisuhas",
+  "mouad4np",
+  "moxie",
+  "mrgirish",
+  "mukesh52319257",
+  "muskjar",
+  "nameisvijay07",
+  "nammavar11",
+  "nasdaily",
+  "nathanbaugh27",
+  "naval",
+  "nehasharmatips",
+  "nelsondilpkumar",
+  "nesmalrahman",
+  "niaahs20",
+  "nicholasychua",
+  "nikhilkamathcio",
+  "nikunjtaneja_",
+  "nithin0dha",
+  "nithyanathan14",
+  "nkaex",
+  "nnnikolqpantic",
+  "noahkagan",
+  "nolimitgains",
+  "nongaom25553",
+  "north_star_says",
+  "not_tejas14",
+  "notmadhesh",
+  "npparikh6",
+  "nrmangal",
+  "nullertam",
+  "nush_1320",
+  "nwowndkw",
+  "nysmeywh54842",
+  "obaroothniel512",
+  "ogbonna1879663",
+  "okanlaw28229606",
+  "oliverkenyon",
+  "oliverwhudson",
+  "ombharatiya",
+  "onthegrapevine",
+  "orangebook",
+  "oshin_dre",
+  "pagarbook",
+  "paidadprinciple",
+  "palmerluckey",
+  "pantea_pipar",
+  "paraschopra",
+  "parithig7",
+  "patio11",
+  "patrick_oshag",
+  "paulg",
+  "paulniklas8",
+  "pavithran_pc",
+  "philoedit",
+  "pimchayalwbv",
+  "pjsanukanth",
+  "pmarca",
+  "poongundran",
+  "prabhuvenkatesh",
+  "pranavharihara1",
+  "praseedjagan",
+  "prashbhat",
+  "primevp_in",
+  "prithinarayanan",
+  "prithivi__18",
+  "psy_of_money",
+  "psychologypost",
+  "raaghul_07",
+  "rachitbajpai7",
+  "radicaldevil7",
+  "ragavendraj",
+  "rahul_j_mathur",
+  "rahulgandu18149",
+  "rajdeep",
+  "rajshamani",
+  "rameshlaus",
+  "rapperliftsbars",
+  "ravihanda",
+  "ravisutanjani",
+  "razorpayx",
+  "rchowdhri",
+  "realjackie_",
+  "redbullduke69",
+  "redd2461reddy",
+  "richzou",
+  "ridd_design",
+  "ridhoddi5b",
+  "ritahatr",
+  "riverwalk_vc",
+  "robdance_",
+  "rogie",
+  "rohanpaliwal7",
+  "rokhladnik",
+  "romanecom",
+  "romeensheth",
+  "ronniescrewvala",
+  "rosessaar0ck",
+  "roshanpatei",
+  "rosspower",
+  "rossy73v",
+  "rregunzzzyt",
+  "rsms",
+  "rviranjansingh",
+  "ryanbreslow",
+  "ryangarcia",
+  "ryanholiday",
+  "saajjain",
+  "sahilbloom",
+  "sairamvedhanth",
+  "sajithpai",
+  "salil_sethi",
+  "salsabilawew3vz",
+  "sampullara",
+  "samxaug",
+  "sandeepmall",
+  "sandygrains",
+  "sanedhruv",
+  "sanuprakash_",
+  "sara_spangelo",
+  "sashamirchi",
+  "satintweety",
+  "savan_sanandiya",
+  "sawoor5h8",
+  "saxenasaheb",
+  "saybwala",
+  "sayhitomillie",
+  "sbikh",
+  "schmelebeckppc",
+  "schrep",
+  "sciencesayshq",
+  "scottbelsky",
+  "sdiamondtools",
+  "seanfrank",
+  "sebatheoracle",
+  "sekartweets",
+  "selvakiller",
+  "sgourley",
+  "shaa_inc",
+  "shaanvp",
+  "shane___martin",
+  "shaneparrish",
+  "shantanugoel",
+  "shawngold",
+  "shayne_coplan",
+  "shedazzl",
+  "shituserstory",
+  "shivam_11",
+  "shl",
+  "shobhitic",
+  "shreyas",
+  "shringi_vaidehi",
+  "siddd2209",
+  "sidin",
+  "singlaanirudh",
+  "sivagur85655300",
+  "sivers",
+  "skim2026",
+  "slashdot",
+  "sleighsmiomndv",
+  "snehasinghjj",
+  "solcomma",
+  "somjeednjj",
+  "sommywritesweb3",
+  "sourfraser",
+  "sriramkri",
+  "srpramanaa",
+  "stablemark_",
+  "sufiyangigani",
+  "suhail",
+  "sunnewstamil",
+  "supermemory",
+  "sureshdangi1",
+  "suriyaram97",
+  "svembu",
+  "sweatharajeshhh",
+  "sweatystartup",
+  "swyx",
+  "tamildetails",
+  "tanayj",
+  "tdmckinlay",
+  "teefah1010",
+  "tejaswinj",
+  "tejeshwi_sharma",
+  "tejhfilm",
+  "thahera4c",
+  "thalapa36006512",
+  "thaseas192809",
+  "thatroblennon",
+  "theadityadas",
+  "theakashanand",
+  "theandreboso",
+  "thebmr",
+  "theboystv",
+  "thecaptableco",
+  "thecinephiler",
+  "thedankoe",
+  "thehinducinema",
+  "thejordanray",
+  "thejustinwelsh",
+  "thekenweb",
+  "theoscarhoole",
+  "thepointscode",
+  "theproductfolks",
+  "thesamparr",
+  "thestartuptn",
+  "thestoicemperor",
+  "thewriterwoman_",
+  "thisiskhan9",
+  "todayinhistory",
+  "tollymasti",
+  "tombos21",
+  "translatemom",
+  "trungtphan",
+  "tssheth",
+  "ttorres",
+  "tunguz",
+  "tweetkaransingh",
+  "twinkle_barot_",
+  "tykeinvest",
+  "upadhyay_harsh1",
+  "v83301921",
+  "vaibhavbetter",
+  "vanikola",
+  "vanshi_agr",
+  "varos_com",
+  "varunmayya",
+  "vedhanth_sairam",
+  "veekshithcrai",
+  "veerachai666",
+  "venketramg",
+  "vibeheads",
+  "viditaatrey",
+  "vijayanands",
+  "vijayshekhar",
+  "vijayy_d",
+  "vikpai",
+  "vikraanthmurali",
+  "vinaykrsinghal",
+  "vinojhraj",
+  "visualizevalue",
+  "vivanvatsa",
+  "vladtenev",
+  "waitin4agi_",
+  "wanghaofei",
+  "waricrew",
+  "warikoo",
+  "whaletogether",
+  "wheau144579",
+  "withyoualways33",
+  "wizofecom",
+  "wolfejosh",
+  "wrongstowrite",
+  "xfieryskull",
+  "yabaji",
+  "yastartup",
+  "yearsprogress",
+  "ying11231",
+  "yutikaghiya",
+  "zebulgar",
+  "zishanahmad267",
+  "zrauje241517"
+ ]
+}

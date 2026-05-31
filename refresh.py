@@ -31,7 +31,7 @@ OPENAI_API_KEY = os.environ["OPENAI_API_KEY"]
 APIFY_ACTOR = "61RPP7dywgiy0JPD0"  # apidojo/tweet-scraper
 OPENAI_MODEL = "gpt-4.1-mini"  # cheap, fast, equally good for this task
 HOURS_LOOKBACK = 48  # widened from 24h — Tier 3 accounts don't post daily
-MAX_TWEETS_FETCH = 800
+MAX_TWEETS_FETCH = 1200  # raised for ~392-account list (was 800 at 109 accounts)
 
 # Tier budgets (replies per day, with buffer for SKIPs)
 TIER_BUDGET = {1: 8, 2: 14, 3: 10}
@@ -47,52 +47,23 @@ MUTE_KEYWORDS = [
     "crypto pump", "shitcoin", "doge to the moon", "memecoin",
 ]
 
-# 109 target accounts (Tier 1 / 2 / 3)
-HANDLES = [
-    # Tier 1 — 21 anchors
-    ("kunalb11", 1), ("Nithin0dha", 1), ("nikhilkamathcio", 1), ("RonnieScrewvala", 1),
-    ("warikoo", 1), ("SahilBloom", 1), ("vijayshekhar", 1), ("amasad", 1),
-    ("Suhail", 1), ("svembu", 1), ("deepakshenoy", 1), ("gauravmunjal", 1),
-    ("levelsio", 1), ("david_perell", 1), ("dvassallo", 1), ("rajshamani", 1),
-    ("Varunmayya", 1), ("mrgirish", 1), ("theAkashAnand", 1), ("PrashBhat", 1),
-    ("AravSrinivas", 1),
-    # Tier 2 — 45 adjacent operators
-    ("iRadhikaGupta", 2), ("paraschopra", 2), ("aakashgupta", 2), ("sidin", 2),
-    ("jspujji", 2), ("sbikh", 2), ("Rahul_J_Mathur", 2), ("aditya_kondawar", 2),
-    ("SandeepMall", 2), ("banglani", 2), ("sajithpai", 2), ("ravihanda", 2),
-    ("arindam___paul", 2), ("upadhyay_harsh1", 2), ("dharmeshba", 2), ("manan_0308", 2),
-    ("bhatnaturally", 2), ("alexabelonix", 2), ("AmanHasNoName_2", 2), ("saxenasaheb", 2),
-    ("shantanugoel", 2), ("vinaykrsinghal", 2), ("ThEbmr", 2), ("dineshpaii", 2),
-    ("lennysan", 2), ("hnshah", 2), ("joulee", 2), ("patio11", 2),
-    ("noahkagan", 2), ("swyx", 2), ("deedydas", 2), ("brian_lovin", 2),
-    ("karrisaarinen", 2), ("rsms", 2), ("ridd_design", 2), ("andybudd", 2),
-    ("davidhoang", 2), ("ttorres", 2), ("bandanjot", 2), ("gibsonbiddle", 2),
-    ("bindureddy", 2), ("Ajain112", 2), ("Ravisutanjani", 2), ("championswimmer", 2),
-    # Tier 3 — 43 rising voices
-    ("vikpai", 3), ("brahma_4u", 3), ("saybwala", 3), ("khyatimaloo", 3),
-    ("shobhitic", 3), ("mahikaa101", 3), ("nush_1320", 3), ("indiesoftwaredv", 3),
-    ("YABAJI", 3), ("7rahulc", 3), ("jasonyimco", 3), ("Vanshi_agr", 3),
-    ("monali_dambre", 3), ("iPuneetGupta", 3), ("cm3positive", 3), ("anuragwho", 3),
-    ("tssheth", 3), ("anushkkaayy", 3), ("stablemark_", 3), ("an2_yea", 3),
-    ("chadjanis", 3), ("kennandavison", 3), ("RomanEcom", 3), ("MaxGrant__", 3),
-    ("ecom_cork", 3), ("richzou", 3), ("kylejeong", 3), ("colejaczko", 3),
-    ("maxwellcopy", 3), ("SaneDhruv", 3), ("faisalziaanwer", 3), ("ankurmittal", 3),
-    ("nikunjtaneja_", 3), ("AgustinLebron3", 3), ("tejeshwi_sharma", 3), ("JJEnglert", 3),
-    ("Mlada_in", 3),
+# Target accounts now live in handles.json (locked "core" + auto-managed "synced").
+# The weekly sync-following workflow maintains the "synced" list from @rahul_reddy's follows.
+def _load_handles():
+    path = Path(__file__).parent / "handles.json"
+    data = json.loads(path.read_text(encoding="utf-8"))
+    out, seen = [], set()
+    for row in (data.get("core", []) + data.get("synced", [])):
+        h = row.get("handle", "").strip()
+        lo = h.lower()
+        if not h or lo in seen:
+            continue
+        seen.add(lo)
+        t = row.get("tier", 3)
+        out.append((h, t if t in (1, 2, 3) else 3))
+    return out
 
-    # Expanded 2026-05-17 — mined from Rahul's following list (strict operator-only)
-    ("fchollet", 1), ("alexandr_wang", 1), ("vladtenev", 1), ("slashdot", 1),
-    ("EMostaque", 1), ("tunguz", 1),
-    ("davidmarcus", 2), ("moxie", 2), ("shayne_coplan", 2), ("0xgaut", 2),
-    ("scottbelsky", 2), ("billlee", 2), ("Andercot", 2), ("benjitaylor", 2),
-    ("markpinc", 2), ("AlecStapp", 2), ("ibab", 2), ("schrep", 2),
-    ("brivael", 2), ("alanvibe", 2), ("lsanger", 2), ("CJHandmer", 2),
-    ("atmoio", 2), ("sara_spangelo", 2), ("milichab", 2), ("JasonBud", 2),
-    ("ericzelikman", 2), ("aaronburnett", 2), ("djseo", 2),
-    ("byersblake", 3), ("ying11231", 3), ("lm_zheng", 3), ("sampullara", 3),
-    ("wanghaofei", 3), ("jnnfir", 3), ("arnogau", 3), ("jmusk", 3),
-    ("adampbry", 3), ("shawngold", 3),
-]
+HANDLES = _load_handles()
 TIER_LOOKUP = {h.lower(): t for h, t in HANDLES}
 
 # Master Reply Prompt v2 — LOCKED
