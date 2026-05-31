@@ -33,7 +33,7 @@ jobs:
         run: |
           git config user.name "x-reply-engine-bot"
           git config user.email "bot@leveluplearning.in"
-          git add index.html state.json
+          git add index.html state.json metrics.json
           if git diff --staged --quiet; then
             echo "No changes to commit"
           else

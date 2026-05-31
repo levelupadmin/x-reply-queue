@@ -238,6 +238,20 @@
     display: flex; align-items: flex-start; gap: 8px;
   }
   .banner b { font-weight: 600; }
+
+  /* Growth widget */
+  .growth { margin: 14px 0 0; background: var(--surface); border: 0.5px solid var(--border); border-radius: var(--radius); padding: 12px 14px; }
+  .growth-row { display: flex; align-items: center; gap: 14px; }
+  .g-stat { display: flex; flex-direction: column; }
+  .g-num { font-size: 22px; font-weight: 600; line-height: 1; }
+  .g-lbl { font-size: 10px; color: var(--text-3); text-transform: uppercase; letter-spacing: 0.04em; margin-top: 3px; }
+  .g-delta { font-size: 11px; font-weight: 600; margin-top: 3px; }
+  .g-delta.up { color: var(--success); } .g-delta.flat { color: var(--text-mute); } .g-delta.down { color: var(--hot); }
+  .spark { flex: 1; height: 34px; max-width: 220px; }
+  .g-tierperf { display: flex; gap: 8px; margin-top: 10px; flex-wrap: wrap; }
+  .g-pill { font-size: 11px; background: var(--surface-2); border-radius: 6px; padding: 4px 8px; color: var(--text-2); }
+  .g-pill b { color: var(--text); }
+  .g-note { font-size: 11px; color: var(--text-mute); margin-top: 8px; }
 </style>
 </head>
 <body>
@@ -279,6 +293,19 @@
     <span aria-hidden="true">ⓘ</span>
     <div><b>1-tap reply:</b> Tap <b>Reply A/B on 𝕏</b>. The X app opens directly with the draft pre-filled and threaded. Hit Post. (Falls back to tweet URL with reply copied to clipboard if X app missing.) ✓ wraps any tweet whose author you've already replied to today (Author Diversity rule).</div>
   </div>
+
+  <section class="growth" id="growth" hidden aria-label="Your X growth">
+    <div class="growth-row">
+      <div class="g-stat">
+        <span class="g-num" id="g-followers">—</span>
+        <span class="g-lbl">followers</span>
+        <span class="g-delta" id="g-delta"></span>
+      </div>
+      <svg class="spark" id="g-spark" viewBox="0 0 220 34" preserveAspectRatio="none" aria-hidden="true"></svg>
+    </div>
+    <div class="g-tierperf" id="g-tierperf"></div>
+    <div class="g-note" id="g-note"></div>
+  </section>
 
   <div class="filters" role="tablist" aria-label="Filter tweets">
     <button class="chip" role="tab" aria-pressed="true" data-filter="ready">Reply-ready</button>
@@ -642,8 +669,52 @@ if ("serviceWorker" in navigator) {
   navigator.serviceWorker.register("sw.js").catch(e => console.log("SW reg failed:", e));
 }
 
+
+async function renderGrowth() {
+  try {
+    const m = await fetch("metrics.json?cb=" + Date.now()).then(r => r.ok ? r.json() : null);
+    if (!m || !Array.isArray(m.followers) || m.followers.length === 0) return;
+    const box = document.getElementById("growth");
+    const pts = m.followers;
+    const last = pts[pts.length - 1].followers;
+    const first = pts[0].followers;
+    document.getElementById("g-followers").textContent = last.toLocaleString();
+    const diff = last - first;
+    const dEl = document.getElementById("g-delta");
+    if (pts.length > 1) {
+      dEl.textContent = (diff > 0 ? "+" : "") + diff + " since " + pts[0].date;
+      dEl.className = "g-delta " + (diff > 0 ? "up" : diff < 0 ? "down" : "flat");
+    }
+    // sparkline
+    if (pts.length > 1) {
+      const vals = pts.map(p => p.followers);
+      const min = Math.min(...vals), max = Math.max(...vals), range = (max - min) || 1;
+      const W = 220, H = 34, pad = 3;
+      const coords = vals.map((v, i) => {
+        const x = pad + (i / (vals.length - 1)) * (W - 2 * pad);
+        const y = H - pad - ((v - min) / range) * (H - 2 * pad);
+        return x.toFixed(1) + "," + y.toFixed(1);
+      });
+      document.getElementById("g-spark").innerHTML =
+        '<polyline fill="none" stroke="#1d9bf0" stroke-width="2" stroke-linejoin="round" points="' + coords.join(" ") + '"/>';
+    }
+    // tier performance
+    const tp = m.tier_perf || {};
+    const tpEl = document.getElementById("g-tierperf");
+    const pills = Object.keys(tp).sort().map(t =>
+      `<span class="g-pill">T${t}: <b>${tp[t].avg_likes}</b> avg likes · ${tp[t].replies} replies</span>`).join("");
+    tpEl.innerHTML = pills;
+    const replyCount = m.replies ? Object.keys(m.replies).length : 0;
+    document.getElementById("g-note").textContent = replyCount
+      ? `Tracking ${replyCount} of your recent replies.`
+      : "No replies tracked yet — reply to a few accounts and your performance by tier shows up here.";
+    box.hidden = false;
+  } catch (e) { /* metrics optional */ }
+}
+
 updateStats();
 render();
+renderGrowth();
 </script>
 </body>
 </html>

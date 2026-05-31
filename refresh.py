@@ -31,7 +31,8 @@ OPENAI_API_KEY = os.environ["OPENAI_API_KEY"]
 APIFY_ACTOR = "61RPP7dywgiy0JPD0"  # apidojo/tweet-scraper
 OPENAI_MODEL = "gpt-4.1-mini"  # cheap, fast, equally good for this task
 HOURS_LOOKBACK = 48  # widened from 24h — Tier 3 accounts don't post daily
-MAX_TWEETS_FETCH = 1200  # raised for ~392-account list (was 800 at 109 accounts)
+MAX_TWEETS_FETCH = 1200  # per-run tweet ceiling across all accounts
+SELF_HANDLE = "rahul_reddy"  # Rahul's own account, for growth + reply tracking  # raised for ~392-account list (was 800 at 109 accounts)
 
 # Tier budgets (replies per day, with buffer for SKIPs)
 TIER_BUDGET = {1: 8, 2: 14, 3: 10}
@@ -358,6 +359,81 @@ def render_html(data_obj, generated_at, ready_count, skip_count):
 
 
 # ============================================================================
+# SELF TRACKING (follower growth + reply outcomes)  -> metrics.json
+# ============================================================================
+
+def _au_followers(au):
+    for k in ("followers", "followersCount", "followers_count"):
+        if au.get(k) is not None:
+            try: return int(au[k])
+            except Exception: pass
+    return None
+
+def track_self():
+    """Scrape Rahul's own recent timeline once per run: capture his follower
+    count and any replies he posted (with engagement) for outcome tracking.
+    Wrapped so any failure here never breaks the core refresh."""
+    url = f"https://api.apify.com/v2/acts/{APIFY_ACTOR}/run-sync-get-dataset-items?token={APIFY_TOKEN}"
+    items = http_json(url, data={"twitterHandles": [SELF_HANDLE], "maxItems": 40, "sort": "Latest"}, timeout=120)
+    followers = None
+    replies = []
+    for t in items:
+        if not isinstance(t, dict):
+            continue
+        au = t.get("author") or {}
+        if (au.get("userName") or "").lower() == SELF_HANDLE:
+            f = _au_followers(au)
+            if f is not None:
+                followers = f
+        target = t.get("inReplyToUserName") or t.get("in_reply_to_screen_name") or t.get("inReplyToUser")
+        text = t.get("fullText") or t.get("text") or ""
+        if target and target.lower() != SELF_HANDLE and not text.startswith("RT @"):
+            tier = TIER_LOOKUP.get((target or "").lower()) if target else None
+            replies.append({
+                "id": str(t.get("id") or ""),
+                "ts": t.get("createdAt"),
+                "target": target,
+                "tier": tier,
+                "text": text[:120],
+                "likes": int(t.get("likeCount", 0) or 0),
+                "replies": int(t.get("replyCount", 0) or 0),
+                "retweets": int(t.get("retweetCount", 0) or 0),
+                "url": t.get("url"),
+            })
+    return followers, replies
+
+def update_metrics(followers, replies, now):
+    path = Path(__file__).parent / "metrics.json"
+    try:
+        m = json.loads(path.read_text(encoding="utf-8"))
+    except Exception:
+        m = {}
+    m.setdefault("followers", [])
+    m.setdefault("replies", {})
+    today = now.date().isoformat()
+    if followers is not None:
+        m["followers"] = [x for x in m["followers"] if x.get("date") != today]
+        m["followers"].append({"date": today, "followers": followers})
+        m["followers"] = sorted(m["followers"], key=lambda x: x["date"])[-180:]
+    for r in replies:
+        if r.get("id"):
+            m["replies"][r["id"]] = r  # upsert -> engagement refreshes each run
+    # keep the 50 most-recent tracked replies (Twitter ids sort by time)
+    keep = sorted(m["replies"].keys(), key=lambda k: int(k) if k.isdigit() else 0, reverse=True)[:50]
+    m["replies"] = {k: m["replies"][k] for k in keep}
+    # tier performance summary (only where target tier known)
+    from collections import defaultdict
+    agg = defaultdict(lambda: {"n": 0, "likes": 0})
+    for v in m["replies"].values():
+        if v.get("tier"):
+            agg[v["tier"]]["n"] += 1
+            agg[v["tier"]]["likes"] += v.get("likes", 0)
+    m["tier_perf"] = {str(t): {"replies": a["n"], "avg_likes": round(a["likes"]/a["n"], 1)} for t, a in agg.items() if a["n"]}
+    m["updated"] = now.isoformat()
+    path.write_text(json.dumps(m, ensure_ascii=False, indent=1), encoding="utf-8")
+    return m
+
+# ============================================================================
 # MAIN
 # ============================================================================
 
@@ -420,6 +496,14 @@ def main():
         "hot_5": [{"handle": d["handle"], "text": d["text"][:200]} for d in top_hot],
     }
     Path(__file__).parent.joinpath("state.json").write_text(json.dumps(state, indent=2))
+
+    # Self tracking (never let it break the core refresh)
+    try:
+        followers, my_replies = track_self()
+        update_metrics(followers, my_replies, now)
+        log(f"Self-tracking: followers={followers}, replies tracked={len(my_replies)}")
+    except Exception as e:
+        log(f"Self-tracking skipped: {e}")
 
     log("DONE")
 
