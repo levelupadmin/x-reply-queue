@@ -23,7 +23,7 @@ OPENAI_API_KEY= os.environ.get("OPENAI_API_KEY", "")
 X_HANDLE      = os.environ.get("X_HANDLE", "rahul_reddy")
 APIDOJO_USER_SCRAPER = "V38PZzpEgOfeeWvZY"
 MODEL = "gpt-4.1-mini"
-MIN_SAFE_FOLLOWS = 50   # below this, treat scrape as failed -> no removals/adds
+MIN_SAFE_FOLLOWS = 200  # @rahul_reddy follows ~293; below this = failed/partial scrape -> abort
 
 ROOT = Path(__file__).parent
 HANDLES_PATH = ROOT / "handles.json"
@@ -125,14 +125,17 @@ def main():
                 added+=1
 
     # REMOVE: source="following" rows no longer followed (core & discovery untouched)
-    before=len(synced)
-    kept=[]
-    removed=[]
-    for s in synced:
-        lo=s["handle"].lower()
-        if s.get("source")=="following" and lo not in follows:
-            removed.append(s["handle"]); continue
-        kept.append(s)
+    foll_rows=[s for s in synced if s.get("source")=="following"]
+    would_remove=[s for s in foll_rows if s["handle"].lower() not in follows]
+    cap=max(10, int(0.15*len(foll_rows)))   # guard: don't let one flaky scrape erode the list
+    if len(would_remove) > cap:
+        log(f"SAFETY: scrape would remove {len(would_remove)} of {len(foll_rows)} following-rows (> cap {cap}). Likely partial scrape; skipping removals.")
+        removed=[]
+        kept=synced
+    else:
+        removed=[s["handle"] for s in would_remove]
+        rm=set(removed)
+        kept=[s for s in synced if s["handle"] not in rm]
     synced=kept
 
     # recompute meta + write

@@ -38,5 +38,8 @@ jobs:
             echo "No changes to commit"
           else
             git commit -m "Auto-refresh $(date -u +'%Y-%m-%d %H:%M UTC')"
-            git push
+            for i in 1 2 3; do
+              git pull --rebase --autostash origin main && git push && break
+              echo "push retry $i"; sleep 4
+            done
           fi
