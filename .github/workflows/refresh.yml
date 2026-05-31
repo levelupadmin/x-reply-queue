@@ -43,3 +43,15 @@ jobs:
               echo "push retry $i"; sleep 4
             done
           fi
+
+      - name: Send push notifications
+        if: success()
+        continue-on-error: true
+        env:
+          VAPID_PUBLIC_KEY: ${{ secrets.VAPID_PUBLIC_KEY }}
+          VAPID_PRIVATE_KEY: ${{ secrets.VAPID_PRIVATE_KEY }}
+          VAPID_SUBJECT: ${{ secrets.VAPID_SUBJECT }}
+          PUSH_SUBS_TOKEN: ${{ secrets.PUSH_SUBS_TOKEN }}
+        run: |
+          npm i web-push@3 --no-save --silent
+          node send_push.js

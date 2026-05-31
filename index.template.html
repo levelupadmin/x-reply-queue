@@ -252,6 +252,13 @@
   .g-pill { font-size: 11px; background: var(--surface-2); border-radius: 6px; padding: 4px 8px; color: var(--text-2); }
   .g-pill b { color: var(--text); }
   .g-note { font-size: 11px; color: var(--text-mute); margin-top: 8px; }
+
+  .pushbtn { background: var(--surface); color: var(--text-2); border: 0.5px solid var(--border-2);
+    height: 36px; padding: 0 12px; border-radius: 18px; font-size: 13px; font-weight: 500;
+    cursor: pointer; display: inline-flex; align-items: center; gap: 6px; margin-left: auto; font-family: inherit; }
+  .pushbtn:active { transform: scale(0.96); }
+  .pushbtn.on { background: var(--success-bg); color: var(--success); border-color: #86efac; }
+  header .refresh { margin-left: 8px; }
 </style>
 </head>
 <body>
@@ -263,6 +270,7 @@
       <h1>X reply queue</h1>
       <div class="meta" id="meta-line"></div>
     </div>
+    <button class="pushbtn" id="btn-push" hidden aria-label="Enable notifications">🔔 Alerts</button>
     <button class="refresh" id="btn-refresh" aria-label="Refresh queue">
       <span class="spin" aria-hidden="true">↻</span>
       <span class="refresh-label">Refresh</span>
@@ -712,9 +720,47 @@ async function renderGrowth() {
   } catch (e) { /* metrics optional */ }
 }
 
+
+// ---- Push notifications ----
+const VAPID_PUBLIC_KEY = "BGxW8B3erUXZrwN-VLRZezYU_IWUmis23DvWJtgt2e_7XMzJ1RTDLOxpb2WEnbDK3ZN5VRI7pkWbDKNAPbHt_F0";
+function urlB64ToUint8Array(b64) {
+  const pad = "=".repeat((4 - b64.length % 4) % 4);
+  const base = (b64 + pad).replace(/-/g, "+").replace(/_/g, "/");
+  const raw = atob(base);
+  return Uint8Array.from([...raw].map(c => c.charCodeAt(0)));
+}
+function pushSupported() { return ("serviceWorker" in navigator) && ("PushManager" in window) && ("Notification" in window); }
+function updatePushBtn() {
+  const b = document.getElementById("btn-push");
+  if (!b) return;
+  if (!pushSupported()) { b.hidden = true; return; }
+  b.hidden = false;
+  const on = Notification.permission === "granted" && localStorage.getItem("push_enabled") === "1";
+  b.textContent = on ? "🔔 On" : "🔔 Alerts";
+  b.classList.toggle("on", on);
+}
+async function enablePush() {
+  try {
+    if (!pushSupported()) {
+      showToast("Add this app to your Home Screen first, then enable alerts.", 3500);
+      return;
+    }
+    const perm = await Notification.requestPermission();
+    if (perm !== "granted") { showToast("Notifications not allowed", 2500); return; }
+    const reg = await navigator.serviceWorker.ready;
+    const sub = await reg.pushManager.subscribe({ userVisibleOnly: true, applicationServerKey: urlB64ToUint8Array(VAPID_PUBLIC_KEY) });
+    await fetch(`${REFRESH_PROXY}/subscribe`, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(sub) });
+    localStorage.setItem("push_enabled", "1");
+    updatePushBtn();
+    showToast("Alerts on ✓ You'll get a ping when the morning batch lands.", 3500);
+  } catch (e) { showToast("Could not enable: " + e.message, 3500); }
+}
+document.getElementById("btn-push")?.addEventListener("click", enablePush);
+
 updateStats();
 render();
 renderGrowth();
+updatePushBtn();
 </script>
 </body>
 </html>

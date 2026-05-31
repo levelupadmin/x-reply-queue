@@ -1,6 +1,6 @@
 // Service Worker for X Reply Queue
 // Caches the main HTML so the app loads instantly even offline (showing last-cached batch).
-const VERSION = "v3-2026-05-17";
+const VERSION = "v4-2026-06-01-push";
 const CACHE = "x-reply-queue-" + VERSION;
 const SCOPE = "/x-reply-queue/";
 const CORE = [
@@ -51,4 +51,26 @@ self.addEventListener("fetch", (event) => {
       return res;
     }))
   );
+});
+
+// ---- Push notifications ----
+self.addEventListener("push", (event) => {
+  let data = { title: "X reply queue", body: "New replies ready", url: SCOPE };
+  try { if (event.data) data = { ...data, ...event.data.json() }; } catch (e) {}
+  event.waitUntil(self.registration.showNotification(data.title, {
+    body: data.body,
+    icon: SCOPE + "icon-192.png",
+    badge: SCOPE + "icon-192.png",
+    data: { url: data.url || SCOPE },
+    tag: "x-reply-batch"
+  }));
+});
+
+self.addEventListener("notificationclick", (event) => {
+  event.notification.close();
+  const target = (event.notification.data && event.notification.data.url) || SCOPE;
+  event.waitUntil(clients.matchAll({ type: "window", includeUncontrolled: true }).then((wins) => {
+    for (const w of wins) { if (w.url.includes(SCOPE) && "focus" in w) return w.focus(); }
+    return clients.openWindow(target);
+  }));
 });
