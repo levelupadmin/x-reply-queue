@@ -1,11 +1,11 @@
 {
-  "lastRefresh": "2026-05-31T17:59:49.111407+00:00",
+  "lastRefresh": "2026-06-01T06:08:35.520838+00:00",
   "ready": 27,
-  "skipped": 12,
+  "skipped": 14,
   "by_tier": {
-    "1": 6,
-    "2": 13,
-    "3": 8
+    "1": 5,
+    "2": 12,
+    "3": 10
   },
   "hot_5": [
     {
@@ -13,20 +13,20 @@
       "text": "\ud83d\ude2d\ud83d\ude2d\ud83d\ude2d\ud83d\ude2d\n5.9 foot is not 5\u20199 height."
     },
     {
-      "handle": "sidin",
-      "text": "So far, 15 out of the 18 IPLs have been won by teams named after specific cities. Only three times has it been won by teams named after anything else."
+      "handle": "karrisaarinen",
+      "text": "The fallacy of this is that more creates more. More hours, more hiring, more something.\n\nAnd it is true in a sense. If you put in more work, more work will happen. But I think for most startups, the l"
     },
     {
       "handle": "aakashgupta",
       "text": "Mark Hamill spent almost thirty years insisting this scene was never filmed.\n\nIt was. In a cave on Tatooine, Luke snaps the final piece into his new lightsaber, ignites the green blade for the first t"
     },
     {
-      "handle": "karrisaarinen",
-      "text": "The fallacy of this is that more creates more. More hours, more hiring, more something.\n\nAnd it is true in a sense. If you put in more work, more work will happen. But I think for most startups, the l"
+      "handle": "sidin",
+      "text": "So far, 15 out of the 18 IPLs have been won by teams named after specific cities. Only three times has it been won by teams named after anything else."
     },
     {
-      "handle": "SahilBloom",
-      "text": "Life advice nobody told you: Violent consistency is the only path to achieve what you want.\n\nIt's not going to be pretty. It's not going to draw oohs and aahs from the crowd. Because it looks messy in"
+      "handle": "swyx",
+      "text": "every evals/analytics startup is going through a onetime generational upgrade into a continual learning platform in 2026\n\nmany will fail but as always the tasteful ones win"
     }
   ]
 }
