@@ -1,25 +1,20 @@
 {
  "_meta": {
   "x_handle": "rahul_reddy",
-  "updated": "2026-05-31",
+  "updated": "2026-06-07",
   "note": "core = locked hand-picked accounts, never auto-removed. synced = auto-managed: source 'following' rows are added/removed by sync-following.yml based on who @rahul_reddy follows; source 'discovery' rows are sticky seeds.",
   "counts": {
    "core": 141,
-   "synced": 251,
-   "total": 392,
-   "core_by_tier": {
-    "1": 27,
-    "2": 67,
-    "3": 47
-   },
+   "synced": 262,
+   "total": 403,
    "synced_by_tier": {
-    "1": 46,
-    "2": 61,
-    "3": 144
+    "1": 48,
+    "2": 63,
+    "3": 151
    },
    "synced_by_source": {
     "discovery": 42,
-    "following": 209
+    "following": 220
    }
   }
  },
@@ -2346,6 +2341,83 @@
    "source": "following",
    "category": "creator",
    "added": "2026-05-31"
+  },
+  {
+   "handle": "JasonDigital",
+   "tier": 3,
+   "source": "following",
+   "category": "",
+   "added": "2026-06-07"
+  },
+  {
+   "handle": "CindyXBi",
+   "tier": 3,
+   "source": "following",
+   "category": "",
+   "added": "2026-06-07"
+  },
+  {
+   "handle": "gaganbiyani",
+   "tier": 2,
+   "source": "following",
+   "category": "",
+   "added": "2026-06-07"
+  },
+  {
+   "handle": "sjs_day1",
+   "tier": 2,
+   "source": "following",
+   "category": "",
+   "added": "2026-06-07"
+  },
+  {
+   "handle": "SharmaShradha",
+   "tier": 1,
+   "source": "following",
+   "category": "",
+   "added": "2026-06-07"
+  },
+  {
+   "handle": "mikhilraj",
+   "tier": 3,
+   "source": "following",
+   "category": "",
+   "added": "2026-06-07"
+  },
+  {
+   "handle": "ankurnagpal",
+   "tier": 1,
+   "source": "following",
+   "category": "",
+   "added": "2026-06-07"
+  },
+  {
+   "handle": "ayushshekhar17",
+   "tier": 3,
+   "source": "following",
+   "category": "",
+   "added": "2026-06-07"
+  },
+  {
+   "handle": "abhayjani4",
+   "tier": 3,
+   "source": "following",
+   "category": "",
+   "added": "2026-06-07"
+  },
+  {
+   "handle": "ishaanpreet",
+   "tier": 3,
+   "source": "following",
+   "category": "",
+   "added": "2026-06-07"
+  },
+  {
+   "handle": "iamratsiyer",
+   "tier": 3,
+   "source": "following",
+   "category": "",
+   "added": "2026-06-07"
   }
  ],
  "_evaluated": [
@@ -2371,6 +2443,7 @@
   "aakhanpp",
   "aaronburnett",
   "abewolke",
+  "abhayjani4",
   "abhijitashok21",
   "abhiramtvs",
   "abhisheksanth14",
@@ -2415,6 +2488,7 @@
   "anirudhp",
   "anjalibodempudi",
   "ankurmittal",
+  "ankurnagpal",
   "antoniopal4k",
   "anuragwho",
   "anushkkaayy",
@@ -2437,6 +2511,7 @@
   "aviralbhat",
   "awardthistweet",
   "aysemedran",
+  "ayushshekhar17",
   "bandanjot",
   "banglani",
   "barbaraker22157",
@@ -2481,6 +2556,7 @@
   "charliioface",
   "chinthanagababu",
   "chiragbarjatya",
+  "cindyxbi",
   "cine_man_1",
   "cipherstraus",
   "cjhandmer",
@@ -2554,6 +2630,7 @@
   "fundamentdao",
   "fwd_app",
   "gabbbarsingh",
+  "gaganbiyani",
   "ganeshsonawane",
   "gauravgpunjabi",
   "gauravmunjal",
@@ -2563,10 +2640,12 @@
   "gdb",
   "gemalaurajgx",
   "george__mack",
+  "getfrontrow",
   "gharkekalesh",
   "gibsonbiddle",
   "goodside",
   "goyal4gagan",
+  "gracerandolph",
   "gramergolpo",
   "grammarhippy",
   "gregisenberg",
@@ -2589,6 +2668,7 @@
   "hosseinkhoshra2",
   "hubermanlab",
   "humworkai",
+  "iamratsiyer",
   "iamsmookherjee",
   "iamtheshakthi",
   "ibab",
@@ -2603,6 +2683,7 @@
   "indiesoftwaredv",
   "ipuneetgupta",
   "iradhikagupta",
+  "ishaanpreet",
   "ishankhatri_",
   "istvanicmarin",
   "itskierandrew",
@@ -2611,6 +2692,7 @@
   "jacobginsburg",
   "jain_harshit",
   "jasonbud",
+  "jasondigital",
   "jasonyimco",
   "jayanthan_jay",
   "jeffreallyaaron",
@@ -2697,6 +2779,7 @@
   "mhdnihad14657",
   "mif_india",
   "miggi",
+  "mikhilraj",
   "milichab",
   "millie_chauhan",
   "milysayhi",
@@ -2765,6 +2848,7 @@
   "paulg",
   "paulniklas8",
   "pavithran_pc",
+  "philisgrace",
   "philoedit",
   "pimchayalwbv",
   "pjsanukanth",
@@ -2854,6 +2938,7 @@
   "shane___martin",
   "shaneparrish",
   "shantanugoel",
+  "sharmashradha",
   "shawngold",
   "shayne_coplan",
   "shedazzl",
@@ -2868,6 +2953,7 @@
   "singlaanirudh",
   "sivagur85655300",
   "sivers",
+  "sjs_day1",
   "skim2026",
   "slashdot",
   "sleighsmiomndv",
@@ -2970,6 +3056,7 @@
   "yearsprogress",
   "ying11231",
   "yutikaghiya",
+  "zacksnyder",
   "zebulgar",
   "zishanahmad267",
   "zrauje241517"
