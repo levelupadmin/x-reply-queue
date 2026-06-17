@@ -1,13 +1,21 @@
 {
-  "lastRefresh": "2026-06-16T06:36:45.133533+00:00",
+  "lastRefresh": "2026-06-17T06:20:24.731286+00:00",
   "ready": 26,
-  "skipped": 14,
+  "skipped": 15,
   "by_tier": {
-    "1": 7,
-    "2": 9,
-    "3": 10
+    "1": 10,
+    "2": 12,
+    "3": 4
   },
   "hot_5": [
+    {
+      "handle": "levelsio",
+      "text": "My biggest shock today was that America still has post offices, like ones you can actually walk into with your stuff and package it and they help you send it out\n\nWe don't have them in most of Europe "
+    },
+    {
+      "handle": "SahilBloom",
+      "text": "A mentor once told me this: Just be unapologetically yourself. The moment you start filtering yourself to be liked is the moment you start attracting relationships that need constant maintenance. Do y"
+    },
     {
       "handle": "colejaczko",
       "text": "Never underestimate the impact you can have in someone\u2019s life\n\nA random fan woke up one morning to go support his favorite driver who hadn\u2019t been himself lately . He simply shouted out amongst the cro"
@@ -17,16 +25,8 @@
       "text": "It takes exactly 90 days for a lifestyle change to shift your baseline biology. Your current energy, focus, and mood aren't a reflection of \"who you are\"; they are just a result of your last 3 months."
     },
     {
-      "handle": "levelsio",
-      "text": "Remembering the 3 days I had access to Fable https://t.co/CDQIwv3fa9"
-    },
-    {
       "handle": "amasad",
-      "text": "This is the most inspiring positive-sum vision for AI in the enterprise."
-    },
-    {
-      "handle": "AmanHasNoName_2",
-      "text": "Americans dont care if Indians love baseball. \nNew Zealand doesn't care if India loves Rugby.\n\nWhy is my entire timeline filled with Indians dissing cricket fans about the world not loving Cricket?"
+      "text": "Who needs Fable when you can have Mistral\u2019s Le Chaton Fat"
     }
   ]
 }
