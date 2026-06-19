@@ -1,32 +1,32 @@
 {
-  "lastRefresh": "2026-06-18T05:59:40.048487+00:00",
-  "ready": 25,
-  "skipped": 16,
+  "lastRefresh": "2026-06-19T06:24:21.647607+00:00",
+  "ready": 23,
+  "skipped": 18,
   "by_tier": {
-    "1": 8,
-    "2": 11,
+    "1": 7,
+    "2": 10,
     "3": 6
   },
   "hot_5": [
     {
+      "handle": "Nithin0dha",
+      "text": "I lost a fitness bet, and I'm happy I lost this one. https://t.co/xhR3XSC9Yn"
+    },
+    {
+      "handle": "levelsio",
+      "text": "I don't know if it's placebo but using Fable for those few days it felt it just never gave up on problems and kept trying crazy ways to get whatever you wanted done. Now back on Opus and it's kinda la"
+    },
+    {
       "handle": "SahilBloom",
-      "text": "A mentor once told me this: Just be unapologetically yourself. The moment you start filtering yourself to be liked is the moment you start attracting relationships that need constant maintenance. Do y"
+      "text": "Career advice nobody told you: There's nothing more valuable than someone who can just figure it out. Do some work. Ask the key questions. Get it done. Repeat. If you do that, people will fight over y"
     },
     {
-      "handle": "rajshamani",
-      "text": "In today\u2019s world, deep focus is a rare luxury asset. The market pays a massive premium for undivided attention in a hyper-distracted era."
+      "handle": "nush_1320",
+      "text": "Saw a 33 year old in Nagavara today.\nOwns a \u20b920 lakh car, Still lives in a PG. \nBangalore maths is a different syllabus fr."
     },
     {
-      "handle": "shobhitic",
-      "text": "did your parents come back home for lunch in the middle of their work day when you were young?\n\ni keep hearing people say this, but i never experienced it\n\nis it really true that people used to do tha"
-    },
-    {
-      "handle": "paraschopra",
-      "text": "There\u2019s a plausible version of our future where AI completely destroys the thinking capacity for the majority of population, with most humans reduced to pressing enter or swiping up.\n\nThe allure to no"
-    },
-    {
-      "handle": "warikoo",
-      "text": "I have restarted my career 4 times. \nPhysicist, consultant, founder, creator. \n\nEach time people said I was throwing away what I had built. \nI was 24, then 29, then 35, then 40. \n\nThe only skill that "
+      "handle": "AravSrinivas",
+      "text": "Context graphs will be the best way for businesses to enable and deploy agentic harnesses. There's a lot of context fragmentation across so many different tools in every company. A god-mode view that "
     }
   ]
 }
