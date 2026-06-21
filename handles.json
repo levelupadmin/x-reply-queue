@@ -1,7 +1,7 @@
 {
  "_meta": {
   "x_handle": "rahul_reddy",
-  "updated": "2026-06-14",
+  "updated": "2026-06-21",
   "note": "core = locked hand-picked accounts, never auto-removed. synced = auto-managed: source 'following' rows are added/removed by sync-following.yml based on who @rahul_reddy follows; source 'discovery' rows are sticky seeds.",
   "counts": {
    "core": 141,
@@ -9,8 +9,8 @@
    "total": 403,
    "synced_by_tier": {
     "1": 48,
-    "2": 63,
-    "3": 151
+    "2": 64,
+    "3": 150
    },
    "synced_by_source": {
     "discovery": 42,
@@ -2126,13 +2126,6 @@
    "added": "2026-05-31"
   },
   {
-   "handle": "mercury_build",
-   "tier": 3,
-   "source": "following",
-   "category": "ai",
-   "added": "2026-05-31"
-  },
-  {
    "handle": "savan_sanandiya",
    "tier": 3,
    "source": "following",
@@ -2418,6 +2411,13 @@
    "source": "following",
    "category": "",
    "added": "2026-06-07"
+  },
+  {
+   "handle": "hridoyreh",
+   "tier": 2,
+   "source": "following",
+   "category": "",
+   "added": "2026-06-21"
   }
  ],
  "_evaluated": [
@@ -2494,6 +2494,7 @@
   "anushkkaayy",
   "anvartis1ng",
   "aphofer",
+  "aprilmom9",
   "aravsrinivas",
   "arindam___paul",
   "arnav_kumar",
@@ -2666,6 +2667,7 @@
   "honam",
   "honnokou",
   "hosseinkhoshra2",
+  "hridoyreh",
   "hubermanlab",
   "humworkai",
   "iamratsiyer",
@@ -2828,6 +2830,7 @@
   "nush_1320",
   "nwowndkw",
   "nysmeywh54842",
+  "oasishq",
   "obaroothniel512",
   "ogbonna1879663",
   "okanlaw28229606",
@@ -2871,6 +2874,7 @@
   "rahulgandu18149",
   "rajdeep",
   "rajshamani",
+  "ramanddhiman",
   "rameshlaus",
   "rapperliftsbars",
   "ravihanda",
