@@ -1,32 +1,32 @@
 {
-  "lastRefresh": "2026-06-25T05:09:33.278802+00:00",
+  "lastRefresh": "2026-06-26T05:13:29.006448+00:00",
   "ready": 23,
   "skipped": 18,
   "by_tier": {
-    "1": 10,
-    "2": 7,
-    "3": 6
+    "1": 7,
+    "2": 9,
+    "3": 7
   },
   "hot_5": [
     {
-      "handle": "svembu",
-      "text": "The monsoon has been weak this year. Our ponds are not even half full and normally they are brimming during this month.\n\nWe do not want to do deep borewell based farming.\n\nWe are shifting to crops tha"
+      "handle": "levelsio",
+      "text": "A fun exercise is exporting your 5+ year of chat logs and putting it in Claude Code to do psychoanalysis of yourself"
     },
     {
       "handle": "SahilBloom",
-      "text": "I\u2019m increasingly convinced that the ultimate sign of growth is faster recovery. You still get upset. You still make mistakes. You still have bad days. But you return to center faster. Apologize faster"
+      "text": "Life advice nobody told you: Fear feeds on inaction. The longer you wait to act, the stronger your fear becomes. When you take action, you starve fear of the oxygen it needs to survive. The answer is "
     },
     {
-      "handle": "levelsio",
-      "text": "Insane\n\n@sundarpichai you should rehire and then promote him, these are the people Google needs!"
-    },
-    {
-      "handle": "Nithin0dha",
-      "text": "I watched Pyramid Scheme on Prime last weekend. It brought back a lot of memories of what it feels like to be stuck in one when the scheme goes bust.\n\nWhen I started my career at ~18, I was trying to "
+      "handle": "deepakshenoy",
+      "text": "Credit growth in India has touched 18% after a while!\n \nIt's a 10 year high on credit growth. Good in the sense that the trend is higher, and that it will create more growth in the future. https://t.c"
     },
     {
       "handle": "rajshamani",
       "text": "Constantly switching your daily routines is a hidden coping mechanism for avoiding deep work. A new start gives your brain a cheap rush of hope without forcing you to face your real limits."
+    },
+    {
+      "handle": "david_perell",
+      "text": "Andrew Stanton is the director of Toy Story 5. \n\nHe was Pixar's 2nd animator, and also directed WALL-E and Finding Nemo, which both won the Oscar for Best Animated Feature.\n\nMy favorite lesson from th"
     }
   ]
 }
