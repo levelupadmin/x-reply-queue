@@ -1,32 +1,32 @@
 {
-  "lastRefresh": "2026-06-26T05:13:29.006448+00:00",
-  "ready": 23,
-  "skipped": 18,
+  "lastRefresh": "2026-06-29T05:55:28.617967+00:00",
+  "ready": 24,
+  "skipped": 17,
   "by_tier": {
-    "1": 7,
-    "2": 9,
-    "3": 7
+    "1": 5,
+    "2": 11,
+    "3": 8
   },
   "hot_5": [
     {
-      "handle": "levelsio",
-      "text": "A fun exercise is exporting your 5+ year of chat logs and putting it in Claude Code to do psychoanalysis of yourself"
-    },
-    {
-      "handle": "SahilBloom",
-      "text": "Life advice nobody told you: Fear feeds on inaction. The longer you wait to act, the stronger your fear becomes. When you take action, you starve fear of the oxygen it needs to survive. The answer is "
-    },
-    {
-      "handle": "deepakshenoy",
-      "text": "Credit growth in India has touched 18% after a while!\n \nIt's a 10 year high on credit growth. Good in the sense that the trend is higher, and that it will create more growth in the future. https://t.c"
+      "handle": "vijayshekhar",
+      "text": "1,000 deaths due to heatwave \ud83d\ude33\ud83d\ude33\nIn first world economy. \ud83d\ude10"
     },
     {
       "handle": "rajshamani",
-      "text": "Constantly switching your daily routines is a hidden coping mechanism for avoiding deep work. A new start gives your brain a cheap rush of hope without forcing you to face your real limits."
+      "text": "Your brain requires 72 hours of absolute digital disconnection to completely reset its background baseline. 3 days spent entirely away from your screen fundamentally alter your nervous system. You ret"
     },
     {
-      "handle": "david_perell",
-      "text": "Andrew Stanton is the director of Toy Story 5. \n\nHe was Pixar's 2nd animator, and also directed WALL-E and Finding Nemo, which both won the Oscar for Best Animated Feature.\n\nMy favorite lesson from th"
+      "handle": "vikpai",
+      "text": "If you don\u2019t drink or like to eat at restaurants there is literally nothing to do in Bangalore for entertainment"
+    },
+    {
+      "handle": "shantanugoel",
+      "text": "Did @atomberg_tech just launch ACs? \ud83e\udd2f\n\nNo, but Bangalore weather doesn't need them anyways most of the time, but what it does need is a way to control the fan speeds automatically as the nights can be"
+    },
+    {
+      "handle": "hnshah",
+      "text": "Om made his friends feel like worlds worth visiting. Rest in peace, my friend. I\u2019ll see you again. https://t.co/VRLoEHUUL8"
     }
   ]
 }
