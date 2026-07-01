@@ -1,32 +1,32 @@
 {
-  "lastRefresh": "2026-06-30T05:09:39.701233+00:00",
-  "ready": 27,
-  "skipped": 14,
+  "lastRefresh": "2026-07-01T05:27:09.036555+00:00",
+  "ready": 18,
+  "skipped": 23,
   "by_tier": {
-    "1": 9,
-    "2": 13,
+    "1": 3,
+    "2": 10,
     "3": 5
   },
   "hot_5": [
     {
-      "handle": "svembu",
-      "text": "Very honored to meet the Honourable Governor of Tamil Nadu, Thiru Rajendra Vishwanath Arlekar Avl. in Chennai today.\n\nI invited him to visit our rural campus in Tenkasi to showcase our technology and "
+      "handle": "shantanugoel",
+      "text": "That Digital Arrest scam?\nIt will now say \"MumbaiCrimeBranch\" instead of a +92 number that you could recognize!\nFun!!"
     },
     {
-      "handle": "vijayshekhar",
-      "text": "1,000 deaths due to heatwave \ud83d\ude33\ud83d\ude33\nIn first world economy. \ud83d\ude10"
+      "handle": "amasad",
+      "text": "AI is expensive to run partly because most workloads today run on generic hardware designed pre-LLMs. Etched is the first system designed from the ground up for modern inference."
     },
     {
       "handle": "rajshamani",
       "text": "Constantly talking about your past struggles becomes an excuse to avoid taking responsibility for your future. It feels safe to blame your upbringing or your environment because fixing your current re"
     },
     {
-      "handle": "SahilBloom",
-      "text": "Here's something everyone should do: Record a video interview with your parents. Ask about their childhood adventures. Their worst regrets. Their hopes, dreams, and fears. Advice they wish they learne"
+      "handle": "paraschopra",
+      "text": "I tried ditching typing for speaking using AI tools but something always felt off. Typing (or writing) gives you a buffer in the head to think, revise and explore thoughts in a way that speaking doesn"
     },
     {
-      "handle": "levelsio",
-      "text": "What people suspect is indeed true\n\nNegative content performs much better\n\nAbout 1.5x better than positive content\n\nBut curious content (like hacky projects) comes in second, which is great news for m"
+      "handle": "SahilBloom",
+      "text": "Here's something everyone should do: Record a video interview with your parents. Ask about their childhood adventures. Their worst regrets. Their hopes, dreams, and fears. Advice they wish they learne"
     }
   ]
 }
