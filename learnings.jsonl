@@ -14,3 +14,4 @@
 {"ts":"2026-06-29T11:33:58.922Z","tweetId":"2071443419554365772","handle":"hnshah","tier":2,"mode":"HUMAN_REPLY","variant":"A","action":"reply_click"}
 {"ts":"2026-06-30T17:14:41.831Z","tweetId":"2071802448801661081","handle":"arindam___paul","tier":2,"mode":"HUMAN_REPLY","variant":"A","action":"reply_click"}
 {"ts":"2026-07-02T14:24:17.251Z","tweetId":"CONTRACT_PROBE","handle":"test","tier":1,"mode":"RECEIPT","variant":"A","action":"test"}
+{"action": "offered", "ts": "2026-07-02T16:28:17.382092+00:00", "counts": {"RECEIPT": 17, "SHARPENER": 55, "HONEST_QUESTION": 31, "HUMAN_REPLY": 21}, "ready": 35, "by_tier": {"1": {"RECEIPT": 9, "SHARPENER": 7, "HONEST_QUESTION": 6, "HUMAN_REPLY": 3}, "2": {"RECEIPT": 7, "SHARPENER": 25, "HONEST_QUESTION": 13, "HUMAN_REPLY": 6}, "3": {"SHARPENER": 23, "HONEST_QUESTION": 12, "HUMAN_REPLY": 12, "SHORT PUNCHY": 1, "RECEIPT": 1}}}

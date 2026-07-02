@@ -4,13 +4,13 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, user-scalable=yes">
 <title>X Reply Queue · @rahul_reddy</title>
-<meta name="description" content="Daily X reply drafts. Tap Reply A/B and X opens with your draft pre-filled.">
+<meta name="description" content="Daily X reply drafts. Tap a variant, tweak it, and X opens with your draft pre-filled.">
 
 <!-- PWA -->
 <link rel="manifest" href="manifest.json">
-<meta name="theme-color" content="#1c1917" media="(prefers-color-scheme: light)">
-<meta name="theme-color" content="#1c1917" media="(prefers-color-scheme: dark)">
-<meta name="color-scheme" content="light">
+<meta name="theme-color" content="#fafaf9" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0c0a09" media="(prefers-color-scheme: dark)">
+<meta name="color-scheme" content="light dark">
 
 <!-- iOS PWA -->
 <meta name="apple-mobile-web-app-capable" content="yes">
@@ -20,12 +20,8 @@
 <link rel="icon" type="image/png" sizes="192x192" href="icon-192.png">
 <link rel="icon" type="image/png" sizes="512x512" href="icon-512.png">
 
-<!-- Iframe-friendly: explicitly allow embedding -->
-<meta http-equiv="Content-Security-Policy" content="frame-ancestors *">
-
 <style>
   :root {
-    color-scheme: light;
     --bg: #fafaf9;
     --surface: #ffffff;
     --surface-2: #f5f5f4;
@@ -37,18 +33,28 @@
     --text-mute: #a8a29e;
     --accent: #1d9bf0;
     --accent-2: #1a8cd8;
+    --accent-ink: #ffffff;
     --success: #16a34a;
     --success-bg: #f0fdf4;
+    --success-border: #86efac;
     --warn: #b45309;
     --warn-bg: #fef3c7;
     --hot: #b91c1c;
     --hot-bg: #fee2e2;
+    --early: #7c3aed;
+    --early-bg: #f3e8ff;
     --info-bg: #eff6ff;
     --info-text: #1e40af;
+    --info-border: #bfdbfe;
     --t1-bg: #fef3c7; --t1-text: #92400e;
     --t2-bg: #dcfce7; --t2-text: #166534;
     --t3-bg: #dbeafe; --t3-text: #1e40af;
     --human-bg: #e0f2fe; --human-text: #075985;
+    --pick-bg: #fffbeb; --pick-border: #fcd34d;
+    --skip-bg: #fefbf6; --skip-border: #fde68a;
+    --human-card-bg: #f0f9ff; --human-card-border: #bae6fd;
+    --shadow: 0 8px 24px rgba(0,0,0,0.18);
+    --header-bg: rgba(250,250,249,0.92);
     --tap: 44px;
     --radius: 12px;
     --radius-sm: 8px;
@@ -56,7 +62,44 @@
     --safe-top: env(safe-area-inset-top, 0px);
     --safe-bottom: env(safe-area-inset-bottom, 0px);
   }
+  :root[data-theme="dark"] {
+    color-scheme: dark;
+    --bg: #0c0a09;
+    --surface: #1c1917;
+    --surface-2: #292524;
+    --border: #292524;
+    --border-2: #44403c;
+    --text: #f5f5f4;
+    --text-2: #d6d3d1;
+    --text-3: #a8a29e;
+    --text-mute: #78716c;
+    --accent: #1d9bf0;
+    --accent-2: #4bb3f5;
+    --accent-ink: #ffffff;
+    --success: #4ade80;
+    --success-bg: #14251a;
+    --success-border: #166534;
+    --warn: #fbbf24;
+    --warn-bg: #3a2e12;
+    --hot: #f87171;
+    --hot-bg: #3a1a1a;
+    --early: #c084fc;
+    --early-bg: #2a1a3d;
+    --info-bg: #16233a;
+    --info-text: #93c5fd;
+    --info-border: #1e3a5f;
+    --t1-bg: #3a2e12; --t1-text: #fcd34d;
+    --t2-bg: #14251a; --t2-text: #86efac;
+    --t3-bg: #16233a; --t3-text: #93c5fd;
+    --human-bg: #16233a; --human-text: #7dd3fc;
+    --pick-bg: #241f10; --pick-border: #6b5715;
+    --skip-bg: #1a1712; --skip-border: #453a1a;
+    --human-card-bg: #0f1b28; --human-card-border: #1e3a5f;
+    --shadow: 0 8px 24px rgba(0,0,0,0.5);
+    --header-bg: rgba(12,10,9,0.92);
+  }
   * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+  [hidden] { display: none !important; }
   html, body { margin: 0; padding: 0; }
   body {
     font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", system-ui, sans-serif;
@@ -67,14 +110,13 @@
   .sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; }
   a { color: inherit; }
 
-  /* Skip link for accessibility */
-  .skip-link { position: absolute; top: -40px; left: 0; background: var(--text); color: white; padding: 8px 12px; z-index: 1000; }
+  .skip-link { position: absolute; top: -40px; left: 0; background: var(--text); color: var(--bg); padding: 8px 12px; z-index: 1000; }
   .skip-link:focus { top: 0; }
 
   /* Sticky header */
   header.app {
     position: sticky; top: 0; z-index: 10;
-    background: rgba(250,250,249,0.92);
+    background: var(--header-bg);
     backdrop-filter: saturate(180%) blur(12px);
     -webkit-backdrop-filter: saturate(180%) blur(12px);
     border-bottom: 0.5px solid var(--border);
@@ -84,9 +126,10 @@
   .row.wrap { flex-wrap: wrap; }
   h1 { font-size: 18px; font-weight: 600; margin: 0; letter-spacing: -0.01em; }
   .meta { font-size: 11px; color: var(--text-3); margin-top: 2px; }
+  .meta.model-warn { color: var(--warn); }
+  .hdr-btns { margin-left: auto; display: flex; align-items: center; gap: 8px; }
   .refresh {
-    margin-left: auto;
-    background: var(--text); color: white; border: none;
+    background: var(--text); color: var(--bg); border: none;
     height: 36px; min-width: 36px; padding: 0 12px; border-radius: 18px;
     font-size: 13px; font-weight: 500; cursor: pointer;
     display: inline-flex; align-items: center; justify-content: center; gap: 6px;
@@ -95,6 +138,14 @@
   .refresh .spin { display: inline-block; }
   .refresh.spinning .spin { animation: spin 1s linear infinite; }
   @keyframes spin { to { transform: rotate(360deg); } }
+  .icon-btn {
+    background: var(--surface); color: var(--text-2); border: 0.5px solid var(--border-2);
+    height: 36px; min-width: 36px; padding: 0 10px; border-radius: 18px; font-size: 15px;
+    cursor: pointer; display: inline-flex; align-items: center; justify-content: center; gap: 6px;
+    font-family: inherit;
+  }
+  .icon-btn:active { transform: scale(0.96); }
+  .icon-btn.on { background: var(--success-bg); color: var(--success); border-color: var(--success-border); }
 
   /* Today widget */
   .today {
@@ -112,10 +163,25 @@
   /* Container */
   main { max-width: 760px; margin: 0 auto; padding: 0 16px 80px; }
 
+  /* Search */
+  .search-wrap { margin: 14px 0 0; position: relative; }
+  .search-wrap input {
+    width: 100%; height: 40px; padding: 0 36px 0 12px;
+    background: var(--surface); border: 0.5px solid var(--border-2);
+    border-radius: var(--radius-sm); font-size: 14px; color: var(--text);
+    font-family: inherit;
+  }
+  .search-wrap input::placeholder { color: var(--text-mute); }
+  .search-clear {
+    position: absolute; right: 6px; top: 50%; transform: translateY(-50%);
+    width: 28px; height: 28px; border: none; background: transparent; color: var(--text-3);
+    font-size: 16px; cursor: pointer; border-radius: 50%;
+  }
+
   /* Filters */
   .filters {
     display: flex; gap: 6px; overflow-x: auto;
-    margin: 14px 0 10px; padding: 2px;
+    margin: 12px 0 10px; padding: 2px;
     scrollbar-width: none;
   }
   .filters::-webkit-scrollbar { display: none; }
@@ -130,7 +196,7 @@
     transition: all 0.15s;
   }
   .chip:active { transform: scale(0.97); }
-  .chip[aria-pressed="true"] { background: var(--text); color: white; border-color: var(--text); }
+  .chip[aria-pressed="true"] { background: var(--text); color: var(--bg); border-color: var(--text); }
 
   /* Sort */
   .sort {
@@ -147,14 +213,35 @@
     padding-right: 32px;
   }
 
+  /* Section headings */
+  .sec-head {
+    display: flex; align-items: center; gap: 8px; margin: 6px 2px 10px;
+    font-size: 12px; font-weight: 600; color: var(--text-2);
+    text-transform: uppercase; letter-spacing: 0.04em;
+  }
+  .sec-head .count { color: var(--text-mute); font-weight: 500; }
+
+  /* Expander */
+  .expander {
+    width: 100%; height: 44px; margin: 4px 0 14px;
+    background: var(--surface); border: 0.5px solid var(--border-2);
+    border-radius: var(--radius-sm); color: var(--text-2); font-size: 13px; font-weight: 500;
+    cursor: pointer; font-family: inherit; display: flex; align-items: center; justify-content: center; gap: 8px;
+  }
+  .expander:active { transform: scale(0.99); }
+  .expander .caret { transition: transform 0.2s; }
+  .expander[aria-expanded="true"] .caret { transform: rotate(180deg); }
+
   /* Cards */
   .card {
     background: var(--surface); border: 0.5px solid var(--border);
     border-radius: var(--radius); padding: 14px; margin-bottom: 12px;
   }
-  .card.skip { background: #fefbf6; border-color: #fde68a; opacity: 0.72; }
-  .card.human { background: #f0f9ff; border-color: #bae6fd; }
-  .card.warn { border-color: #fcd34d; border-width: 1px; }
+  .card.pick { border-color: var(--pick-border); border-width: 1px; }
+  .card.skip { background: var(--skip-bg); border-color: var(--skip-border); opacity: 0.72; }
+  .card.human { background: var(--human-card-bg); border-color: var(--human-card-border); }
+  .card.warn { border-color: var(--warn); border-width: 1px; }
+  .card.dismissing { opacity: 0; transform: scale(0.96); transition: opacity 0.25s, transform 0.25s; }
   .card-head { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; margin-bottom: 6px; }
   .tag {
     display: inline-flex; align-items: center;
@@ -168,9 +255,13 @@
   .tag-skip { background: var(--surface-2); color: var(--text-3); }
   .tag-hot { background: var(--hot-bg); color: var(--hot); font-weight: 600; }
   .tag-velocity { background: var(--warn-bg); color: var(--warn); font-weight: 600; }
-  .tag-warn { background: #fef9c3; color: #854d0e; font-weight: 500; }
+  .tag-early { background: var(--early-bg); color: var(--early); font-weight: 600; }
+  .tag-fit { background: var(--surface-2); color: var(--text-2); font-weight: 600; }
+  .tag-warn { background: var(--warn-bg); color: var(--warn); font-weight: 500; }
   .author { font-weight: 500; color: var(--text); text-decoration: none; font-size: 14px; }
-  .author:focus-visible, .chip:focus-visible, .reply-btn:focus-visible, .btn-small:focus-visible, .open-btn:focus-visible, .refresh:focus-visible, select:focus-visible {
+  .author:focus-visible, .chip:focus-visible, .reply-btn:focus-visible, .btn-small:focus-visible,
+  .open-btn:focus-visible, .refresh:focus-visible, .icon-btn:focus-visible, .expander:focus-visible,
+  .card-act:focus-visible, select:focus-visible, input:focus-visible, textarea:focus-visible {
     outline: 2px solid var(--accent); outline-offset: 2px;
   }
   .author-meta { font-size: 11px; color: var(--text-3); }
@@ -181,20 +272,44 @@
     font-size: 14px; margin: 8px 0; white-space: pre-wrap; word-wrap: break-word;
   }
   .tweet-stats { font-size: 11px; color: var(--text-mute); margin-top: 4px; }
-  .why { font-size: 11px; color: var(--text-3); font-style: italic; margin: 8px 0 10px; padding: 5px 9px; background: var(--surface-2); border-radius: var(--radius-xs); }
+  .why { font-size: 11px; color: var(--text-3); font-style: italic; margin: 8px 0 10px; padding: 5px 9px; background: var(--surface-2); border-radius: var(--radius-xs); overflow-wrap: anywhere; word-break: break-word; }
+  .why b { font-style: normal; font-weight: 600; color: var(--text-2); }
+
+  /* Card action bar (snooze / dismiss) */
+  .card-actions { display: flex; gap: 6px; margin-top: 10px; }
+  .card-act {
+    font-size: 11px; padding: 0 10px; border-radius: var(--radius-xs);
+    border: 0.5px solid var(--border-2); background: var(--surface); color: var(--text-3);
+    min-height: 34px; cursor: pointer; font-family: inherit;
+    display: inline-flex; align-items: center; gap: 4px;
+  }
+  .card-act:active { transform: scale(0.97); }
 
   /* Variants */
   .variants { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 8px; }
   @media (max-width: 640px) { .variants { grid-template-columns: 1fr; } }
   .variant { background: var(--surface-2); border: 0.5px solid var(--border); border-radius: var(--radius-sm); padding: 11px 12px; display: flex; flex-direction: column; position: relative; }
-  .variant.posted { background: var(--success-bg); border-color: #86efac; }
-  .variant.posted::before { content: "✓"; position: absolute; top: 6px; right: 8px; color: var(--success); font-weight: 700; font-size: 14px; }
-  .variant-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; }
+  .variant.posted { background: var(--success-bg); border-color: var(--success-border); }
+  .variant.posted::before { content: "\2713"; position: absolute; top: 6px; right: 8px; color: var(--success); font-weight: 700; font-size: 14px; }
+  .variant-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; gap: 6px; }
   .variant-label { font-size: 10px; font-weight: 600; color: var(--text-3); letter-spacing: 0.04em; text-transform: uppercase; }
-  .variant-text { font-size: 13px; color: var(--text); line-height: 1.5; flex: 1; margin-bottom: 10px; white-space: pre-wrap; }
+  .variant-mode { font-size: 10px; font-weight: 600; letter-spacing: 0.03em; padding: 1px 6px; border-radius: 4px; background: var(--surface); border: 0.5px solid var(--border-2); color: var(--text-2); }
+  .variant-text { font-size: 13px; color: var(--text); line-height: 1.5; flex: 1; margin-bottom: 10px; white-space: pre-wrap; overflow-wrap: anywhere; word-break: break-word; cursor: text; }
+  .variant-text:hover { color: var(--accent-2); }
+  .edit-wrap { margin-bottom: 10px; }
+  .edit-area {
+    width: 100%; min-height: 92px; resize: vertical;
+    font-family: inherit; font-size: 13px; line-height: 1.5; color: var(--text);
+    background: var(--surface); border: 1px solid var(--accent); border-radius: var(--radius-xs);
+    padding: 8px 10px; overflow-wrap: anywhere; word-break: break-word;
+  }
+  .edit-meta { display: flex; justify-content: space-between; align-items: center; margin-top: 4px; }
+  .char-count { font-size: 11px; color: var(--text-3); font-variant-numeric: tabular-nums; }
+  .char-count.over { color: var(--hot); font-weight: 600; }
+  .edit-reset { font-size: 11px; background: none; border: none; color: var(--text-3); cursor: pointer; text-decoration: underline; font-family: inherit; padding: 2px 4px; }
   .reply-btn {
     display: inline-flex; align-items: center; justify-content: center; gap: 6px;
-    background: var(--accent); color: white; padding: 0 14px;
+    background: var(--accent); color: var(--accent-ink); padding: 0 14px;
     border-radius: var(--radius-sm); font-size: 13px; font-weight: 500;
     text-decoration: none; min-height: var(--tap); border: none; cursor: pointer;
     font-family: inherit;
@@ -208,10 +323,10 @@
     min-height: 34px; cursor: pointer; font-family: inherit;
   }
   .btn-small:active { transform: scale(0.97); }
-  .btn-small.posted { background: var(--success); color: white; border-color: #15803d; }
+  .btn-small.posted { background: var(--success); color: #fff; border-color: var(--success); }
   .open-btn {
     display: inline-flex; align-items: center; gap: 6px;
-    background: var(--text); color: white; padding: 0 14px;
+    background: var(--text); color: var(--bg); padding: 0 14px;
     border-radius: var(--radius-sm); font-size: 12px; text-decoration: none;
     margin-top: 10px; font-weight: 500; min-height: 36px;
   }
@@ -223,16 +338,16 @@
   /* Toast */
   .toast {
     position: fixed; bottom: calc(20px + var(--safe-bottom)); left: 50%; transform: translateX(-50%);
-    background: var(--text); color: white; padding: 10px 18px; border-radius: 24px;
+    background: var(--text); color: var(--bg); padding: 10px 18px; border-radius: 24px;
     font-size: 13px; opacity: 0; transition: opacity 0.2s, transform 0.2s;
     pointer-events: none; z-index: 999; max-width: 90vw;
-    box-shadow: 0 8px 24px rgba(0,0,0,0.18);
+    box-shadow: var(--shadow);
   }
   .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
 
   /* Banner */
   .banner {
-    background: var(--info-bg); border: 0.5px solid #bfdbfe;
+    background: var(--info-bg); border: 0.5px solid var(--info-border);
     border-radius: var(--radius); padding: 10px 14px;
     font-size: 12px; color: var(--info-text); margin: 14px 0;
     display: flex; align-items: flex-start; gap: 8px;
@@ -240,7 +355,15 @@
   .banner b { font-weight: 600; }
 
   /* Growth widget */
-  .growth { margin: 14px 0 0; background: var(--surface); border: 0.5px solid var(--border); border-radius: var(--radius); padding: 12px 14px; }
+  .growth { margin: 14px 0 0; background: var(--surface); border: 0.5px solid var(--border); border-radius: var(--radius); }
+  .growth-toggle {
+    width: 100%; padding: 12px 14px; background: none; border: none; cursor: pointer;
+    display: flex; align-items: center; gap: 8px; font-family: inherit; color: var(--text);
+    font-size: 13px; font-weight: 600;
+  }
+  .growth-toggle .caret { margin-left: auto; transition: transform 0.2s; color: var(--text-3); }
+  .growth-toggle[aria-expanded="true"] .caret { transform: rotate(180deg); }
+  .growth-body { padding: 0 14px 14px; }
   .growth-row { display: flex; align-items: center; gap: 14px; }
   .g-stat { display: flex; flex-direction: column; }
   .g-num { font-size: 22px; font-weight: 600; line-height: 1; }
@@ -248,17 +371,23 @@
   .g-delta { font-size: 11px; font-weight: 600; margin-top: 3px; }
   .g-delta.up { color: var(--success); } .g-delta.flat { color: var(--text-mute); } .g-delta.down { color: var(--hot); }
   .spark { flex: 1; height: 34px; max-width: 220px; }
-  .g-tierperf { display: flex; gap: 8px; margin-top: 10px; flex-wrap: wrap; }
+  .g-tierperf { display: flex; gap: 8px; margin-top: 12px; flex-wrap: wrap; }
   .g-pill { font-size: 11px; background: var(--surface-2); border-radius: 6px; padding: 4px 8px; color: var(--text-2); }
   .g-pill b { color: var(--text); }
-  .g-note { font-size: 11px; color: var(--text-mute); margin-top: 8px; }
-
-  .pushbtn { background: var(--surface); color: var(--text-2); border: 0.5px solid var(--border-2);
-    height: 36px; padding: 0 12px; border-radius: 18px; font-size: 13px; font-weight: 500;
-    cursor: pointer; display: inline-flex; align-items: center; gap: 6px; margin-left: auto; font-family: inherit; }
-  .pushbtn:active { transform: scale(0.96); }
-  .pushbtn.on { background: var(--success-bg); color: var(--success); border-color: #86efac; }
-  header .refresh { margin-left: 8px; }
+  .g-note { font-size: 11px; color: var(--text-mute); margin-top: 10px; }
+  /* offered vs picked bars */
+  .g-modes { margin-top: 14px; }
+  .g-modes-title { font-size: 11px; font-weight: 600; color: var(--text-2); text-transform: uppercase; letter-spacing: 0.04em; margin-bottom: 8px; }
+  .g-mode-row { display: grid; grid-template-columns: 92px 1fr; gap: 8px; align-items: center; margin-bottom: 7px; }
+  .g-mode-name { font-size: 11px; color: var(--text-2); font-weight: 500; }
+  .g-bars { display: flex; flex-direction: column; gap: 3px; }
+  .g-bar-track { height: 7px; background: var(--surface-2); border-radius: 4px; overflow: hidden; }
+  .g-bar { height: 100%; border-radius: 4px; min-width: 2px; }
+  .g-bar.offered { background: var(--border-2); }
+  .g-bar.picked { background: var(--accent); }
+  .g-legend { display: flex; gap: 12px; font-size: 10px; color: var(--text-3); margin-top: 8px; }
+  .g-legend span { display: inline-flex; align-items: center; gap: 4px; }
+  .g-swatch { width: 10px; height: 10px; border-radius: 2px; display: inline-block; }
 </style>
 </head>
 <body>
@@ -269,12 +398,17 @@
     <div>
       <h1>X reply queue</h1>
       <div class="meta" id="meta-line"></div>
+      <div class="meta" id="model-line" hidden></div>
     </div>
-    <button class="pushbtn" id="btn-push" hidden aria-label="Enable notifications">🔔 Alerts</button>
-    <button class="refresh" id="btn-refresh" aria-label="Refresh queue">
-      <span class="spin" aria-hidden="true">↻</span>
-      <span class="refresh-label">Refresh</span>
-    </button>
+    <div class="hdr-btns">
+      <button class="icon-btn" id="btn-theme" aria-label="Toggle dark mode" title="Toggle theme">🌙</button>
+      <button class="icon-btn" id="btn-regen" hidden aria-label="Regenerate drafts">✨ Regen</button>
+      <button class="icon-btn" id="btn-push" hidden aria-label="Enable notifications">🔔</button>
+      <button class="refresh" id="btn-refresh" aria-label="Refresh queue">
+        <span class="spin" aria-hidden="true">↻</span>
+        <span class="refresh-label">Refresh</span>
+      </button>
+    </div>
   </div>
 
   <div class="today" role="region" aria-label="Today summary">
@@ -299,25 +433,45 @@
 <main>
   <div class="banner" role="note">
     <span aria-hidden="true">ⓘ</span>
-    <div><b>1-tap reply:</b> Tap <b>Reply A/B on 𝕏</b>. The X app opens directly with the draft pre-filled and threaded. Hit Post. (Falls back to tweet URL with reply copied to clipboard if X app missing.) ✓ wraps any tweet whose author you've already replied to today (Author Diversity rule).</div>
+    <div><b>Today's Picks</b> are the top drafts by priority. Tap any reply's text to <b>edit before posting</b>, then <b>Reply on 𝕏</b> opens X with your (edited) draft pre-filled. ✓ marks authors you've already replied to today.</div>
   </div>
 
   <section class="growth" id="growth" hidden aria-label="Your X growth">
-    <div class="growth-row">
-      <div class="g-stat">
-        <span class="g-num" id="g-followers">—</span>
-        <span class="g-lbl">followers</span>
-        <span class="g-delta" id="g-delta"></span>
+    <button class="growth-toggle" id="growth-toggle" aria-expanded="false" aria-controls="growth-body">
+      📈 Growth <span id="g-headline" style="font-weight:500;color:var(--text-3)"></span>
+      <span class="caret" aria-hidden="true">▾</span>
+    </button>
+    <div class="growth-body" id="growth-body" hidden>
+      <div class="growth-row">
+        <div class="g-stat">
+          <span class="g-num" id="g-followers">—</span>
+          <span class="g-lbl">followers</span>
+          <span class="g-delta" id="g-delta"></span>
+        </div>
+        <svg class="spark" id="g-spark" viewBox="0 0 220 34" preserveAspectRatio="none" aria-hidden="true"></svg>
       </div>
-      <svg class="spark" id="g-spark" viewBox="0 0 220 34" preserveAspectRatio="none" aria-hidden="true"></svg>
+      <div class="g-tierperf" id="g-tierperf"></div>
+      <div class="g-modes" id="g-modes" hidden>
+        <div class="g-modes-title">Offered vs picked (by mode)</div>
+        <div id="g-mode-rows"></div>
+        <div class="g-legend">
+          <span><i class="g-swatch" style="background:var(--border-2)"></i> offered</span>
+          <span><i class="g-swatch" style="background:var(--accent)"></i> picked</span>
+        </div>
+      </div>
+      <div class="g-note" id="g-note"></div>
     </div>
-    <div class="g-tierperf" id="g-tierperf"></div>
-    <div class="g-note" id="g-note"></div>
   </section>
+
+  <div class="search-wrap">
+    <input type="search" id="search" placeholder="Search handle or text…" aria-label="Search tweets" autocomplete="off">
+    <button class="search-clear" id="search-clear" hidden aria-label="Clear search">✕</button>
+  </div>
 
   <div class="filters" role="tablist" aria-label="Filter tweets">
     <button class="chip" role="tab" aria-pressed="true" data-filter="ready">Reply-ready</button>
     <button class="chip" role="tab" aria-pressed="false" data-filter="all">All</button>
+    <button class="chip" role="tab" aria-pressed="false" data-filter="early">⚡ Early</button>
     <button class="chip" role="tab" aria-pressed="false" data-filter="t1">T1</button>
     <button class="chip" role="tab" aria-pressed="false" data-filter="t2">T2</button>
     <button class="chip" role="tab" aria-pressed="false" data-filter="t3">T3</button>
@@ -328,6 +482,8 @@
   <div class="sort">
     <label for="sort-select">Sort</label>
     <select id="sort-select" aria-label="Sort tweets by">
+      <option value="priority">⭐ Best picks</option>
+      <option value="early">⚡ Early first</option>
       <option value="hot">🔥 Hottest now</option>
       <option value="new">🕐 Newest</option>
       <option value="window">💬 Reply window</option>
@@ -343,19 +499,52 @@
 
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
+<!-- Queue data is emitted as inert application/json, never as executable JS.
+     Parsing it here (not `const DATA = …`) means attacker-controlled tweet text
+     containing `</script>`, quotes, or angle brackets can never break out of the
+     script context and execute. render_html additionally escapes the
+     `</` / `<!--` / LS / PS sequences so the data can't prematurely close THIS
+     json tag either. -->
+<script id="queue-data" type="application/json">{"generatedAt": "2026-07-02T16:28:17.382092+00:00", "accounts": 403, "models": {"gpt-4.1": 35}, "tweets": [{"tweetId": "2072660676749774972", "tier": 1, "decision": "HUMAN_REPLY", "handle": "SahilBloom", "name": "Sahil Bloom", "followers": 1168785, "createdAt": "2026-07-02T12:36:28+00:00", "likes": 851, "replies": 96, "retweets": 134, "text": "WARNING: Longer post (but worth reading or bookmarking for later).\n\nYour life has seasons.\n\nEach one is unique. Characterized by its own distinct desires, struggles, opportunities, and identity.\n\nBut one reflection I've had recently is just how easy it is to completely", "url": "https://x.com/SahilBloom/status/2072660676749774972", "why": "Rahul stays warm and human on the timeline, even for off-niche posts.", "skip_reason": "", "fit": 0, "early": false, "priority": 67.28, "receipt_used": null, "variants": [{"mode": "HUMAN_REPLY", "text": "Feels like every season comes with its own surprise syllabus.", "receipt_used": null}]}, {"tweetId": "2072214721437311055", "tier": 1, "decision": "REPLY", "handle": "svembu", "name": "Sridhar Vembu", "followers": 429449, "createdAt": "2026-07-01T07:04:24+00:00", "likes": 5496, "replies": 160, "retweets": 931, "text": "Anthropic's latest models available worldwide. In other words, Chinese open source models posed a serious enough threat to market share.\n\nIn a different context, an Indian customer of some of our products told me recently \"A big Microsoft Office license renewal came up and they", "url": "https://x.com/svembu/status/2072214721437311055", "why": "Signals and trust drive Indian software adoption more than just access or pricing.", "skip_reason": null, "fit": 6, "early": false, "priority": 179.613, "receipt_used": "price-signal-trust", "variants": [{"mode": "RECEIPT", "text": "Indian buyers price-signal trust, not affordability. Lowering prices too much chases away the serious ones.", "receipt_used": "price-signal-trust"}, {"mode": "SHARPENER", "text": "I keep noticing: drop the price, and you start looking like a toy product here. The hard part is building trust, not features.", "receipt_used": null}, {"mode": "HONEST_QUESTION", "text": "Curious what you see as the next lever to build trust for Indian buyers, beyond global access or local pricing.", "receipt_used": null}, {"mode": "RECEIPT", "text": "Every heavy discount I tried just increased support headaches. Cheapest buyers always want the most.", "receipt_used": "discount-attracts-worst-buyers"}]}, {"tweetId": "2072693888440246592", "tier": 3, "decision": "HUMAN_REPLY", "handle": "mahikaa101", "name": "Mahika Jadhav", "followers": 10421, "createdAt": "2026-07-02T14:48:26+00:00", "likes": 255, "replies": 10, "retweets": 3, "text": "Love working from this cafe ✨ https://t.co/QKpVJbPImF", "url": "https://x.com/mahikaa101/status/2072693888440246592", "why": "Keeps Rahul present on the timeline and warmly engages with the community.", "skip_reason": "", "fit": 0, "early": true, "priority": 42.451, "receipt_used": null, "variants": [{"mode": "HUMAN_REPLY", "text": "Looks like the perfect work spot.", "receipt_used": null}]}, {"tweetId": "2072504372442067028", "tier": 3, "decision": "HUMAN_REPLY", "handle": "colejaczko", "name": "Cole Jaczko", "followers": 24709, "createdAt": "2026-07-02T02:15:22+00:00", "likes": 960, "replies": 3, "retweets": 92, "text": "A tweet I think about over \u0026amp; over again https://t.co/dKAJrkGYJm", "url": "https://x.com/colejaczko/status/2072504372442067028", "why": "Keeps the reply light and relatable for an off-niche post.", "skip_reason": "", "fit": 0, "early": false, "priority": 13.2, "receipt_used": null, "variants": [{"mode": "HUMAN_REPLY", "text": "Some tweets just stick in your head for years.", "receipt_used": null}]}, {"tweetId": "2072545803227353594", "tier": 1, "decision": "REPLY", "handle": "rajshamani", "name": "Raj Shamani", "followers": 467515, "createdAt": "2026-07-02T05:00:00+00:00", "likes": 560, "replies": 58, "retweets": 42, "text": "Today, long-term planning fails because the world shifts faster than the plan can execute. Modern strategy is no longer about mapping out a precise ten-year path, but about building deep structural flexibility so you can pivot instantly without losing momentum.", "url": "https://x.com/rajshamani/status/2072545803227353594", "why": "Founders face the tradeoff between flexibility and having a plan daily, so ways to act fast and adapt are core.", "skip_reason": null, "fit": 5, "early": false, "priority": 48.921, "receipt_used": "process-after-pain", "variants": [{"mode": "RECEIPT", "text": "Every process we have came from something breaking first. The pain tells you what playbook you actually need.", "receipt_used": "process-after-pain"}, {"mode": "SHARPENER", "text": "I keep noticing the hardest part is knowing which pivots are worth the cost. Flexibility is expensive if you pick wrong.", "receipt_used": null}, {"mode": "HONEST_QUESTION", "text": "How do you know when it’s time to pivot, and when to just hold your ground and let the plan play out?", "receipt_used": null}, {"mode": "RECEIPT", "text": "Wrote zero playbooks in advance. The cracks show you the real priorities.", "receipt_used": null}]}, {"tweetId": "2072293502168277261", "tier": 3, "decision": "HUMAN_REPLY", "handle": "AgustinLebron3", "name": "Agustin Lebron", "followers": 33144, "createdAt": "2026-07-01T12:17:26+00:00", "likes": 1475, "replies": 69, "retweets": 57, "text": "I haven't said much recently about what I'm working on, but since this article is out now, I might as well say a few things. ➡️", "url": "https://x.com/AgustinLebron3/status/2072293502168277261", "why": "Keeps the connection warm and positive for a non-niche update.", "skip_reason": "", "fit": 0, "early": false, "priority": 10.598, "receipt_used": null, "variants": [{"mode": "HUMAN_REPLY", "text": "Looking forward to hearing more.", "receipt_used": null}]}, {"tweetId": "2072703845449306123", "tier": 2, "decision": "REPLY", "handle": "alexabelonix", "name": "Alexa | Startup founder", "followers": 23189, "createdAt": "2026-07-02T15:28:00+00:00", "likes": 14, "replies": 11, "retweets": 0, "text": "Founder content should create conversations, not applause.\n\nA useful post can become a sales workflow:\n\npost about a painful workflow\npeople reply with their version\nAI tags comments by persona + pain\nhigh-fit profiles go to CRM\nfounder sends contextual DM\nDM leads to call\ncall https://t.co/ZDTCH7IPSw", "url": "https://x.com/alexabelonix/status/2072703845449306123", "why": "Founder content that sparks real intent is what fills high-quality funnels, not just likes.", "skip_reason": null, "fit": 9, "early": true, "priority": 94.247, "receipt_used": "hook-carries-the-ad", "variants": [{"mode": "RECEIPT", "text": "I’ve seen a sharp hook do more work than a great offer, even in founder content. That first line decides what flows.", "receipt_used": "hook-carries-the-ad"}, {"mode": "SHARPENER", "text": "Filtering for intent early beats chasing replies. Commitment up front changes the downstream quality completely.", "receipt_used": "micropaywall-showup"}, {"mode": "HONEST_QUESTION", "text": "Curious how you’d tweak this if your comments are mostly lurkers, not reply-ers. Ever try DMing based on likes instead?", "receipt_used": null}, {"mode": "RECEIPT", "text": "A paid deposit on webinars took my show-up from 4% to 38%. Commitment early \u003e applause.", "receipt_used": null}]}, {"tweetId": "2072690878678970517", "tier": 2, "decision": "REPLY", "handle": "Rahul_J_Mathur", "name": "Rahul Mathur", "followers": 118347, "createdAt": "2026-07-02T14:36:28+00:00", "likes": 87, "replies": 3, "retweets": 3, "text": "Vidit from Meesho used to pose as a journalist from YourStory when reaching out to customers for feedback in the early days of Meesho\n\nHe would get detailed 60-90 min responses from these customers which led to them building Meesho Supply (the re-seller app which found PMF)\n\nThis https://t.co/WF426MLtTe", "url": "https://x.com/Rahul_J_Mathur/status/2072690878678970517", "why": "Real customer feedback shapes what actually works, not just what looks good on paper.", "skip_reason": null, "fit": 7, "early": true, "priority": 66.557, "receipt_used": "bootstrapped-36-months", "variants": [{"mode": "SHARPENER", "text": "Customer conversations always show you the stuff your dashboards never can. I keep noticing it takes some jugaad to get real feedback early.", "receipt_used": null}, {"mode": "HONEST_QUESTION", "text": "Curious if the answers would have been different if he'd reached out as 'founder' instead of 'journalist'.", "receipt_used": null}, {"mode": "RECEIPT", "text": "36 months bootstrapped here. The hardest user feedback is from people who won't buy, but their objections are pure gold.", "receipt_used": "bootstrapped-36-months"}]}, {"tweetId": "2072551591484534946", "tier": 1, "decision": "REPLY", "handle": "warikoo", "name": "Ankur Warikoo", "followers": 790761, "createdAt": "2026-07-02T05:23:00+00:00", "likes": 359, "replies": 48, "retweets": 13, "text": "I was talking to a 26yr old this morning on their financial situation.\nHe has 80K in an FD earning 5.5%.\nAnd 40k in F\u0026amp;O positions he did not fully understand.\n\nI asked him why.\nHe said: \nThe FD is what my father told me to do. \nF\u0026amp;O is what my friends are doing.\n\nHe is not", "url": "https://x.com/warikoo/status/2072551591484534946", "why": "Most Indian founders have to decode inherited buyer behavior to actually serve their customers well.", "skip_reason": null, "fit": 6, "early": false, "priority": 37.976, "receipt_used": "small-budget-perf-marketing", "variants": [{"mode": "SHARPENER", "text": "I keep noticing most buying decisions are just borrowed from someone else. It takes time to even trust your own process.", "receipt_used": null}, {"mode": "RECEIPT", "text": "Buyer psychology in India is just layers of family and friend advice. Even in performance marketing, you see it in what people click.", "receipt_used": "small-budget-perf-marketing"}, {"mode": "HONEST_QUESTION", "text": "Curious if you see any difference when that sense of 'my own reason' kicks in for young buyers. Or does it stay like this into their 30s?", "receipt_used": null}, {"mode": "SHARPENER", "text": "The first real money choices almost always feel like inherited defaults, not decisions.", "receipt_used": null}]}, {"tweetId": "2072340532718887068", "tier": 2, "decision": "REPLY", "handle": "deedydas", "name": "Deedy", "followers": 246768, "createdAt": "2026-07-01T15:24:19+00:00", "likes": 1009, "replies": 33, "retweets": 47, "text": "\"Thinking Machines' Tinker does a few hundred million of ARR\" - Dylan Patel, on his latest podcast\n\nTML was valued at $12B and trying to raise at $50B. Tinker is an API that helps you post-train LLMs.\n\nThis is the highest known revenue for any of the now ~75 neolabs. https://t.co/kNj1XTivCh", "url": "https://x.com/deedydas/status/2072340532718887068", "why": "The scale of infrastructure and product execution behind AI APIs mirrors lessons from building sustainable ops in edtech.", "skip_reason": null, "fit": 6, "early": false, "priority": 34.624, "receipt_used": "first-hire-was-a-doer", "variants": [{"mode": "SHARPENER", "text": "The scale here is wild. Feels like everyone is chasing APIs, but the real moat is shipping useful stuff at boring scale.", "receipt_used": null}, {"mode": "RECEIPT", "text": "The first hire I made was someone who could ship the unglamorous stuff, not a strategist. The API game is similar, looks like.", "receipt_used": "first-hire-was-a-doer"}, {"mode": "HONEST_QUESTION", "text": "Curious if Tinker is mostly infra buyers or do they have a SaaS layer for people downstream too?", "receipt_used": null}, {"mode": "SHARPENER", "text": "Everyone sees the headline ARR. The quiet grind of getting boring infra to work is the real story.", "receipt_used": null}]}, {"tweetId": "2072666872903061770", "tier": 2, "decision": "REPLY", "handle": "paraschopra", "name": "Paras Chopra", "followers": 236336, "createdAt": "2026-07-02T13:01:05+00:00", "likes": 106, "replies": 8, "retweets": 7, "text": "The two big unsolved problems in ML today are:\n\n- Non-stationarity: future inevitably is different from the past, but your model remains stuck in regularities it learned from the past. How do you adapt?\n- Low coverage regime: your model spends its capacity on frequently occurring", "url": "https://x.com/paraschopra/status/2072666872903061770", "why": "ML product reliability matters for anyone shipping real tools, not just models.", "skip_reason": null, "fit": 8, "early": false, "priority": 40.137, "receipt_used": null, "variants": [{"mode": "SHARPENER", "text": "I keep seeing most teams over-rotate on recent data, then get bitten by rare edge cases. Balancing those two feels like a core product risk.", "receipt_used": null}, {"mode": "HONEST_QUESTION", "text": "Have you seen any real-world teams actually solve for low coverage, or is everyone just patching with more data and hope?", "receipt_used": null}, {"mode": "SHARPENER", "text": "Feels like non-stationarity is a blind spot till a live failure forces a rethink. Wonder how many models are quietly decaying.", "receipt_used": null}, {"mode": "SHARPENER", "text": "Stuck models get stale fast. Too few talk about what happens after launch.", "receipt_used": null}]}, {"tweetId": "2072385092824260748", "tier": 1, "decision": "REPLY", "handle": "amasad", "name": "Amjad Masad", "followers": 469523, "createdAt": "2026-07-01T18:21:23+00:00", "likes": 578, "replies": 27, "retweets": 33, "text": "Now that building is easy, we’ve been increasingly focused on getting entrepreneurs to market, helping them reach their first customer and first dollar.\n\nWhop is one of the best places on the internet to monetize your creations — and now you can sell your Replit apps on there.", "url": "https://x.com/amasad/status/2072385092824260748", "why": "Distribution is now the core challenge, not building. Rahul has receipts that directly support this shift.", "skip_reason": null, "fit": 8, "early": false, "priority": 30.475, "receipt_used": "lovable-6-weeks", "variants": [{"mode": "RECEIPT", "text": "Built our masterclass app in 6 weeks. Shipping is so much easier now, finding the right early users is the real test.", "receipt_used": "lovable-6-weeks"}, {"mode": "SHARPENER", "text": "Getting to your first few customers has never been a tech problem. It is still about convincing real people to care.", "receipt_used": null}, {"mode": "HONEST_QUESTION", "text": "Are most creators using their own audience to drive Whop sales, or does Whop help them get that first buyer?", "receipt_used": null}, {"mode": "RECEIPT", "text": "Our cheapest, highest-trust channel was always word of mouth, not ads. Distribution stays the hard part.", "receipt_used": "referral-quietly-cheapest"}]}, {"tweetId": "2072653514086772851", "tier": 2, "decision": "REPLY", "handle": "aakashgupta", "name": "Aakash Gupta", "followers": 282542, "createdAt": "2026-07-02T12:08:00+00:00", "likes": 55, "replies": 6, "retweets": 12, "text": "Meta doesn't have excess compute. It's paying $48 billion to rent compute from other people right now.\n\nThat's the detail everyone skipped today. Meta signed a $21B deal with CoreWeave and up to $27B with Nebius to lease capacity, because its own buildout can't keep pace with its", "url": "https://x.com/aakashgupta/status/2072653514086772851", "why": "Infra choices shape margins and speed, for giants and startups alike.", "skip_reason": null, "fit": 6, "early": false, "priority": 18.409, "receipt_used": null, "variants": [{"mode": "SHARPENER", "text": "When even Meta is renting infra, early-stage founders stressing over “owning” everything from day one might be missing the plot.", "receipt_used": null}, {"mode": "HONEST_QUESTION", "text": "Curious if you see this changing how startups budget for infra, or will most still just follow the big cloud vendor playbook?", "receipt_used": null}, {"mode": "SHARPENER", "text": "Rupees spent on infra feel very different when you realize the giants are on lease too, not just us scrambling for cloud credits.", "receipt_used": null}, {"mode": "SHARPENER", "text": "Leasing over building is more common at every scale than people admit.", "receipt_used": null}]}, {"tweetId": "2072206806181683243", "tier": 2, "decision": "REPLY", "handle": "SandeepMall", "name": "Sandeep Mall", "followers": 85363, "createdAt": "2026-07-01T06:32:56+00:00", "likes": 522, "replies": 21, "retweets": 11, "text": "Debt free for the first time since I bought my first car in the mid 90s.\nI am debt averse by nature. Every loan for a home or a car came with guilt. Why upgrade if I don’t have the cash.\nBut the businessman in me knew better. My own money, put to work, earned more than the https://t.co/zObz6ksSMk", "url": "https://x.com/SandeepMall/status/2072206806181683243", "why": "Most Indian founders weigh debt and cashflow differently than US peers—this tension shapes real decisions.", "skip_reason": null, "fit": 5, "early": false, "priority": 11.187, "receipt_used": null, "variants": [{"mode": "SHARPENER", "text": "I keep noticing founders in India play it way safer with debt than in the US. Local market scars run deep.", "receipt_used": null}, {"mode": "HONEST_QUESTION", "text": "Ever feel pressure to show bigger assets simply because other founders are doing it?", "receipt_used": null}, {"mode": "HUMAN_REPLY", "text": "That first debt-free day hits different.", "receipt_used": null}, {"mode": "SHARPENER", "text": "Upgrades on credit always felt riskier for me than investing in the business.", "receipt_used": null}]}, {"tweetId": "2072284056080044121", "tier": 1, "decision": "REPLY", "handle": "Nithin0dha", "name": "Nithin Kamath", "followers": 926689, "createdAt": "2026-07-01T11:39:54+00:00", "likes": 300, "replies": 25, "retweets": 18, "text": "Whenever I'm at events or am meeting young entrepreneurs through @Rainmatterin, the one recurring question I get is what makes Zerodha what it is. \n\nWe'd created this page to explain what makes us different.\n\nLink in comments. https://t.co/lBoQ9IwDsg", "url": "https://x.com/Nithin0dha/status/2072284056080044121", "why": "Founders in India want to know what actually sets brands apart beyond the pitch.", "skip_reason": null, "fit": 7, "early": false, "priority": 12.388, "receipt_used": "profit-buys-patience", "variants": [{"mode": "RECEIPT", "text": "Profit bought us patience, not speed. Waiting out rough patches is underrated.", "receipt_used": "profit-buys-patience"}, {"mode": "SHARPENER", "text": "I keep noticing the brands that last are run by people who'd rather do than teach. Makes all the difference.", "receipt_used": "operator-not-guru"}, {"mode": "HONEST_QUESTION", "text": "How do you decide which 'different' to double down on when you're starting out and still finding your footing?", "receipt_used": null}, {"mode": "HUMAN_REPLY", "text": "That FAQ page is a smart move. Cuts through so much founder FOMO.", "receipt_used": null}]}, {"tweetId": "2072056417692058022", "tier": 2, "decision": "REPLY", "handle": "lennysan", "name": "Lenny Rachitsky", "followers": 385899, "createdAt": "2026-06-30T20:35:21+00:00", "likes": 383, "replies": 27, "retweets": 44, "text": "For years, the PM job drifted toward coordinating and aligning people and their work. That version of the role is fading. \n\nToday, the best PMs at the best companies are prototyping with real code, querying data conversationally with MCP, confidently running coding AI agents, and https://t.co/EK0tKfNZIW", "url": "https://x.com/lennysan/status/2072056417692058022", "why": "The PM skillset shift changes how products get built and who thrives in product roles.", "skip_reason": null, "fit": 9, "early": false, "priority": 13.553, "receipt_used": null, "variants": [{"mode": "SHARPENER", "text": "I keep seeing that the PMs who actually ship prototypes get way more trust from founders and engineers.", "receipt_used": null}, {"mode": "HONEST_QUESTION", "text": "Curious if this shift changes what makes a great PM hire, or just raises the entry bar for everyone?", "receipt_used": null}, {"mode": "SHARPENER", "text": "The tools changed, but the real unlock is reducing handoffs. Fewer handoffs, faster feedback.", "receipt_used": null}, {"mode": "SHARPENER", "text": "The PMs who prototype skip a lot of back-and-forth. Makes the rest of the team move faster.", "receipt_used": null}]}, {"tweetId": "2072646465202364453", "tier": 3, "decision": "REPLY", "handle": "saybwala", "name": "Anand Sankar", "followers": 13991, "createdAt": "2026-07-02T11:39:59+00:00", "likes": 37, "replies": 6, "retweets": 0, "text": "100% stupid idea in India.\n\nPeople have no boundaries. They will make your life living hell.\n\nWhatever you do never ever link your personal number for business customer support in India.", "url": "https://x.com/saybwala/status/2072646465202364453", "why": "How founders handle support channels shapes their sanity and scale in India.", "skip_reason": null, "fit": 7, "early": false, "priority": 10.388, "receipt_used": null, "variants": [{"mode": "SHARPENER", "text": "I keep noticing even a business WhatsApp gets flooded if you let people think there’s a real person at the end.", "receipt_used": null}, {"mode": "HONEST_QUESTION", "text": "Ever tried filtering support queries to WhatsApp but using a cloud number? Curious if that helps at all.", "receipt_used": null}, {"mode": "SHARPENER", "text": "The rupee chase is relentless. No line between work and personal if your number is out there.", "receipt_used": null}, {"mode": "HUMAN_REPLY", "text": "Some days even truecaller feels like a warzone.", "receipt_used": null}]}, {"tweetId": "2072638998032625973", "tier": 3, "decision": "REPLY", "handle": "shobhitic", "name": "Shobhit Bakliwal", "followers": 13898, "createdAt": "2026-07-02T11:10:19+00:00", "likes": 30, "replies": 5, "retweets": 5, "text": "GCC are bigger threat to Indian IT services than AI\n\nThat's what @anshulbhide claimed when he came on our podcast.\n\nWe also discussed:\n\n- Business ideas for AI world\n- What's it like to work with family\n- Jevon's paradox in services businesses with AI\n\nLink to full video in reply https://t.co/97sQouKmJt", "url": "https://x.com/shobhitic/status/2072638998032625973", "why": "GCCs shifting the talent pool changes the competitive landscape for Indian founders and tech operators.", "skip_reason": null, "fit": 6, "early": false, "priority": 8.718, "receipt_used": null, "variants": [{"mode": "SHARPENER", "text": "GCCs also seem to attract folks who’d otherwise be the top operators at early-stage Indian startups. Changes the hiring game here.", "receipt_used": null}, {"mode": "HONEST_QUESTION", "text": "Curious if you see any Indian IT firms actively adapting to GCC scale, or is most of the response just poaching talent back?", "receipt_used": null}, {"mode": "SHORT PUNCHY", "text": "It’s wild how GCCs quietly rewire the whole tech talent map in India.", "receipt_used": null}]}, {"tweetId": "2072350555603701813", "tier": 2, "decision": "REPLY", "handle": "noahkagan", "name": "Noah Kagan", "followers": 174553, "createdAt": "2026-07-01T16:04:09+00:00", "likes": 136, "replies": 31, "retweets": 6, "text": "I pay an AI to tell me I'm the problem.\n\nI have paid over $100k for business coaches. I have paid for more therapists than I can count. I still pay a CEO coach I have worked with for years. \n\nAnd the most useful feedback I got this year came from pasting a meeting transcript into https://t.co/mYAWCF6e4V", "url": "https://x.com/noahkagan/status/2072350555603701813", "why": "Sharp, honest feedback improves operators faster than any coach or fancy advice.", "skip_reason": null, "fit": 8, "early": false, "priority": 10.51, "receipt_used": null, "variants": [{"mode": "SHARPENER", "text": "I keep noticing the most brutal feedback is the one that's hardest to ignore. AI has no tact, just pattern-matching.", "receipt_used": null}, {"mode": "HONEST_QUESTION", "text": "Curious if the AI pointed out things your coaches missed, or just said it with less sugar?", "receipt_used": null}, {"mode": "HUMAN_REPLY", "text": "Sometimes you just need someone or something to say it straight.", "receipt_used": null}, {"mode": "SHARPENER", "text": "Hard to beat feedback that doesn't worry about your feelings.", "receipt_used": null}]}, {"tweetId": "2072083341927432314", "tier": 1, "decision": "REPLY", "handle": "levelsio", "name": "@levelsio", "followers": 909914, "createdAt": "2026-06-30T22:22:20+00:00", "likes": 336, "replies": 30, "retweets": 9, "text": "A little thread about product life cycles 📊 and how every product has an expiry date", "url": "https://x.com/levelsio/status/2072083341927432314", "why": "Product expiry shapes how much to invest in updates vs. new bets. Helps with real-world resource calls.", "skip_reason": null, "fit": 7, "early": false, "priority": 9.078, "receipt_used": "drm-piracy-tradeoff", "variants": [{"mode": "RECEIPT", "text": "I’ve seen this with DRM. No matter how strong, it’s just a signal to honest buyers. Nothing lasts forever in product.", "receipt_used": "drm-piracy-tradeoff"}, {"mode": "SHARPENER", "text": "Expiry dates hit hardest when buyers’ needs change faster than your product can. The timing is never obvious.", "receipt_used": null}, {"mode": "HONEST_QUESTION", "text": "Do you ever plan for a product’s expiry, or just iterate until the numbers force you to move on?", "receipt_used": null}, {"mode": "HUMAN_REPLY", "text": "Some products age like milk, some like pickle. Figuring out which is half the job.", "receipt_used": null}]}, {"tweetId": "2072566945900380241", "tier": 3, "decision": "REPLY", "handle": "nush_1320", "name": "Anushka Singh", "followers": 4673, "createdAt": "2026-07-02T06:24:00+00:00", "likes": 63, "replies": 9, "retweets": 2, "text": "It's officially 4 months since I stepped into the growth role, leading growth at @topmateHQ x @runyourloop.\nIn these 4 months I've run multiple campaigns, launched projects end to end, worked on content strategy, creator partnerships, and experiments across channels, and each one", "url": "https://x.com/nush_1320/status/2072566945900380241", "why": "Founder-to-operator connection—real experience in growth, campaign execution, and channel learning.", "skip_reason": null, "fit": 6, "early": false, "priority": 7.471, "receipt_used": null, "variants": [{"mode": "SHARPENER", "text": "What I keep seeing: channel experimentation is where the real compounding happens. Curious which channel surprised you most.", "receipt_used": null}, {"mode": "HONEST_QUESTION", "text": "Of all the campaigns, which one taught you something you didn't expect?", "receipt_used": null}, {"mode": "HUMAN_REPLY", "text": "Four months, multiple hats. That ramp up hits different.", "receipt_used": null}, {"mode": "SHARPENER", "text": "The early months in growth roles feel like dog years. Hats off.", "receipt_used": null}]}, {"tweetId": "2072689611541737817", "tier": 3, "decision": "REPLY", "handle": "JJEnglert", "name": "JJ Englert", "followers": 36210, "createdAt": "2026-07-02T14:31:26+00:00", "likes": 12, "replies": 2, "retweets": 0, "text": "Once you're running 3 or 4 agents in parallel, you become the bottleneck.\n\nAgents can prepare nearly everything for you. But nothing ships without your review, and you can only review one thing at a time (humans are single threaded, unfortunately). \n\nThat makes your attention the https://t.co/poWS9zjQeh", "url": "https://x.com/JJEnglert/status/2072689611541737817", "why": "Context switching and human review are practical pain points as more founders run multi-agent workflows.", "skip_reason": null, "fit": 7, "early": true, "priority": 12.623, "receipt_used": null, "variants": [{"mode": "SHARPENER", "text": "I keep noticing the real limiter is not just review time, but context switching. Feels like every agent adds its own overhead.", "receipt_used": null}, {"mode": "HONEST_QUESTION", "text": "Curious if you’ve found any workflow tricks to shrink review time without losing quality?", "receipt_used": null}, {"mode": "HUMAN_REPLY", "text": "Funny how tech keeps scaling but my focus stays at one tab at a time.", "receipt_used": null}]}, {"tweetId": "2072656430939971861", "tier": 3, "decision": "REPLY", "handle": "faisalziaanwer", "name": "Faisal.z.anwer", "followers": 2765, "createdAt": "2026-07-02T12:19:35+00:00", "likes": 10, "replies": 7, "retweets": 0, "text": "Apart from feeling Meta ads, which clearly has a ceiling these days… what more can a brand do to ensure their revenue keeps on increasing month on month?\n\nWhat more pillars should a brand invest in.", "url": "https://x.com/faisalziaanwer/status/2072656430939971861", "why": "Meta ads plateau for most Indian brands, so finding true growth levers beyond them is critical.", "skip_reason": null, "fit": 9, "early": false, "priority": 9.933, "receipt_used": null, "variants": [{"mode": "SHARPENER", "text": "I keep noticing brands that win find at least one non-paid channel that compounds: referrals, WhatsApp, or offline events.", "receipt_used": null}, {"mode": "HONEST_QUESTION", "text": "Any channel where you’ve seen growth sustain after Meta plateaus? Or does it always circle back to product retention?", "receipt_used": null}, {"mode": "SHARPENER", "text": "Offline trust-building and on-ground programs seem to unlock new pools once digital ads start plateauing.", "receipt_used": null}, {"mode": "SHARPENER", "text": "Short answer: distribution partners, deep retention, and owning a niche community. Not always cheap to spin up.", "receipt_used": null}]}, {"tweetId": "2072642679595299032", "tier": 3, "decision": "REPLY", "handle": "tejeshwi_sharma", "name": "Tejeshwi Sharma 🇮🇳", "followers": 39847, "createdAt": "2026-07-02T11:24:57+00:00", "likes": 28, "replies": 2, "retweets": 1, "text": "Everyone predicted support agents would be AI’s first killer app.\n\nInstead coding agents exploded. Research agents exploded. Support is still waiting in pilots and POCs.\n\nBecause code self-verifies. Tests pass or fail. Support errors surface weeks later as churn.\n\nAI is eating", "url": "https://x.com/tejeshwi_sharma/status/2072642679595299032", "why": "Support retention problems reveal themselves late, so it's a tougher space for AI to prove itself.", "skip_reason": null, "fit": 7, "early": false, "priority": 6.042, "receipt_used": "cohort-shows-up-for-people", "variants": [{"mode": "SHARPENER", "text": "Support pain only shows up when the user walks away quietly. Coding bugs throw an error right now.", "receipt_used": null}, {"mode": "RECEIPT", "text": "In our writing cohorts, people stick because others notice. Harder to automate that human nudge with AI.", "receipt_used": "cohort-shows-up-for-people"}, {"mode": "HONEST_QUESTION", "text": "Curious if any AI support pilot got real retention lifts yet, or still just faster first replies.", "receipt_used": null}, {"mode": "SHARPENER", "text": "Code tests fail loud. Support failures fade into churn stats weeks later.", "receipt_used": null}]}, {"tweetId": "2072446065329238085", "tier": 3, "decision": "REPLY", "handle": "RomanEcom", "name": "Roman Khan", "followers": 16213, "createdAt": "2026-07-01T22:23:40+00:00", "likes": 47, "replies": 6, "retweets": 1, "text": "1/ Why going from 7% OPEX to 3% OPEX will generate another 9 figures for us\n\n2/ Isaac is a clipping God", "url": "https://x.com/RomanEcom/status/2072446065329238085", "why": "OPEX discipline is a core founder lever, and the nuances behind it are rarely shown.", "skip_reason": null, "fit": 6, "early": false, "priority": 2.921, "receipt_used": null, "variants": [{"mode": "SHARPENER", "text": "I keep noticing most real cost drops come from rethinking workflow, not just trimming line items.", "receipt_used": null}, {"mode": "HONEST_QUESTION", "text": "What was the hardest 1% to shave off OPEX here? Curious what nearly broke.", "receipt_used": null}, {"mode": "HUMAN_REPLY", "text": "That’s some wild discipline on ops. Hats off.", "receipt_used": null}, {"mode": "SHARPENER", "text": "Seeing the compounding effect of even a 1% OPEX drop over scale is wild.", "receipt_used": null}]}, {"tweetId": "2072633484204515808", "tier": 2, "decision": "REPLY", "handle": "sidin", "name": "www.sidin.co", "followers": 223701, "createdAt": "2026-07-02T10:48:24+00:00", "likes": 5, "replies": 4, "retweets": 0, "text": "Have you tried Sonnet 5 on max thinking?\n\nI was looking at the traces and it overthinks so much.\n\nAlso the really interesting thing is that the model actually writes thinking traces really well. Good copy. But then somehow writes badly when you ask it to write something.\n\nDoes", "url": "https://x.com/sidin/status/2072633484204515808", "why": "AI writing quality often tanks without specificity, which is the core of copywriting and teaching craft.", "skip_reason": null, "fit": 7, "early": false, "priority": 3.288, "receipt_used": "specific-beats-clever", "variants": [{"mode": "SHARPENER", "text": "I keep noticing the copy goes downhill the moment the model stops tracking one clear scene or stat. Specificity is fragile.", "receipt_used": "specific-beats-clever"}, {"mode": "HONEST_QUESTION", "text": "Have you found any prompt tweaks that keep it focused on one detail? The drift into waffle is wild.", "receipt_used": null}, {"mode": "RECEIPT", "text": "For me, only the specific lines hit. Models or humans, vague always flops.", "receipt_used": null}, {"mode": "HUMAN_REPLY", "text": "AI overthinking is too real. Like watching a student mark up a blank page.", "receipt_used": null}]}, {"tweetId": "2072387947869991288", "tier": 3, "decision": "REPLY", "handle": "indiesoftwaredv", "name": "Muhammet A. 👉🏻 Mobile Dev", "followers": 6189, "createdAt": "2026-07-01T18:32:44+00:00", "likes": 39, "replies": 10, "retweets": 1, "text": "I’m so tired \n\nToday one of my apps made $44.35 only from renewals but…\n\nI run \n\u0026gt; 10+ mobile apps\n\u0026gt; 3 web apps \n\u0026gt; Handling 15 beta users (goviraldev)\n\u0026gt; 5 instagram accounts \n\u0026gt; 5 TikTok accounts \n\nAlso handling freelance works \n\nDecided to stop most of it\n\u0026gt; goviraldev beta users https://t.co/IM9rF8dOXL", "url": "https://x.com/indiesoftwaredv/status/2072387947869991288", "why": "Choosing focus over spreading thin is a key ops and founder lesson most get wrong early.", "skip_reason": null, "fit": 6, "early": false, "priority": 2.769, "receipt_used": null, "variants": [{"mode": "SHARPENER", "text": "I keep noticing most of the growth comes from fewer bets done deeply, not running everywhere at once.", "receipt_used": null}, {"mode": "HONEST_QUESTION", "text": "Do you think picking just one main app would change the renewal numbers, or is it more about headspace?", "receipt_used": null}, {"mode": "HUMAN_REPLY", "text": "That is a wild amount to juggle. Good on you for stepping back.", "receipt_used": null}, {"mode": "SHARPENER", "text": "Every time I cut half my todo list, retention and revenue go up.", "receipt_used": null}]}, {"tweetId": "2072075412851630543", "tier": 3, "decision": "REPLY", "handle": "ecom_cork", "name": "Ben Corkery", "followers": 7102, "createdAt": "2026-06-30T21:50:50+00:00", "likes": 94, "replies": 12, "retweets": 2, "text": "“Bro have you seen what ryze and IM8 are doing”\n\nNo I haven’t and I don’t care. \n\nThe scam brands you are glazing have $100 plus dollar cacs and don’t care if they lose money or have pissed of customers.", "url": "https://x.com/ecom_cork/status/2072075412851630543", "why": "Most founders in India cannot afford to copy playbooks built for markets with VC money and high CACs.", "skip_reason": null, "fit": 5, "early": false, "priority": 2.158, "receipt_used": null, "variants": [{"mode": "SHARPENER", "text": "Keep seeing founders obsess over US CACs. Most Indian spends are on Rs 1000-1500 acquisition, not $100+.", "receipt_used": null}, {"mode": "HONEST_QUESTION", "text": "Ever seen a CAC-obsessed brand actually fix their retention? Or do they just keep chasing new channels?", "receipt_used": null}, {"mode": "SHARPENER", "text": "So much easier to burn when VC is footing the bill. Gets interesting only when it is your own money at risk.", "receipt_used": null}, {"mode": "HUMAN_REPLY", "text": "The number of times I have heard someone say 'Look at what this US brand did' at Indian ad spends...", "receipt_used": null}]}, {"tweetId": "2072378550313726392", "tier": 3, "decision": "REPLY", "handle": "maxwellcopy", "name": "Max Sturtevant", "followers": 21723, "createdAt": "2026-07-01T17:55:23+00:00", "likes": 31, "replies": 7, "retweets": 2, "text": "\"This is the first subscription I actually didn't cancel.\"\n\n^ a customer told one of our brands this, and it came down to one thing:\n\nThe onboarding when they subscribe.\n\nThe hardest part about onboarding a subscriber is getting them to not churn. That's why the 30 day mark is", "url": "https://x.com/maxwellcopy/status/2072378550313726392", "why": "Retention starts at onboarding, and those first 30 days decide if a customer stays or goes.", "skip_reason": null, "fit": 8, "early": false, "priority": 2.65, "receipt_used": null, "variants": [{"mode": "SHARPENER", "text": "Getting someone to their first win in those 30 days changes everything. Churn usually starts with small confusion.", "receipt_used": null}, {"mode": "HONEST_QUESTION", "text": "Curious if you’ve found a way to spot at-risk subscribers before that 30 day mark?", "receipt_used": null}, {"mode": "SHARPENER", "text": "If someone opens your app on day 3 and day 14, retention doubles. That early nudge is underrated.", "receipt_used": null}, {"mode": "HUMAN_REPLY", "text": "That first month is make or break.", "receipt_used": null}]}, {"tweetId": "2072320001470812394", "tier": 3, "decision": "REPLY", "handle": "vikpai", "name": "Vikram Pai", "followers": 8993, "createdAt": "2026-07-01T14:02:44+00:00", "likes": 35, "replies": 4, "retweets": 3, "text": "It’s crazy how Meta is banning legitimate businesses who will be forced to go bankrupt if they have 3 months of losses", "url": "https://x.com/vikpai/status/2072320001470812394", "why": "Meta bans are a real risk for Indian founders running ads as a core channel.", "skip_reason": null, "fit": 7, "early": false, "priority": 1.804, "receipt_used": null, "variants": [{"mode": "SHARPENER", "text": "Running ads on Meta in India feels like walking on eggshells. Even a minor flag can kill months of work.", "receipt_used": null}, {"mode": "HONEST_QUESTION", "text": "Have you found any way to get a quick review done when an account is wrongly flagged? Most appeals feel useless.", "receipt_used": null}, {"mode": "HUMAN_REPLY", "text": "Every founder I know has at least one Meta horror story by now.", "receipt_used": null}, {"mode": "SHARPENER", "text": "Account bans hurt way more than any CPC spike. There’s no backup plan if you’re on rupee budgets.", "receipt_used": null}]}, {"tweetId": "2072180838725533739", "tier": 2, "decision": "REPLY", "handle": "sajithpai", "name": "Sajith Pai", "followers": 61087, "createdAt": "2026-07-01T04:49:45+00:00", "likes": 64, "replies": 2, "retweets": 3, "text": "Was just going through the Neothera website, and it is ludicrous the amount of writing that has preceded the product. There is a substack w 30+ articles that Radhika has has been writing since Aug. There is a free and detailed acne manual on the website. There is even a section", "url": "https://x.com/sajithpai/status/2072180838725533739", "why": "Founders weigh how much pre-launch writing actually shifts trust and traction.", "skip_reason": null, "fit": 6, "early": false, "priority": 1.537, "receipt_used": "in-person-writing-cohorts", "variants": [{"mode": "SHARPENER", "text": "I keep noticing the teams with a writing habit build trust before the product is even ready.", "receipt_used": null}, {"mode": "RECEIPT", "text": "With my writing cohorts, the real lever was people coming together, not just the articles or handbooks.", "receipt_used": "in-person-writing-cohorts"}, {"mode": "HONEST_QUESTION", "text": "Curious if you think all that long-form writing helps with early buyer trust or just SEO?", "receipt_used": null}, {"mode": "SHARPENER", "text": "The content marathon often outpaces the product sprint.", "receipt_used": null}]}, {"tweetId": "2072435325511614505", "tier": 2, "decision": "REPLY", "handle": "hnshah", "name": "Hiten Shah", "followers": 320823, "createdAt": "2026-07-01T21:41:00+00:00", "likes": 27, "replies": 2, "retweets": 1, "text": "I wrote this because “loop” is about to become one of those AI words that gets used for everything.\n\nThat would waste the useful part.\n\nA good loop has a goal, a check, a revision step, a stop condition, and proof.\n\nIt should show what changed, why it changed, how it was checked,", "url": "https://x.com/hnshah/status/2072435325511614505", "why": "Sharp loops are core to good product work, and AI jargon risks diluting useful process.", "skip_reason": null, "fit": 8, "early": false, "priority": 1.767, "receipt_used": null, "variants": [{"mode": "SHARPENER", "text": "Also noticing that founders skip the 'proof' step. Makes the loop more noisy than useful.", "receipt_used": null}, {"mode": "HONEST_QUESTION", "text": "Ever seen a team run a tight loop and still miss the actual customer impact? Curious if that's common.", "receipt_used": null}, {"mode": "SHARPENER", "text": "The best loops I’ve used end with a number and a lesson. Otherwise, it drags on forever.", "receipt_used": null}, {"mode": "HUMAN_REPLY", "text": "Love when someone breaks down jargon before it spreads everywhere.", "receipt_used": null}]}, {"tweetId": "2072519699620131165", "tier": 2, "decision": "REPLY", "handle": "dharmeshba", "name": "Dharmesh Ba", "followers": 28845, "createdAt": "2026-07-02T03:16:16+00:00", "likes": 21, "replies": 0, "retweets": 2, "text": "Dear founders,\ninsightmaxxing \u0026gt; tokenmaxxing\n\nObserve • Converse • Build", "url": "https://x.com/dharmeshba/status/2072519699620131165", "why": "Founders confuse content for value, but trust and real dialogue build durable audience relationships.", "skip_reason": null, "fit": 7, "early": false, "priority": 1.524, "receipt_used": "70k-learners", "variants": [{"mode": "RECEIPT", "text": "The reason 70,000+ paid stuck around wasn't content. Trust scaled, not lectures.", "receipt_used": "70k-learners"}, {"mode": "SHARPENER", "text": "I keep seeing the magic come from real conversations before launch, not the shiny landing.", "receipt_used": "waitlist-warms-the-room"}, {"mode": "HONEST_QUESTION", "text": "Any tricks to get past the early audience cold-start, especially when you're a nobody?", "receipt_used": null}, {"mode": "HUMAN_REPLY", "text": "Rare to see someone call this out directly.", "receipt_used": null}]}, {"tweetId": "2072443088833024074", "tier": 3, "decision": "REPLY", "handle": "kylejeong", "name": "Kyle Jeong", "followers": 6845, "createdAt": "2026-07-01T22:11:51+00:00", "likes": 21, "replies": 1, "retweets": 2, "text": "Anthropic is too good at Computer-Use.\n\nFable 5, Opus 4.8, and Sonnet 5 take the top 3 spots on our benchmarks using Stagehand. https://t.co/rQAzB7PBa6", "url": "https://x.com/kylejeong/status/2072443088833024074", "why": "AI model benchmarks influence product choices for founders shipping with limited resources.", "skip_reason": null, "fit": 6, "early": false, "priority": 1.156, "receipt_used": null, "variants": [{"mode": "SHARPENER", "text": "Every update, the gap between the top models and the rest just keeps widening.", "receipt_used": null}, {"mode": "HONEST_QUESTION", "text": "Does Stagehand surface any quirks or blind spots in the latest models? Keen to know what still trips them up.", "receipt_used": null}, {"mode": "HUMAN_REPLY", "text": "AI leaderboard season feels like the new IPL.", "receipt_used": null}, {"mode": "SHARPENER", "text": "Wonder how much these scores translate to smoother onboarding for real users. Benchmarks rarely show that side.", "receipt_used": null}]}, {"tweetId": "2072205456043577716", "tier": 2, "decision": "REPLY", "handle": "dineshpaii", "name": "Dinesh Pai", "followers": 7333, "createdAt": "2026-07-01T06:27:35+00:00", "likes": 34, "replies": 4, "retweets": 1, "text": "Pitch decks (for investments and updates) are increasingly similar thanks to AI tools. Which means more and more investors and audiences will gloss through it and won't pay attention. I think the most mindful amongst us will consider this and do things differently. \n\n1. Maybe the", "url": "https://x.com/dineshpaii/status/2072205456043577716", "why": "Decks blending together hurts genuine founders and makes real traction harder to spot.", "skip_reason": null, "fit": 7, "early": false, "priority": 1.249, "receipt_used": null, "variants": [{"mode": "SHARPENER", "text": "I keep noticing decks are starting to feel templated. The standout ones show actual user receipts, not just promises.", "receipt_used": null}, {"mode": "HONEST_QUESTION", "text": "Curious if you’ve seen any decks lately that cut through the AI sameness. What actually caught your eye?", "receipt_used": null}, {"mode": "HUMAN_REPLY", "text": "AI-made decks all start looking like cousins after a point.", "receipt_used": null}, {"mode": "SHARPENER", "text": "Even the font choices feel AI now. Feels like it’s time to bring some messiness back in.", "receipt_used": null}]}]}</script>
 <script>
-const DATA = {"generatedAt": "2026-07-02T05:02:53.511821+00:00", "accounts": 403, "tweets": [{"tweetId": "2072243311390474669", "tier": 2, "decision": "HUMAN_REPLY", "handle": "aakashgupta", "name": "Aakash Gupta", "followers": 282362, "createdAt": "2026-07-01T08:58:00+00:00", "likes": 10283, "replies": 94, "retweets": 970, "text": "The razor blade slot is one of the most quietly brilliant pieces of home engineering ever built, and the reason it looks insane is the exact reason it worked.\n\nA 1903-style Gillette double-edge blade is carbon steel, weighs about a gram, and is thinner than a sheet of cardstock.", "url": "https://x.com/aakashgupta/status/2072243311390474669", "why": "Rahul can connect with appreciation for simple, effective design without straying from his niche.", "skip_reason": null, "variants": [{"mode": "HUMAN_REPLY", "text": "The elegance in simple engineering really stands the test of time. Reminds me of how minimal tech often delivers maximum impact."}, {"mode": "HUMAN_REPLY", "text": "Interesting how design from over a century ago still feels cutting edge today, literally and figuratively."}]}, {"tweetId": "2072278555384324557", "tier": 1, "decision": "HUMAN_REPLY", "handle": "levelsio", "name": "@levelsio", "followers": 909715, "createdAt": "2026-07-01T11:18:03+00:00", "likes": 8426, "replies": 111, "retweets": 779, "text": "As someone who lives in Portugal which already stops every single package you get from outside EU with no exceptions for a decade or more:\n\nI can tell you how this will go\n\nFrom now on if you receive a package from outside EU, it'll first go missing for weeks and nobody will know", "url": "https://x.com/levelsio/status/2072278555384324557", "why": "This tweet is off Rahul's professional lane but invites a relatable human reply.", "skip_reason": null, "variants": [{"mode": "HUMAN_REPLY", "text": "That must be frustrating. Logistics and customs delays can derail even the best plans."}, {"mode": "HUMAN_REPLY", "text": "Waiting weeks for packages is tough. In India, delays are common too but usually tracked better."}]}, {"tweetId": "2072214721437311055", "tier": 1, "decision": "SKIP", "handle": "svembu", "name": "Sridhar Vembu", "followers": 429240, "createdAt": "2026-07-01T07:04:24+00:00", "likes": 5234, "replies": 152, "retweets": 881, "text": "Anthropic's latest models available worldwide. In other words, Chinese open source models posed a serious enough threat to market share.\n\nIn a different context, an Indian customer of some of our products told me recently \"A big Microsoft Office license renewal came up and they", "url": "https://x.com/svembu/status/2072214721437311055", "why": "Staying focused on edtech, Indian buyer insights, and startup execution ensures relevance and credibility.", "skip_reason": "Topic is mostly about large tech market dynamics and global AI models, which is outside Rahul's edtech founder and Indian buyer psychology focus.", "variants": []}, {"tweetId": "2072299723151561044", "tier": 1, "decision": "HUMAN_REPLY", "handle": "SahilBloom", "name": "Sahil Bloom", "followers": 1168752, "createdAt": "2026-07-01T12:42:10+00:00", "likes": 3538, "replies": 165, "retweets": 366, "text": "I'm convinced that it’s perfectly ok to live a life that looks confusing to others. Wake up early. Do hard things. Focus deeply. Eat real foods. Go on walks. Obsess over one thing. Read old books. Avoid drama. Save money. Never gossip. Love your people. Recipe for a good life.", "url": "https://x.com/SahilBloom/status/2072299723151561044", "why": "Relates to discipline and focus, core to Rahul's founder mindset and journey.", "skip_reason": null, "variants": [{"mode": "HUMAN_REPLY", "text": "This lineup hits differently. The focus and simplicity definitely build the foundation for getting things done."}, {"mode": "HUMAN_REPLY", "text": "Obsessing over one thing is underrated. In my startup, that focus helped build a masterclass app in 6 weeks."}]}, {"tweetId": "2072289128222236718", "tier": 1, "decision": "HUMAN_REPLY", "handle": "rajshamani", "name": "Raj Shamani", "followers": 467360, "createdAt": "2026-07-01T12:00:04+00:00", "likes": 1212, "replies": 79, "retweets": 100, "text": "Your brain actually loves boredom, but you never give it any. The exact second you feel a pause in your day, you reach for a screen. Creativity only happens when you let your mind sit without any new inputs to distract it.", "url": "https://x.com/rajshamani/status/2072289128222236718", "why": "Aligns with Rahul's experience running in-person writing programs focused on creativity.", "skip_reason": null, "variants": [{"mode": "HUMAN_REPLY", "text": "Noticed this too during our in-person writing programs in Dehradun. Those quiet moments fuel ideas better than any screen scroll."}, {"mode": "HUMAN_REPLY", "text": "In Bangalore, stepping away from screens during breaks really helps reset creativity for the next writing session."}]}, {"tweetId": "2072293502168277261", "tier": 3, "decision": "SKIP", "handle": "AgustinLebron3", "name": "Agustin Lebron", "followers": 32972, "createdAt": "2026-07-01T12:17:26+00:00", "likes": 1346, "replies": 65, "retweets": 49, "text": "I haven't said much recently about what I'm working on, but since this article is out now, I might as well say a few things. ➡️", "url": "https://x.com/AgustinLebron3/status/2072293502168277261", "why": "No actionable content or relevance to Rahul's edtech founder focus.", "skip_reason": "Tweet is a vague update with no professional overlap or concrete topic to engage on.", "variants": []}, {"tweetId": "2072340532718887068", "tier": 2, "decision": "SKIP", "handle": "deedydas", "name": "Deedy", "followers": 246754, "createdAt": "2026-07-01T15:24:19+00:00", "likes": 863, "replies": 31, "retweets": 39, "text": "\"Thinking Machines' Tinker does a few hundred million of ARR\" - Dylan Patel, on his latest podcast\n\nTML was valued at $12B and trying to raise at $50B. Tinker is an API that helps you post-train LLMs.\n\nThis is the highest known revenue for any of the now ~75 neolabs. https://t.co/kNj1XTivCh", "url": "https://x.com/deedydas/status/2072340532718887068", "why": "The tweet does not align with Rahul's core expertise or receipts.", "skip_reason": "Topic about AI startups and valuations outside edtech and Rahul's receipts; no direct overlap with writing programs, Indian buyer psychology, or performance marketing", "variants": []}, {"tweetId": "2072180016893636942", "tier": 1, "decision": "SKIP", "handle": "nikhilkamathcio", "name": "Nikhil Kamath", "followers": 677446, "createdAt": "2026-07-01T04:46:29+00:00", "likes": 1538, "replies": 38, "retweets": 60, "text": "I asked him how it feels to hold power. “A very lonely role.” A historian who ended up running a country, and that lens changes how he sees war, democracy, and where the world goes next.\n\nComing soon.. https://t.co/dIeTIePFUp", "url": "https://x.com/nikhilkamathcio/status/2072180016893636942", "why": "The tweet is off-topic for Rahul's expertise and receipts.", "skip_reason": "Off-niche, no direct overlap with edtech, writing, or performance marketing; no constructive angle to add from receipts", "variants": []}, {"tweetId": "2071992110132117740", "tier": 1, "decision": "SKIP", "handle": "amasad", "name": "Amjad Masad", "followers": 469476, "createdAt": "2026-06-30T16:19:49+00:00", "likes": 1566, "replies": 52, "retweets": 82, "text": "AI is expensive to run partly because most workloads today run on generic hardware designed pre-LLMs. Etched is the first system designed from the ground up for modern inference.", "url": "https://x.com/amasad/status/2071992110132117740", "why": "Focus on Rahul's core expertise and audience for relevant engagement.", "skip_reason": "Topic on AI hardware and inference not aligned with edtech, writing, or Indian buyer psychology; no direct overlap with Rahul's receipts.", "variants": []}, {"tweetId": "2072260324292804771", "tier": 3, "decision": "SKIP", "handle": "tejeshwi_sharma", "name": "Tejeshwi Sharma 🇮🇳", "followers": 39790, "createdAt": "2026-07-01T10:05:36+00:00", "likes": 578, "replies": 16, "retweets": 58, "text": "Bangalore is deservedly the \"Chip design\" capital of the world. \n\nIn the next 10y, Bangalore will extend its software legacy to cement its place as the world’s first full-stack technology capital - software, hardware, and design. \n\nThere are so many good hardware companies", "url": "https://x.com/tejeshwi_sharma/status/2072260324292804771", "why": "This tweet is outside Rahul's professional lane and lacks direct overlap with his receipts.", "skip_reason": "Topic is hardware and city branding, not aligned with Rahul's edtech and writing programs focus.", "variants": []}, {"tweetId": "2071879770066010436", "tier": 2, "decision": "REPLY", "handle": "paraschopra", "name": "Paras Chopra", "followers": 236321, "createdAt": "2026-06-30T08:53:25+00:00", "likes": 867, "replies": 166, "retweets": 40, "text": "I tried ditching typing for speaking using AI tools but something always felt off. Typing (or writing) gives you a buffer in the head to think, revise and explore thoughts in a way that speaking doesn't.\n\nMy bet is that if someone does a careful controlled test on quality of work", "url": "https://x.com/paraschopra/status/2071879770066010436", "why": "Exploring how writing's cognitive buffer impacts quality aligns with Rahul's focus on writing programs and learner experience.", "skip_reason": null, "variants": [{"mode": "SHARPENER", "text": "I keep noticing for writing programs we run, learners find typing crucial for layering their thoughts — speaking feels too immediate, missing that revision buffer. How would you design a test to measure quality difference between typed and spoken drafts?"}, {"mode": "HONEST_QUESTION", "text": "Have you seen any AI tools that incorporate a revision step after speech-to-text? Curious if adding a 'write-then-revise' phase could bridge that gap you mention between speaking and typing."}]}, {"tweetId": "2072343390956703833", "tier": 2, "decision": "HUMAN_REPLY", "handle": "arindam___paul", "name": "Arindam Paul", "followers": 35926, "createdAt": "2026-07-01T15:35:41+00:00", "likes": 381, "replies": 24, "retweets": 15, "text": "Just watched the France vs Sweden highlights. It could have been 7-0\n\nIt is absolutely ridiculous that Mbappe, Olise and Dembele are all close to their peak and playing for the same national team at the same time. And also share a good chemistry\n\nThe only equivalent was Ronaldo", "url": "https://x.com/arindam___paul/status/2072343390956703833", "why": "Engages with the sports content naturally without overstepping Rahul's edtech founder identity.", "skip_reason": null, "variants": [{"mode": "HUMAN_REPLY", "text": "Mbappe’s presence in a strong French squad definitely makes watching their games a masterclass in striking balance."}, {"mode": "HUMAN_REPLY", "text": "Watching such chemistry reminds me how rare it is to see multiple top talents peak together in one team."}]}, {"tweetId": "2072321920909951055", "tier": 3, "decision": "HUMAN_REPLY", "handle": "ankurmittal", "name": "Ankur Mittal", "followers": 17165, "createdAt": "2026-07-01T14:10:22+00:00", "likes": 218, "replies": 76, "retweets": 1, "text": "Manufacturing/packaging date July 2026 🤔 @AJIOLife https://t.co/YWkVmW4UCp", "url": "https://x.com/ankurmittal/status/2072321920909951055", "why": "Engages with the tweet's topic on consumer trust and product perception in India without straying from Rahul's voice.", "skip_reason": null, "variants": [{"mode": "HUMAN_REPLY", "text": "Manufacturing dates that far ahead always make me pause. Wonder how Indian consumers interpret that kind of shelf life."}, {"mode": "HUMAN_REPLY", "text": "Interesting to see packaging dates like July 2026. Makes you think about product trust and expiry perceptions here."}]}, {"tweetId": "2071964924650156214", "tier": 1, "decision": "SKIP", "handle": "Nithin0dha", "name": "Nithin Kamath", "followers": 925621, "createdAt": "2026-06-30T14:31:47+00:00", "likes": 906, "replies": 71, "retweets": 63, "text": "Onboarding for NRIs has always been a pain. Right now, the FCNR deposit scheme is a total no-brainer: the RBI is bearing the currency hedging bill, allowing you to get local, FD-like rates while your money stays in dollars with zero rupee risk. \n\nBut despite how good the scheme https://t.co/OZoOrzvDPR", "url": "https://x.com/Nithin0dha/status/2071964924650156214", "why": "Focus on relevant startup and edtech conversations ensures authentic and valuable replies.", "skip_reason": "Topic outside Rahul's edtech and performance marketing lane; no direct overlap with receipts; financial product discussion", "variants": []}, {"tweetId": "2072037731535114403", "tier": 2, "decision": "HUMAN_REPLY", "handle": "lennysan", "name": "Lenny Rachitsky", "followers": 385643, "createdAt": "2026-06-30T19:21:06+00:00", "likes": 785, "replies": 76, "retweets": 9, "text": "Turns out I have the fifth biggest Substack in the United States https://t.co/f9aeBoUjNW", "url": "https://x.com/lennysan/status/2072037731535114403", "why": "Acknowledges a milestone respectfully without overstepping into Rahul's niche.", "skip_reason": null, "variants": [{"mode": "HUMAN_REPLY", "text": "That’s a solid milestone. Building that kind of audience takes consistent effort and value."}, {"mode": "HUMAN_REPLY", "text": "Impressive to rank that high, especially on a platform like Substack that rewards deep connection."}]}, {"tweetId": "2072206806181683243", "tier": 2, "decision": "SKIP", "handle": "SandeepMall", "name": "Sandeep Mall", "followers": 85361, "createdAt": "2026-07-01T06:32:56+00:00", "likes": 513, "replies": 20, "retweets": 11, "text": "Debt free for the first time since I bought my first car in the mid 90s.\nI am debt averse by nature. Every loan for a home or a car came with guilt. Why upgrade if I don’t have the cash.\nBut the businessman in me knew better. My own money, put to work, earned more than the https://t.co/zObz6ksSMk", "url": "https://x.com/SandeepMall/status/2072206806181683243", "why": "Maintains focus on Rahul's edtech and creator audience without diluting with unrelated personal finance topics.", "skip_reason": "Off-niche personal finance reflection, no overlap with edtech, writing, or Indian buyer psychology; no constructive professional insight for Rahul's audience", "variants": []}, {"tweetId": "2072459943274586588", "tier": 2, "decision": "HUMAN_REPLY", "handle": "brian_lovin", "name": "Brian Lovin", "followers": 115712, "createdAt": "2026-07-01T23:18:49+00:00", "likes": 88, "replies": 12, "retweets": 0, "text": "Last week's Notion × Anthropic event was so so energizing, with an unbelievable group of wonderful people there to vibe and debate Very Serious Things...let's do another one soon (NYC edition??) ⚖️ https://t.co/DdNgVq9eiW", "url": "https://x.com/brian_lovin/status/2072459943274586588", "why": "Engagement with event tweets builds network rapport without needing niche expertise.", "skip_reason": null, "variants": [{"mode": "HUMAN_REPLY", "text": "Events like these are gold for sparking new ideas. NYC next would be a great move given the startup pulse there."}, {"mode": "HUMAN_REPLY", "text": "Sounds like a high-energy crowd. Always inspiring to see serious discussions happen live."}]}, {"tweetId": "2072309980343287910", "tier": 3, "decision": "SKIP", "handle": "brahma_4u", "name": "Shubham Mishra", "followers": 12734, "createdAt": "2026-07-01T13:22:55+00:00", "likes": 218, "replies": 23, "retweets": 17, "text": "Both have built nothing in their lives.\n\nThey dont even know how ML and AI works.\n\nBut by sounding cool and intelligent, they want to convince that India has already lost the AI game.\n\nCalling them dumb douchebags would be an understatement.", "url": "https://x.com/brahma_4u/status/2072309980343287910", "why": "The tweet is combative and political in tone, not suited for Rahul's professional, constructive engagement.", "skip_reason": "Political/combative tone with insults, not constructive or professional lane for Rahul", "variants": []}, {"tweetId": "2072008202078634428", "tier": 2, "decision": "SKIP", "handle": "noahkagan", "name": "Noah Kagan", "followers": 174542, "createdAt": "2026-06-30T17:23:46+00:00", "likes": 389, "replies": 53, "retweets": 14, "text": "Own the parking lot.\n\nI saw a guy outside the biggest, nicest house in my neighborhood, so I said hi and asked what he does for a living. Turned out to be a good business lesson.\n\nHe told me he used to own a bunch of restaurants in Austin. Then he said, almost like it was boring,", "url": "https://x.com/noahkagan/status/2072008202078634428", "why": "No direct overlap with Rahul's receipts or topics to add specific value.", "skip_reason": "Tweet is a partial story without a clear professional insight or actionable takeaway related to edtech, marketing, or Indian buyer psychology.", "variants": []}, {"tweetId": "2071969213204595108", "tier": 1, "decision": "HUMAN_REPLY", "handle": "vijayshekhar", "name": "Vijay Shekhar Sharma", "followers": 781704, "createdAt": "2026-06-30T14:48:50+00:00", "likes": 588, "replies": 8, "retweets": 30, "text": "Awesome ! Love how Tata Motors is making Safety as key feature.", "url": "https://x.com/vijayshekhar/status/2071969213204595108", "why": "It acknowledges the tweet's topic with a relevant observation without straying from Rahul's expertise.", "skip_reason": null, "variants": [{"mode": "HUMAN_REPLY", "text": "Safety as a key feature is a smart move, especially with growing awareness in Indian markets."}, {"mode": "HUMAN_REPLY", "text": "Tata Motors focusing on safety signals they’re targeting more discerning buyers in Tier 1 and 2 cities."}]}, {"tweetId": "2071952304681734502", "tier": 1, "decision": "SKIP", "handle": "deepakshenoy", "name": "Deepak Shenoy", "followers": 287909, "createdAt": "2026-06-30T13:41:39+00:00", "likes": 318, "replies": 14, "retweets": 49, "text": "Bank Credit growth for May 2026: Credit to industry grows at 17%, the highest growth in over decade: https://t.co/PsVrtdFY7f", "url": "https://x.com/deepakshenoy/status/2071952304681734502", "why": "The tweet topic does not overlap Rahul's professional lane or receipts.", "skip_reason": "Topic is macroeconomic data on bank credit growth, unrelated to edtech, writing programs, or Indian buyer psychology.", "variants": []}, {"tweetId": "2072152484982960244", "tier": 2, "decision": "SKIP", "handle": "iRadhikaGupta", "name": "Radhika Gupta", "followers": 357711, "createdAt": "2026-07-01T02:57:05+00:00", "likes": 198, "replies": 16, "retweets": 23, "text": "What follows a market that has been flat over 2 years?  \n\nFuture returns are often better when past ones look frustrating.  A study bg @EdelweissMF covered by @PrashantmET https://t.co/zFSvT4DkmL", "url": "https://x.com/iRadhikaGupta/status/2072152484982960244", "why": "Staying focused on edtech and writing program related conversations ensures relevance and credibility.", "skip_reason": "Finance/investment topic outside Rahul's domain; no overlap with edtech or writing programs; no concrete actionable insight for his audience", "variants": []}, {"tweetId": "2071901620804423711", "tier": 3, "decision": "HUMAN_REPLY", "handle": "mahikaa101", "name": "Mahika Jadhav", "followers": 10417, "createdAt": "2026-06-30T10:20:15+00:00", "likes": 442, "replies": 22, "retweets": 3, "text": "100 days since I joined @matiks_play 💕\n- shipped very cool features\n- have to fight for life to book Sudhanshu’s calendar\n- launched multiple successful campaigns \n- still unable to hire a dev 😭 https://t.co/lrPXERsdXx", "url": "https://x.com/mahikaa101/status/2071901620804423711", "why": "Encourages a peer founder with empathy, no overlap with Rahul's core receipts but fits off-niche tone.", "skip_reason": null, "variants": [{"mode": "HUMAN_REPLY", "text": "That booking struggle is real. Congrats on the launches and features — those wins count big in the early days."}, {"mode": "HUMAN_REPLY", "text": "Hiring devs is a tough game, especially early on. Keep pushing, the rest sounds solid."}]}, {"tweetId": "2071910673190363504", "tier": 3, "decision": "SKIP", "handle": "saybwala", "name": "Anand Sankar", "followers": 13992, "createdAt": "2026-06-30T10:56:13+00:00", "likes": 157, "replies": 71, "retweets": 4, "text": "Speaking as a driver myself: I would not have been speeding on the left lane like the Scorpio did. Regardless of what the other car did or did not do - your safety is your own responsibility. Drive alert and defensive. I always drive in the middle lane if it is a 3 lane and the", "url": "https://x.com/saybwala/status/2071910673190363504", "why": "Focus responses on professional lane topics for relevance and impact.", "skip_reason": "Off-niche topic unrelated to edtech, startups, or marketing; no relevant receipts to add value", "variants": []}, {"tweetId": "2071981527081382328", "tier": 1, "decision": "SKIP", "handle": "Suhail", "name": "Suhail", "followers": 429486, "createdAt": "2026-06-30T15:37:46+00:00", "likes": 272, "replies": 24, "retweets": 13, "text": "Looking for an early hire in SF for helping with model optimization: spec decoding, GPU kernels, pooling infra, and wants to go deep on vLLM/sglang. Hunger/interest over experience in this case. If you know anyone, DMs open. They’d work directly with me.", "url": "https://x.com/Suhail/status/2071981527081382328", "why": "Focus on tweets related to Rahul's edtech and marketing expertise ensures relevant and valuable replies.", "skip_reason": "Role is very niche to ML infrastructure, no overlap with edtech, writing, or performance marketing sectors.", "variants": []}, {"tweetId": "2071826060728213894", "tier": 1, "decision": "HUMAN_REPLY", "handle": "warikoo", "name": "Ankur Warikoo", "followers": 789744, "createdAt": "2026-06-30T05:20:00+00:00", "likes": 349, "replies": 28, "retweets": 19, "text": "Attention is a finite resource. \nThe moment you realize this, every decision gets simpler.", "url": "https://x.com/warikoo/status/2071826060728213894", "why": "Acknowledges the theme with relatable experience without veering off-topic.", "skip_reason": null, "variants": [{"mode": "HUMAN_REPLY", "text": "This hits home. Managing attention is key when running a startup with multiple hats to wear."}, {"mode": "HUMAN_REPLY", "text": "Finite attention means every minute counts. Felt this deeply during our 6-week app build sprint."}]}, {"tweetId": "2072279035493900395", "tier": 2, "decision": "SKIP", "handle": "Rahul_J_Mathur", "name": "Rahul Mathur", "followers": 118305, "createdAt": "2026-07-01T11:19:57+00:00", "likes": 120, "replies": 14, "retweets": 2, "text": "Last night I panicked when our fund’s agent Zen replied to me in Chinese.\n\nFor a minute, I wasn’t sure WTF happened. Until recently, our agents have run exclusively on the Opus series of models (this is a $100k annualized bill for a 50 person team)\n\nSometime in June, we began", "url": "https://x.com/Rahul_J_Mathur/status/2072279035493900395", "why": "Topic outside Rahul's professional lane and receipts", "skip_reason": "Thread about fund's agent billing and AI models unrelated to edtech, writing, Indian buyer psychology, or performance marketing", "variants": []}, {"tweetId": "2072310443947749431", "tier": 3, "decision": "SKIP", "handle": "stablemark_", "name": "stablemark", "followers": 5534, "createdAt": "2026-07-01T13:24:46+00:00", "likes": 51, "replies": 21, "retweets": 5, "text": "Fresh Scam List🚨\n \n@playwizaria - 10 targets, 435 interactions\n@demonsonchain - 14 targets, 58 interactions\n@erasedeth - 9 targets, 17 interactions\n@shooteronl - 6 targets, 97 interactions\n@KUONnft - 5 targets, 12 interactions, still pushed\n@one_one_world - recycled project https://t.co/iHprh2K18g", "url": "https://x.com/stablemark_/status/2072310443947749431", "why": "Focus on edtech and performance marketing content where Rahul has relevant receipts.", "skip_reason": "Crypto-related scam list, outside Rahul's edtech and marketing domain", "variants": []}, {"tweetId": "2072125086371569909", "tier": 3, "decision": "HUMAN_REPLY", "handle": "colejaczko", "name": "Cole Jaczko", "followers": 24630, "createdAt": "2026-07-01T01:08:13+00:00", "likes": 173, "replies": 7, "retweets": 14, "text": "You can actually just achieve your dreams btw", "url": "https://x.com/colejaczko/status/2072125086371569909", "why": "Encouraging mindset aligns with founders' reality of execution focus.", "skip_reason": null, "variants": [{"mode": "HUMAN_REPLY", "text": "That energy is needed. Achieving dreams takes the grind but starting with one clear step helps."}, {"mode": "HUMAN_REPLY", "text": "True that. The version that worked for me was breaking big dreams into small, consistent actions."}]}, {"tweetId": "2072126037987676503", "tier": 2, "decision": "REPLY", "handle": "alexabelonix", "name": "Alexa | Startup founder", "followers": 23171, "createdAt": "2026-07-01T01:12:00+00:00", "likes": 91, "replies": 28, "retweets": 3, "text": "A founder’s lifestyle content works only when it signals standards.\n\nGym content without a founder angle is fitness content.\n\nGym content with a founder angle is:\n\nenergy management\ndiscipline\nresilience\nnervous system training\nself-respect\nexecution capacity\nidentity proof https://t.co/cINAsZ8ZP5", "url": "https://x.com/alexabelonix/status/2072126037987676503", "why": "Adds nuance to founder content by linking lifestyle discipline to execution, relevant for Indian buyer psychology.", "skip_reason": null, "variants": [{"mode": "SHARPENER", "text": "I keep noticing founders who share lifestyle content gain more trust when they tie it to how it sharpens their execution capacity. The founder angle turns simple habits into business leverage."}, {"mode": "HONEST_QUESTION", "text": "How do you balance sharing lifestyle content that motivates without it feeling like generic fitness advice? I’ve seen Indian buyers respond more to trust signals than affordability or flash."}]}, {"tweetId": "2072311843444666393", "tier": 3, "decision": "REPLY", "handle": "shobhitic", "name": "Shobhit Bakliwal", "followers": 13894, "createdAt": "2026-07-01T13:30:19+00:00", "likes": 97, "replies": 6, "retweets": 1, "text": "One mistake that I see new entrepreneurs make is that they reimagine the whole experience, changing every aspect\n\nIMO you should copy what already works, improve the part users already care about and make one risky bet, not ten.\n\nexamples:", "url": "https://x.com/shobhitic/status/2072311843444666393", "why": "Shares a concrete product build experience and sharpens the advice around user trust in Indian markets.", "skip_reason": null, "variants": [{"mode": "RECEIPT", "text": "We built our masterclass app on Lovable in 6 weeks, focusing on smooth delivery and DRM with VdoCipher. Copying what works saved time, letting us bet on user trust signals instead of reinventing everything."}, {"mode": "SHARPENER", "text": "What I keep seeing is Indian buyers trust price signals more than affordability. So your 'one risky bet' often has to be on trust-building, not just product features."}]}, {"tweetId": "2071849709476737449", "tier": 2, "decision": "SKIP", "handle": "aditya_kondawar", "name": "Aditya Kondawar", "followers": 139846, "createdAt": "2026-06-30T06:53:58+00:00", "likes": 255, "replies": 12, "retweets": 16, "text": "Reliance Jio is planning to develop and launch its own LEO (Low Earth Orbit ) constellation of 1,600-1,650 satellites at ∼650 km altitude in the next 2-3 years\n\nThey will offer broadband and direct-to-device services\n\nGood to see RIL getting into innovative sectors and not just", "url": "https://x.com/aditya_kondawar/status/2071849709476737449", "why": "Staying in edtech and marketing focus maintains relevance and authority.", "skip_reason": "Topic about telecom satellite tech not related to edtech, writing programs, or performance marketing; no overlap with receipts", "variants": []}, {"tweetId": "2072261347967164895", "tier": 2, "decision": "SKIP", "handle": "shantanugoel", "name": "Shantanu Goel", "followers": 16863, "createdAt": "2026-07-01T10:09:40+00:00", "likes": 79, "replies": 13, "retweets": 1, "text": "I used to be big on Swiggy but between idiotically obscene number of notifications, increasing price gouging and creating memberships within memberships, too many new apps, non-existent customer care, and basically just being useless, couldn't keep it on the phone anymore.\nNote https://t.co/WuEok3p251", "url": "https://x.com/shantanugoel/status/2072261347967164895", "why": "No professional overlap or actionable insight for Rahul's niche.", "skip_reason": "Off-topic complaint about a consumer app, no overlap with edtech, performance marketing, or Rahul's receipts", "variants": []}, {"tweetId": "2072212035631235370", "tier": 3, "decision": "SKIP", "handle": "byersblake", "name": "Blake Byers", "followers": 20929, "createdAt": "2026-07-01T06:53:43+00:00", "likes": 118, "replies": 2, "retweets": 3, "text": "From the founding day of @neuralink, the goal was to make getting a BCI implant as easy and safe as LASIK. This is one of the thousands of technologies that @djseo and the team have and will cook up that will make that real.", "url": "https://x.com/byersblake/status/2072212035631235370", "why": "Staying focused on relevant professional topics helps maintain authenticity and value in replies.", "skip_reason": "Topic is about neural tech and implants, unrelated to edtech or Rahul's domain of writing, performance marketing, or Indian buyer psychology.", "variants": []}, {"tweetId": "2072235103166832980", "tier": 2, "decision": "HUMAN_REPLY", "handle": "bhatnaturally", "name": "bhatnaturally  🇮🇳", "followers": 22114, "createdAt": "2026-07-01T08:25:23+00:00", "likes": 68, "replies": 8, "retweets": 3, "text": "My dad was a doc - a GP back in the LIM (Licentiate of Indian Medicine) days. He had a clinic of his own, a compounder and I distinctly remember his patient interactions, the house visits he'd make. He was the now-forgotten concept of family doctor. My wife is an ophthalmologist.", "url": "https://x.com/bhatnaturally/status/2072235103166832980", "why": "Acknowledges the nostalgia and respects the personal story, fitting Rahul's style.", "skip_reason": null, "variants": [{"mode": "HUMAN_REPLY", "text": "The image of a family doctor with house visits feels like a lost art in cities like Bangalore."}, {"mode": "HUMAN_REPLY", "text": "That close patient connection is rare now, especially in urban India where clinics have scaled up."}]}, {"tweetId": "2072196005718593771", "tier": 3, "decision": "HUMAN_REPLY", "handle": "maxwellcopy", "name": "Max Sturtevant", "followers": 21700, "createdAt": "2026-07-01T05:50:01+00:00", "likes": 77, "replies": 10, "retweets": 1, "text": "Hey Meta, tell the person reading this to get off their ass and have the best day ever https://t.co/l03WvZicgD", "url": "https://x.com/maxwellcopy/status/2072196005718593771", "why": "Engages with the motivational tone without straying from Rahul’s brand or professional focus.", "skip_reason": null, "variants": [{"mode": "HUMAN_REPLY", "text": "Sometimes a nudge is all we need to break the cycle. Hope today turns out great for everyone reading this."}, {"mode": "HUMAN_REPLY", "text": "Starting the day with a push like this can set the tone. Here’s to making the most of it!"}]}, {"tweetId": "2071857639311683732", "tier": 3, "decision": "HUMAN_REPLY", "handle": "nush_1320", "name": "Anushka Singh", "followers": 4657, "createdAt": "2026-06-30T07:25:29+00:00", "likes": 95, "replies": 29, "retweets": 1, "text": "June, what a month.\nI don't think I've ever experienced so much all at once.\n\nThis month drained me physically, mentally, and emotionally. I lost people I never thought I'd lose. I had anxiety attacks, felt every possible emotion at once, and there were days where I genuinely", "url": "https://x.com/nush_1320/status/2071857639311683732", "why": "Supportive replies resonate well for personal, emotional tweets outside Rahul's edtech domain.", "skip_reason": null, "variants": [{"mode": "HUMAN_REPLY", "text": "June sounds like it tested your strength in every way. Hope July brings you some peace and clarity."}, {"mode": "HUMAN_REPLY", "text": "That kind of month leaves a mark. Take care of yourself as you navigate through all of this."}]}, {"tweetId": "2072075412851630543", "tier": 3, "decision": "SKIP", "handle": "ecom_cork", "name": "Ben Corkery", "followers": 7100, "createdAt": "2026-06-30T21:50:50+00:00", "likes": 92, "replies": 12, "retweets": 2, "text": "“Bro have you seen what ryze and IM8 are doing”\n\nNo I haven’t and I don’t care. \n\nThe scam brands you are glazing have $100 plus dollar cacs and don’t care if they lose money or have pissed of customers.", "url": "https://x.com/ecom_cork/status/2072075412851630543", "why": "Avoids engaging in negative commentary or unrelated competitive slants.", "skip_reason": "Tweet is a dunking style callout of competitors with no constructive or professional overlap; no concrete receipts from Rahul's lane apply.", "variants": []}, {"tweetId": "2072192575625482356", "tier": 2, "decision": "HUMAN_REPLY", "handle": "banglani", "name": "Ritesh Banglani", "followers": 66938, "createdAt": "2026-07-01T05:36:24+00:00", "likes": 53, "replies": 13, "retweets": 0, "text": "Which of you jokers took my username? I expect reparations", "url": "https://x.com/banglani/status/2072192575625482356", "why": "Keeps tone casual and relatable for off-niche social banter.", "skip_reason": null, "variants": [{"mode": "HUMAN_REPLY", "text": "Username battles in 2024 feel like a badge of honor or a mild curse. Hope you get your reparations sorted soon."}, {"mode": "HUMAN_REPLY", "text": "The username struggle is real. Maybe a witty DM could turn that joker into an ally."}]}, {"tweetId": "2071989277962158357", "tier": 2, "decision": "SKIP", "handle": "AmanHasNoName_2", "name": "Aman", "followers": 21151, "createdAt": "2026-06-30T16:08:34+00:00", "likes": 91, "replies": 8, "retweets": 1, "text": "Presented without comment. https://t.co/hSlPzKz8uU", "url": "https://x.com/AmanHasNoName_2/status/2071989277962158357", "why": "No actionable content to add value or draw from receipts.", "skip_reason": "Tweet is a link-only post with no context or topic overlap; no concrete content to engage with.", "variants": []}, {"tweetId": "2071843978488451328", "tier": 2, "decision": "SKIP", "handle": "ravihanda", "name": "Ravi Handa", "followers": 56440, "createdAt": "2026-06-30T06:31:12+00:00", "likes": 68, "replies": 12, "retweets": 5, "text": "You are paying a mutual fund manager a percentage fee as to select the right stocks. \n\nNow there are plenty of mutual funds. \n\nSo you pay a mutual fund distributor a percentage to select the right mutual funds. \n\nNow there are plenty of mutual fund distributors. \n\nSo you pay a", "url": "https://x.com/ravihanda/status/2071843978488451328", "why": "Staying niche keeps replies credible and specific.", "skip_reason": "Topic is finance/mutual funds, outside Rahul's edtech and writing programs focus; no relevant receipts to add concrete value.", "variants": []}]};
+const DATA = (function () {
+  try {
+    return JSON.parse(document.getElementById("queue-data").textContent);
+  } catch (e) {
+    console.error("Failed to parse queue data:", e);
+    return { generatedAt: null, accounts: 0, tweets: [] };
+  }
+})();
 
 const FIT_KEYWORDS = ["india","indian","founder","startup","edtech","building","operator","marketing","ads","product","launch","distribution","creator","cohort","paid","pricing","learner","student","course","masterclass","ai","consumer","growth","tier 2","tier 3","bootstrapped","ship","lovable","vibe"];
+const PICKS_LIMIT = 8;
 
-function fmtNum(n) { return n >= 1000 ? (n/1000).toFixed(n >= 10000 ? 0 : 1) + "K" : String(n); }
+function fmtNum(n) { n = n||0; return n >= 1000 ? (n/1000).toFixed(n >= 10000 ? 0 : 1) + "K" : String(n); }
 function getEng(t) { return (t.likes||0) + 5*(t.replies||0) + 3*(t.retweets||0); }
 function getHoursAgo(t) {
   if (!t.createdAt) return 999;
   return Math.max(0.5, (Date.now() - new Date(t.createdAt).getTime()) / 3600000);
 }
 function getVelocity(t) { return getEng(t) / getHoursAgo(t); }
-function getFitScore(t) { const text = (t.text || "").toLowerCase(); return FIT_KEYWORDS.filter(k => text.includes(k)).length; }
+// Keyword fit as a 0-10 heuristic fallback when engine `fit` is absent.
+function getFitHeuristic(t) {
+  const text = (t.text || "").toLowerCase();
+  return Math.min(10, FIT_KEYWORDS.filter(k => text.includes(k)).length);
+}
+// NEW-contract-aware accessors — all degrade gracefully on old (fixture) data.
+function getFit(t) { return (typeof t.fit === "number") ? t.fit : getFitHeuristic(t); }
+function hasFit(t) { return typeof t.fit === "number"; }
+function isEarly(t) {
+  if (typeof t.early === "boolean") return t.early;
+  // Fallback heuristic mirrors engine rule: <3h old AND < 25 replies at scrape.
+  return getHoursAgo(t) < 3 && (t.replies||0) < 25;
+}
+// Priority for default sort. Uses engine `priority` when present, else velocity,
+// with a small early-window nudge so fresh tweets edge ahead on ties.
+function getPriority(t) {
+  if (typeof t.priority === "number") return t.priority;
+  return getVelocity(t) * (isEarly(t) ? 1.15 : 1);
+}
 function getReplyWindow(t) { return getEng(t) / (1 + Math.log(1 + (t.replies||0)) * 0.5); }
 function relativeTime(iso) {
   if (!iso) return "?";
@@ -371,116 +560,276 @@ function authorRepliedToday(handle) {
   const last = localStorage.getItem("author_reply_" + handle.toLowerCase());
   return last ? (Date.now() - parseInt(last)) < 24*3600*1000 : false;
 }
-function markAuthorReplied(handle) { localStorage.setItem("author_reply_" + handle.toLowerCase(), String(Date.now())); }
+function markAuthorReplied(handle) { lsSetTracked("author_reply_" + handle.toLowerCase(), String(Date.now())); }
+
+// ---- Snooze / dismiss (localStorage, cleared next day) ----
+function todayKey() { return new Date().toISOString().slice(0, 10); }
+function hiddenMap() {
+  try {
+    const raw = JSON.parse(localStorage.getItem("x_hidden") || "{}");
+    if (raw.day !== todayKey()) return { day: todayKey(), ids: {} };
+    return raw;
+  } catch (e) { return { day: todayKey(), ids: {} }; }
+}
+function isHidden(id) { return !!hiddenMap().ids[id]; }
+function hideCard(id, why) {
+  const m = hiddenMap();
+  m.ids[id] = why || "snoozed";
+  localStorage.setItem("x_hidden", JSON.stringify(m));
+}
 
 function sortTweets(tweets, mode) {
   const arr = [...tweets];
-  const cmp = { hot: (a,b)=>getVelocity(b)-getVelocity(a),
+  const cmp = {
+    priority: (a,b)=>getPriority(b)-getPriority(a),
+    early: (a,b)=>(isEarly(b)-isEarly(a))||(getPriority(b)-getPriority(a)),
+    hot: (a,b)=>getVelocity(b)-getVelocity(a),
     new: (a,b)=>new Date(b.createdAt||0)-new Date(a.createdAt||0),
     window: (a,b)=>getReplyWindow(b)-getReplyWindow(a),
     tier: (a,b)=>(a.tier-b.tier)||(getEng(b)-getEng(a)),
-    fit: (a,b)=>(getFitScore(b)-getFitScore(a))||(getEng(b)-getEng(a)),
+    fit: (a,b)=>(getFit(b)-getFit(a))||(getEng(b)-getEng(a)),
     reach: (a,b)=>(b.followers||0)-(a.followers||0),
     small: (a,b)=>(a.followers||9e9)-(b.followers||9e9) };
-  arr.sort(cmp[mode] || cmp.hot);
+  arr.sort(cmp[mode] || cmp.priority);
   return arr.sort((a,b) => authorRepliedToday(a.handle) - authorRepliedToday(b.handle));
 }
 function sortMetric(t, mode) {
-  const m = { hot: `🔥 ${getVelocity(t).toFixed(0)}/hr`, new: relativeTime(t.createdAt),
+  const m = {
+    priority: `⭐ ${Math.round(getPriority(t))}`,
+    early: isEarly(t) ? "⚡ early" : `${getHoursAgo(t).toFixed(0)}h`,
+    hot: `🔥 ${getVelocity(t).toFixed(0)}/hr`, new: relativeTime(t.createdAt),
     window: `💬 ${getReplyWindow(t).toFixed(0)}`, tier: `T${t.tier}`,
-    fit: `🧭 ${getFitScore(t)}`, reach: `📣 ${fmtNum(t.followers)}`, small: `🌱 ${fmtNum(t.followers)}` };
+    fit: `🧭 ${getFit(t)}`, reach: `📣 ${fmtNum(t.followers)}`, small: `🌱 ${fmtNum(t.followers)}` };
   return m[mode] || "";
 }
-// Build a reply URL that opens the X app directly on mobile (twitter:// scheme).
-// Falls back to x.com web intent on desktop. The @author prefix is REQUIRED for
-// the X app to link the reply correctly via in_reply_to_status_id.
+
 const IS_MOBILE = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
-function intentUrl(tweetId, text, authorHandle) {
-  // No @mention prefix needed: X threads via in_reply_to_status_id and already shows "Replying to @user".
+function intentUrl(tweetId, text) {
   if (IS_MOBILE) {
     return `twitter://post?message=${encodeURIComponent(text)}&in_reply_to_status_id=${tweetId}`;
   }
   return `https://x.com/intent/post?text=${encodeURIComponent(text)}&in_reply_to=${tweetId}`;
 }
 function escapeHtml(s) { return (s||"").replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;"); }
+// href guard: only https:// links may become a real href. Anything else
+// (javascript:, data:, relative, empty) falls back to the canonical tweet URL
+// or, failing that, "#". The value is still escapeHtml'd for the attribute.
+function safeUrl(url, handle, tweetId) {
+  const u = (url || "").trim();
+  if (/^https:\/\//i.test(u)) return escapeHtml(u);
+  if (handle && tweetId) return escapeHtml(`https://x.com/${handle}/status/${tweetId}`);
+  return "#";
+}
 
-function renderCard(t, mode) {
+// Persisted edited text per variant (survives reload; used for final_text on post).
+function editKey(tweetId, idx) { return "edit_" + tweetId + "_" + idx; }
+function getEditedText(tweetId, idx, original) {
+  const v = localStorage.getItem(editKey(tweetId, idx));
+  return (v === null) ? original : v;
+}
+function isEdited(tweetId, idx, original) {
+  const v = localStorage.getItem(editKey(tweetId, idx));
+  return v !== null && v !== original;
+}
+
+// ---- localStorage pruning ----
+// posted_<id>, edit_<id>_<idx> and author_reply_<handle> keys otherwise grow
+// forever. Write timestamps live in the x_key_ts map (author_reply_ values ARE
+// timestamps already). On load: keep every key referenced by the current DATA
+// queue, keep anything younger than 45 days, evict the rest; a 500-key cap
+// evicts oldest-first as a backstop. ONLY the three prefixes above are ever
+// touched — x_theme / x_hidden / x_queue_sort / push_enabled etc. are never pruned.
+const PRUNE_PREFIXES = ["posted_", "edit_", "author_reply_"];
+const PRUNE_MAX_AGE_MS = 45 * 24 * 3600 * 1000;
+const PRUNE_KEY_CAP = 500;
+function _keyTsMap() {
+  try { return JSON.parse(localStorage.getItem("x_key_ts") || "{}") || {}; } catch (e) { return {}; }
+}
+function lsSetTracked(key, val) {
+  localStorage.setItem(key, val);
+  try {
+    const m = _keyTsMap();
+    m[key] = Date.now();
+    localStorage.setItem("x_key_ts", JSON.stringify(m));
+  } catch (e) {}
+}
+function pruneLocalStorage() {
+  try {
+    const now = Date.now();
+    const ts = _keyTsMap();
+    const live = new Set();
+    for (const t of (DATA.tweets || [])) {
+      live.add("posted_" + t.tweetId);
+      live.add("author_reply_" + (t.handle || "").toLowerCase());
+      for (let i = 0; i < Math.max((t.variants || []).length, 4); i++) live.add(editKey(t.tweetId, i));
+    }
+    const tracked = [];
+    for (let i = 0; i < localStorage.length; i++) {
+      const k = localStorage.key(i);
+      if (!PRUNE_PREFIXES.some(p => k.startsWith(p))) continue;
+      let when = Number(ts[k]) || 0;
+      if (!when && k.startsWith("author_reply_")) when = parseInt(localStorage.getItem(k), 10) || 0;
+      if (!when) { when = now; ts[k] = now; } // legacy key with unknown age: grandfather it 45d from first sighting
+      tracked.push({ k, when });
+    }
+    const evict = new Set();
+    for (const c of tracked) {
+      if (live.has(c.k)) continue;                       // never touch the current queue's state
+      if (now - c.when > PRUNE_MAX_AGE_MS) evict.add(c.k);
+    }
+    // Count-cap backstop: oldest first, still never evicting current-queue keys.
+    const survivors = tracked.filter(c => !evict.has(c.k)).sort((a, b) => a.when - b.when);
+    let excess = survivors.length - PRUNE_KEY_CAP;
+    for (const c of survivors) {
+      if (excess <= 0) break;
+      if (live.has(c.k)) continue;
+      evict.add(c.k); excess--;
+    }
+    for (const k of evict) { localStorage.removeItem(k); delete ts[k]; }
+    for (const k of Object.keys(ts)) { if (localStorage.getItem(k) === null) delete ts[k]; }
+    localStorage.setItem("x_key_ts", JSON.stringify(ts));
+    if (evict.size) console.log("Pruned " + evict.size + " stale localStorage key(s)");
+  } catch (e) { console.log("localStorage prune skipped:", e); }
+}
+
+function renderCard(t, mode, opts) {
+  opts = opts || {};
   const isSkip = t.decision === "SKIP";
   const isHuman = t.decision === "HUMAN_REPLY";
   const replied = authorRepliedToday(t.handle);
   let cls = "card";
+  if (opts.pick) cls += " pick";
   if (isSkip) cls += " skip"; else if (isHuman) cls += " human";
   if (replied && !isSkip) cls += " warn";
   const posted = JSON.parse(localStorage.getItem("posted_" + t.tweetId) || "[]");
   const tierTag = `<span class="tag tag-t${t.tier}">T${t.tier}</span>`;
   const humanTag = isHuman ? `<span class="tag tag-human">Human</span>` : "";
   const v = getVelocity(t);
+  const earlyTag = (isEarly(t) && !isSkip) ? `<span class="tag tag-early">⚡ early window</span>` : "";
   const hotTag = (v > 30 && !isSkip) ? `<span class="tag tag-hot">🔥 Hot</span>` : "";
   const phoenixTag = (v > 50 && getHoursAgo(t) < 6 && !isSkip) ? `<span class="tag tag-velocity">🚀 Phoenix</span>` : "";
+  const fitTag = (!isSkip && hasFit(t)) ? `<span class="tag tag-fit">🧭 fit ${t.fit}</span>` : "";
   const repliedTag = replied ? `<span class="tag tag-warn">✓ Replied today</span>` : "";
   const metric = `<span class="metric">${sortMetric(t, mode)}</span>`;
   if (isSkip) {
-    return `<article class="${cls}" aria-label="Skipped: @${t.handle}">
+    return `<article class="${cls}" data-card="${escapeHtml(t.tweetId)}" aria-label="Skipped: @${escapeHtml(t.handle)}">
       <div class="card-head">${tierTag}<span class="tag tag-skip">Skip</span>
-        <a class="author" href="${t.url}" target="_blank" rel="noopener">@${t.handle}</a>
+        <a class="author" href="${safeUrl(t.url, t.handle, t.tweetId)}" target="_blank" rel="noopener">@${escapeHtml(t.handle)}</a>
         <span class="author-meta">${escapeHtml(t.name)} · ${fmtNum(t.followers)} · ${relativeTime(t.createdAt)}</span>
         ${metric}</div>
       <div class="tweet">${escapeHtml(t.text)}</div>
       <div class="skip-reason">ⓘ ${escapeHtml(t.skip_reason||'')}</div>
     </article>`;
   }
-  return `<article class="${cls}" aria-label="Tweet from @${t.handle}">
-    <div class="card-head">${tierTag}${humanTag}${phoenixTag}${hotTag}${repliedTag}
-      <a class="author" href="${t.url}" target="_blank" rel="noopener">@${t.handle}</a>
+  return `<article class="${cls}" data-card="${escapeHtml(t.tweetId)}" aria-label="Tweet from @${escapeHtml(t.handle)}">
+    <div class="card-head">${tierTag}${humanTag}${earlyTag}${phoenixTag}${hotTag}${fitTag}${repliedTag}
+      <a class="author" href="${safeUrl(t.url, t.handle, t.tweetId)}" target="_blank" rel="noopener">@${escapeHtml(t.handle)}</a>
       <span class="author-meta">${escapeHtml(t.name)} · ${fmtNum(t.followers)} · ${relativeTime(t.createdAt)}</span>
       ${metric}</div>
     <div class="tweet">${escapeHtml(t.text)}</div>
-    <div class="tweet-stats">${fmtNum(t.likes)} likes · ${t.replies} replies · ${fmtNum(t.retweets)} reposts</div>
-    ${t.why ? `<div class="why">${escapeHtml(t.why)}</div>` : ""}
+    <div class="tweet-stats">${fmtNum(t.likes)} likes · ${t.replies||0} replies · ${fmtNum(t.retweets)} reposts</div>
+    ${(opts.showWhy && t.why) ? `<div class="why"><b>Why:</b> ${escapeHtml(t.why)}</div>` : ""}
     <div class="variants">
-      ${(t.variants||[]).map((vr, idx) => `
-        <div class="variant ${posted.includes(idx) ? 'posted' : ''}" aria-label="Reply variant ${String.fromCharCode(65 + idx)}: ${vr.mode}">
+      ${(t.variants||[]).map((vr, idx) => {
+        const label = String.fromCharCode(65 + idx);
+        const original = vr.text || "";
+        const current = getEditedText(t.tweetId, idx, original);
+        const edited = isEdited(t.tweetId, idx, original);
+        return `
+        <div class="variant ${posted.includes(idx) ? 'posted' : ''}" aria-label="Reply variant ${label}: ${escapeHtml(vr.mode||'')}">
           <div class="variant-head">
-            <span class="variant-label">Reply ${String.fromCharCode(65 + idx)}</span>
-            <span class="variant-label">${vr.mode}</span>
+            <span class="variant-label">Reply ${label}${edited ? ' · edited' : ''}</span>
+            <span class="variant-mode">${escapeHtml(vr.mode||'')}</span>
           </div>
-          <div class="variant-text">${escapeHtml(vr.text)}</div>
-          <a class="reply-btn" href="${intentUrl(t.tweetId, vr.text, t.handle)}" ${IS_MOBILE ? '' : 'target="_blank" rel="noopener"'} data-mark="${t.tweetId}-${idx}" data-author="${t.handle}" data-fallback="${t.url}" aria-label="Open X to post reply ${String.fromCharCode(65 + idx)}">
-            Reply ${String.fromCharCode(65 + idx)} on 𝕏
+          <div class="variant-text" data-edit-open="${escapeHtml(t.tweetId)}-${idx}" role="button" tabindex="0"
+               aria-label="Tap to edit reply ${label}">${escapeHtml(current)}</div>
+          <a class="reply-btn" href="${escapeHtml(intentUrl(t.tweetId, current))}" ${IS_MOBILE ? '' : 'target="_blank" rel="noopener"'}
+             data-mark="${escapeHtml(t.tweetId)}-${idx}" data-author="${escapeHtml(t.handle)}" data-fallback="${safeUrl(t.url, t.handle, t.tweetId)}"
+             aria-label="Open X to post reply ${label}">
+            Reply ${label} on 𝕏
           </a>
           <div class="variant-actions">
-            <button class="btn-small btn-copy" data-copy="${escapeHtml(vr.text)}" aria-label="Copy reply ${String.fromCharCode(65 + idx)}">⎘ Copy</button>
-            <button class="btn-small btn-mark ${posted.includes(idx) ? 'posted' : ''}" data-mark="${t.tweetId}-${idx}" data-author="${t.handle}" aria-pressed="${posted.includes(idx)}" aria-label="Mark reply ${String.fromCharCode(65 + idx)} as posted">
+            <button class="btn-small btn-copy" data-copy-key="${escapeHtml(t.tweetId)}-${idx}" aria-label="Copy reply ${label}">⎘ Copy</button>
+            <button class="btn-small btn-mark ${posted.includes(idx) ? 'posted' : ''}" data-mark="${escapeHtml(t.tweetId)}-${idx}" data-author="${escapeHtml(t.handle)}" aria-pressed="${posted.includes(idx)}" aria-label="Mark reply ${label} as posted">
               ${posted.includes(idx) ? '✓ Posted' : '○ Mark'}
             </button>
           </div>
-        </div>`).join("")}
+        </div>`;
+      }).join("")}
     </div>
-    <a class="open-btn" href="${t.url}" target="_blank" rel="noopener" aria-label="View original tweet on X">↗ View original</a>
+    <div class="card-actions">
+      <a class="card-act" href="${safeUrl(t.url, t.handle, t.tweetId)}" target="_blank" rel="noopener" aria-label="View original tweet on X">↗ View</a>
+      <button class="card-act" data-snooze="${escapeHtml(t.tweetId)}" aria-label="Snooze until tomorrow">💤 Snooze</button>
+      <button class="card-act" data-dismiss="${escapeHtml(t.tweetId)}" aria-label="Dismiss">✕ Dismiss</button>
+    </div>
   </article>`;
 }
 
 let filter = new URLSearchParams(location.search).get("filter") || "ready";
-let sortMode = new URLSearchParams(location.search).get("sort") || localStorage.getItem("x_queue_sort") || "hot";
+let sortMode = new URLSearchParams(location.search).get("sort") || localStorage.getItem("x_queue_sort") || "priority";
+let searchTerm = "";
+let picksExpanded = false;
 
 function applyFilter(tweets) {
-  if (filter === "ready") return tweets.filter(t => t.decision !== "SKIP");
-  if (filter === "t1") return tweets.filter(t => t.tier === 1 && t.decision !== "SKIP");
-  if (filter === "t2") return tweets.filter(t => t.tier === 2 && t.decision !== "SKIP");
-  if (filter === "t3") return tweets.filter(t => t.tier === 3 && t.decision !== "SKIP");
-  if (filter === "human") return tweets.filter(t => t.decision === "HUMAN_REPLY");
-  if (filter === "skip") return tweets.filter(t => t.decision === "SKIP");
-  return tweets;
+  let out;
+  if (filter === "ready") out = tweets.filter(t => t.decision !== "SKIP");
+  else if (filter === "early") out = tweets.filter(t => t.decision !== "SKIP" && isEarly(t));
+  else if (filter === "t1") out = tweets.filter(t => t.tier === 1 && t.decision !== "SKIP");
+  else if (filter === "t2") out = tweets.filter(t => t.tier === 2 && t.decision !== "SKIP");
+  else if (filter === "t3") out = tweets.filter(t => t.tier === 3 && t.decision !== "SKIP");
+  else if (filter === "human") out = tweets.filter(t => t.decision === "HUMAN_REPLY");
+  else if (filter === "skip") out = tweets.filter(t => t.decision === "SKIP");
+  else out = tweets;
+  // Search filter (handle or text)
+  if (searchTerm) {
+    const q = searchTerm.toLowerCase();
+    out = out.filter(t => (t.handle||"").toLowerCase().includes(q) || (t.text||"").toLowerCase().includes(q) || (t.name||"").toLowerCase().includes(q));
+  }
+  // Hide snoozed/dismissed (but never on the Skipped tab, and never when searching)
+  if (filter !== "skip" && !searchTerm) out = out.filter(t => !isHidden(t.tweetId));
+  return out;
 }
 
 function render() {
   const queue = document.getElementById("queue");
-  let tweets = sortTweets(applyFilter(DATA.tweets), sortMode);
-  if (tweets.length === 0) {
-    queue.innerHTML = `<div class="empty"><div class="empty-icon">∅</div>No tweets in this view. Try a different filter.</div>`;
-  } else {
-    queue.innerHTML = tweets.map(t => renderCard(t, sortMode)).join("");
+  const filtered = applyFilter(DATA.tweets);
+  const sorted = sortTweets(filtered, sortMode);
+
+  // Today's Picks band only on the reply-ready-style default views (not skip/search/all-explicit is fine).
+  const showPicks = (filter === "ready" || filter === "early") && !searchTerm && sorted.length > 0;
+
+  if (sorted.length === 0) {
+    queue.innerHTML = `<div class="empty"><div class="empty-icon">∅</div>${searchTerm ? "No matches. Clear search to see the queue." : "No tweets in this view. Try a different filter."}</div>`;
+    wireUp();
+    return;
   }
+
+  if (!showPicks) {
+    queue.innerHTML = sorted.map(t => renderCard(t, sortMode, { showWhy: false })).join("");
+    wireUp();
+    return;
+  }
+
+  const readyByPriority = [...sorted].sort((a,b) => getPriority(b) - getPriority(a));
+  const picks = readyByPriority.slice(0, PICKS_LIMIT);
+  // Split by object identity (array position), not tweetId. If two items ever share a
+  // tweetId (bad data), an id-based Set would collapse them and silently drop cards.
+  const pickSet = new Set(picks);
+  const rest = sorted.filter(t => !pickSet.has(t));
+
+  let html = `<div class="sec-head">⭐ Today's Picks <span class="count">top ${picks.length} by priority</span></div>`;
+  html += picks.map(t => renderCard(t, sortMode, { showWhy: true, pick: true })).join("");
+
+  if (rest.length) {
+    html += `<button class="expander" id="more-toggle" aria-expanded="${picksExpanded}">
+      <span class="caret" aria-hidden="true">▾</span>
+      <span>${picksExpanded ? "Hide" : "More replies"} (${rest.length})</span>
+    </button>`;
+    if (picksExpanded) {
+      html += `<div id="more-list">` + rest.map(t => renderCard(t, sortMode, { showWhy: false })).join("") + `</div>`;
+    }
+  }
+  queue.innerHTML = html;
   wireUp();
 }
 
@@ -494,7 +843,6 @@ function postedCountToday() {
 }
 
 function nextRefreshCountdown() {
-  // 01:00 UTC = 6:30 AM IST, Mon-Fri
   const now = new Date();
   const next = new Date(now);
   next.setUTCHours(1, 0, 0, 0);
@@ -509,7 +857,6 @@ function nextRefreshCountdown() {
 
 function updateStats() {
   const ready = DATA.tweets.filter(t => t.decision !== "SKIP").length;
-  const skip = DATA.tweets.filter(t => t.decision === "SKIP").length;
   const t1 = DATA.tweets.filter(t => t.tier === 1 && t.decision !== "SKIP").length;
   const t2 = DATA.tweets.filter(t => t.tier === 2 && t.decision !== "SKIP").length;
   const t3 = DATA.tweets.filter(t => t.tier === 3 && t.decision !== "SKIP").length;
@@ -520,8 +867,8 @@ function updateStats() {
   document.getElementById("stat-ready-sub").textContent = `T1 ${t1} · T2 ${t2} · T3 ${t3}`;
   document.getElementById("stat-countdown").textContent = nextRefreshCountdown();
   const d = new Date(DATA.generatedAt);
-  const istFmt = d.toLocaleString("en-IN", { hour: "numeric", minute: "2-digit", day: "numeric", month: "short", timeZone: "Asia/Kolkata" });
-  document.getElementById("meta-line").textContent = `Refreshed ${istFmt} IST · ${DATA.accounts} accounts · auto-cron 6:30 IST Mon-Fri`;
+  const istFmt = isNaN(d) ? "—" : d.toLocaleString("en-IN", { hour: "numeric", minute: "2-digit", day: "numeric", month: "short", timeZone: "Asia/Kolkata" });
+  document.getElementById("meta-line").textContent = `Refreshed ${istFmt} IST · ${DATA.accounts||"?"} accounts · auto-cron 6:30 IST Mon-Fri`;
 }
 
 function showToast(msg, ms = 1800) {
@@ -534,49 +881,95 @@ function showToast(msg, ms = 1800) {
 }
 
 function markPosted(key, author) {
-  const [tweetId, idx] = key.split("-");
+  const [tweetId, idxStr] = key.split("-");
+  const idx = parseInt(idxStr);
   const sk = "posted_" + tweetId;
   const arr = JSON.parse(localStorage.getItem(sk) || "[]");
-  const i = parseInt(idx);
-  if (arr.includes(i)) {
-    localStorage.setItem(sk, JSON.stringify(arr.filter(x => x !== i)));
+  if (arr.includes(idx)) {
+    lsSetTracked(sk, JSON.stringify(arr.filter(x => x !== idx)));
   } else {
-    arr.push(i);
-    localStorage.setItem(sk, JSON.stringify(arr));
+    arr.push(idx);
+    lsSetTracked(sk, JSON.stringify(arr));
     if (author) markAuthorReplied(author);
-    logPick(tweetId, i, "posted");
+    logPost(tweetId, idx);
   }
   updateStats(); render();
 }
 
+// Open the inline editor for a variant.
+function openEditor(variantEl, tweetId, idx) {
+  if (variantEl.querySelector(".edit-wrap")) return; // already open
+  const t = DATA.tweets.find(x => x.tweetId === tweetId);
+  const original = (t && t.variants[idx]) ? t.variants[idx].text : "";
+  const current = getEditedText(tweetId, idx, original);
+  const textEl = variantEl.querySelector(".variant-text");
+  const wrap = document.createElement("div");
+  wrap.className = "edit-wrap";
+  wrap.innerHTML = `
+    <textarea class="edit-area" maxlength="600" aria-label="Edit reply text">${escapeHtml(current)}</textarea>
+    <div class="edit-meta">
+      <button class="edit-reset" type="button">↺ Reset to draft</button>
+      <span class="char-count">0 / 280</span>
+    </div>`;
+  textEl.style.display = "none";
+  textEl.insertAdjacentElement("afterend", wrap);
+  const ta = wrap.querySelector(".edit-area");
+  const cc = wrap.querySelector(".char-count");
+  const replyBtn = variantEl.querySelector(".reply-btn");
+  const update = () => {
+    const val = ta.value;
+    cc.textContent = `${val.length} / 280`;
+    cc.classList.toggle("over", val.length > 280);
+    // persist + keep deep link in sync
+    if (val === original) localStorage.removeItem(editKey(tweetId, idx));
+    else lsSetTracked(editKey(tweetId, idx), val);
+    if (replyBtn) replyBtn.href = intentUrl(tweetId, val);
+  };
+  ta.addEventListener("input", update);
+  wrap.querySelector(".edit-reset").addEventListener("click", () => {
+    ta.value = original; update(); ta.focus();
+  });
+  update();
+  ta.focus();
+  ta.setSelectionRange(ta.value.length, ta.value.length);
+}
+
+function copyText(tweetId, idx) {
+  const t = DATA.tweets.find(x => x.tweetId === tweetId);
+  const original = (t && t.variants[idx]) ? t.variants[idx].text : "";
+  const text = getEditedText(tweetId, idx, original);
+  navigator.clipboard.writeText(text).then(() => showToast("Copied ✓")).catch(() => showToast("Copy failed", 2200));
+}
+
 function wireUp() {
+  document.querySelectorAll(".variant-text[data-edit-open]").forEach(el => {
+    const [tweetId, idx] = el.getAttribute("data-edit-open").split("-");
+    const open = () => openEditor(el.closest(".variant"), tweetId, parseInt(idx));
+    el.addEventListener("click", open);
+    el.addEventListener("keydown", e => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); open(); } });
+  });
   document.querySelectorAll(".btn-copy").forEach(b => b.addEventListener("click", () => {
-    const text = b.getAttribute("data-copy").replace(/&quot;/g,'"').replace(/&amp;/g,'&').replace(/&lt;/g,'<').replace(/&gt;/g,'>');
-    navigator.clipboard.writeText(text).then(() => showToast("Copied ✓"));
+    const [tweetId, idx] = b.getAttribute("data-copy-key").split("-");
+    copyText(tweetId, parseInt(idx));
   }));
   document.querySelectorAll(".btn-mark").forEach(b => b.addEventListener("click", () => markPosted(b.getAttribute("data-mark"), b.getAttribute("data-author"))));
-  document.querySelectorAll(".reply-btn").forEach(b => b.addEventListener("click", (e) => {
+  document.querySelectorAll(".reply-btn").forEach(b => b.addEventListener("click", () => {
     const key = b.getAttribute("data-mark");
     const author = b.getAttribute("data-author");
     const fallback = b.getAttribute("data-fallback");
-    const [tweetId, idx] = key.split("-");
+    const [tweetId, idxStr] = key.split("-");
+    const idx = parseInt(idxStr);
     const sk = "posted_" + tweetId;
     const arr = JSON.parse(localStorage.getItem(sk) || "[]");
-    const i = parseInt(idx);
-    if (!arr.includes(i)) { arr.push(i); localStorage.setItem(sk, JSON.stringify(arr)); if (author) markAuthorReplied(author); }
-    logPick(tweetId, i, "reply_click");
+    if (!arr.includes(idx)) { arr.push(idx); lsSetTracked(sk, JSON.stringify(arr)); if (author) markAuthorReplied(author); }
+    logPost(tweetId, idx);
     if (navigator.vibrate) navigator.vibrate(8);
 
-    // Copy reply text to clipboard as a safety net (in case the X app deep-link
-    // doesn't catch — user can paste manually). Use the text from the variant.
-    const tweet = DATA.tweets.find(t => t.tweetId === tweetId);
-    const replyText = tweet?.variants?.[i]?.text;
-    if (replyText && navigator.clipboard) {
-      navigator.clipboard.writeText(replyText).catch(() => {});
-    }
+    const t = DATA.tweets.find(x => x.tweetId === tweetId);
+    const original = (t && t.variants[idx]) ? t.variants[idx].text : "";
+    const replyText = getEditedText(tweetId, idx, original);
+    if (replyText && navigator.clipboard) navigator.clipboard.writeText(replyText).catch(() => {});
 
-    // On mobile, if the twitter:// scheme doesn't fire within 1.5s, fall back
-    // to opening the tweet URL (a Universal Link that the X app does handle).
     if (IS_MOBILE && fallback) {
       const start = Date.now();
       setTimeout(() => {
@@ -588,14 +981,76 @@ function wireUp() {
     }
     setTimeout(() => { updateStats(); render(); }, 600);
   }));
+  document.querySelectorAll("[data-snooze]").forEach(b => b.addEventListener("click", () => {
+    hideCard(b.getAttribute("data-snooze"), "snoozed");
+    animateAndRerender(b);
+    showToast("Snoozed until tomorrow 💤");
+  }));
+  document.querySelectorAll("[data-dismiss]").forEach(b => b.addEventListener("click", () => {
+    hideCard(b.getAttribute("data-dismiss"), "dismissed");
+    animateAndRerender(b);
+    showToast("Dismissed");
+  }));
+  const moreToggle = document.getElementById("more-toggle");
+  if (moreToggle) moreToggle.addEventListener("click", () => { picksExpanded = !picksExpanded; render(); });
 }
 
+function animateAndRerender(btn) {
+  const card = btn.closest(".card");
+  if (card) {
+    card.classList.add("dismissing");
+    setTimeout(() => { updateStats(); render(); }, 260);
+  } else { updateStats(); render(); }
+}
+
+// ---- Worker logging ----
+const REFRESH_PROXY = "https://x-refresh-proxy.levelupedtech.workers.dev";
+const REFRESH_TOKEN = "Eb4ClMvBa9FU_j2JGtT3imtsOkSquidu";
+
+// Contract /log payload on post. Worker strips final_text/edited/fit today; send anyway (worker v2 persists).
+function logPost(tweetId, idx) {
+  try {
+    const t = DATA.tweets.find(x => x.tweetId === tweetId);
+    if (!t) return;
+    const vr = (t.variants || [])[idx] || {};
+    const original = vr.text || "";
+    const finalText = getEditedText(tweetId, idx, original);
+    fetch(`${REFRESH_PROXY}/log?t=${encodeURIComponent(REFRESH_TOKEN)}`, {
+      method: "POST", headers: { "Content-Type": "application/json" }, keepalive: true,
+      body: JSON.stringify({
+        action: "posted", tweetId, handle: t.handle, tier: t.tier,
+        mode: vr.mode || "", variant: String.fromCharCode(65 + idx),
+        final_text: finalText, edited: finalText !== original, fit: getFit(t)
+      })
+    }).catch(() => {});
+  } catch (e) {}
+}
+
+// ---- Search ----
+const searchInput = document.getElementById("search");
+const searchClear = document.getElementById("search-clear");
+let searchDebounce;
+searchInput.addEventListener("input", () => {
+  clearTimeout(searchDebounce);
+  searchDebounce = setTimeout(() => {
+    searchTerm = searchInput.value.trim();
+    searchClear.hidden = !searchTerm;
+    render();
+  }, 120);
+});
+searchClear.addEventListener("click", () => {
+  searchInput.value = ""; searchTerm = ""; searchClear.hidden = true; render(); searchInput.focus();
+});
+
+// ---- Filters / sort ----
 document.querySelectorAll(".chip").forEach(b => b.addEventListener("click", () => {
   document.querySelectorAll(".chip").forEach(x => x.setAttribute("aria-pressed", "false"));
   b.setAttribute("aria-pressed", "true");
   filter = b.getAttribute("data-filter");
+  picksExpanded = false;
   render();
 }));
+document.querySelectorAll(".chip").forEach(x => x.setAttribute("aria-pressed", "false"));
 document.querySelector(`.chip[data-filter="${filter}"]`)?.setAttribute("aria-pressed", "true");
 
 document.getElementById("sort-select").value = sortMode;
@@ -605,53 +1060,51 @@ document.getElementById("sort-select").addEventListener("change", e => {
   render();
 });
 
-// Live refresh: triggers GitHub Actions workflow via Cloudflare Worker proxy,
-// polls for the new commit, then reloads when fresh HTML is available.
-const REFRESH_PROXY = "https://x-refresh-proxy.levelupedtech.workers.dev";
-const REFRESH_TOKEN = "Eb4ClMvBa9FU_j2JGtT3imtsOkSquidu";
-function logPick(tweetId, idx, action) {
-  try {
-    const t = DATA.tweets.find(x => x.tweetId === tweetId);
-    if (!t) return;
-    const v = (t.variants || [])[idx] || {};
-    fetch(`${REFRESH_PROXY}/log?t=${encodeURIComponent(REFRESH_TOKEN)}`, {
-      method: "POST", headers: { "Content-Type": "application/json" },
-      keepalive: true,
-      body: JSON.stringify({ tweetId, handle: t.handle, tier: t.tier, mode: v.mode || "", variant: String.fromCharCode(65+idx), action })
-    }).catch(() => {});
-  } catch (e) {}
+// ---- Theme ----
+function currentTheme() {
+  const saved = localStorage.getItem("x_theme");
+  if (saved === "light" || saved === "dark") return saved;
+  return (window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches) ? "dark" : "light";
 }
+function applyTheme(theme) {
+  document.documentElement.setAttribute("data-theme", theme);
+  const b = document.getElementById("btn-theme");
+  if (b) { b.textContent = theme === "dark" ? "☀️" : "🌙"; b.setAttribute("aria-label", theme === "dark" ? "Switch to light mode" : "Switch to dark mode"); }
+}
+applyTheme(currentTheme());
+document.getElementById("btn-theme").addEventListener("click", () => {
+  const next = (document.documentElement.getAttribute("data-theme") === "dark") ? "light" : "dark";
+  localStorage.setItem("x_theme", next);
+  applyTheme(next);
+});
+if (window.matchMedia) {
+  window.matchMedia("(prefers-color-scheme: dark)").addEventListener("change", e => {
+    if (!localStorage.getItem("x_theme")) applyTheme(e.matches ? "dark" : "light");
+  });
+}
+
+// ---- Refresh ----
 document.getElementById("btn-refresh").addEventListener("click", async () => {
   const btn = document.getElementById("btn-refresh");
-  if (btn.classList.contains("spinning")) return; // prevent double-tap
+  if (btn.classList.contains("spinning")) return;
   btn.classList.add("spinning");
   btn.querySelector(".refresh-label").textContent = "Pulling…";
-
   try {
-    // Note current commit SHA so we can detect when fresh
     let beforeSha = null;
-    try {
-      const before = await fetch(`${REFRESH_PROXY}/status`).then(r => r.json());
-      beforeSha = before.sha;
-    } catch(e) { /* worker may be cold-starting, that's fine */ }
-
-    // Trigger the workflow
+    try { const before = await fetch(`${REFRESH_PROXY}/status`).then(r => r.json()); beforeSha = before.sha; } catch(e) {}
     const r = await fetch(`${REFRESH_PROXY}/refresh?t=${encodeURIComponent(REFRESH_TOKEN)}`);
     const j = await r.json();
     if (!j.ok) throw new Error(j.error || "refresh failed");
     showToast("Pulling fresh tweets… 60-90s", 2500);
-
-    // Poll /status every 8s until SHA changes (workflow finished + committed)
     const start = Date.now();
     btn.querySelector(".refresh-label").textContent = "Drafting…";
-    while (Date.now() - start < 150000) { // 2.5min max
-      await new Promise(r => setTimeout(r, 8000));
+    while (Date.now() - start < 150000) {
+      await new Promise(res => setTimeout(res, 8000));
       try {
         const s = await fetch(`${REFRESH_PROXY}/status`).then(r => r.json());
         if (beforeSha && s.sha && s.sha !== beforeSha) {
           btn.querySelector(".refresh-label").textContent = "Loading…";
           showToast("New batch ready ✓", 1500);
-          // Clear SW cache and reload
           if ("caches" in window) {
             const keys = await caches.keys();
             await Promise.all(keys.filter(k => k.startsWith("x-reply-queue-")).map(k => caches.delete(k)));
@@ -669,32 +1122,81 @@ document.getElementById("btn-refresh").addEventListener("click", async () => {
   }
 });
 
-// Re-tick countdown every minute
+// ---- Regenerate probe (worker v2 feature). Hidden today; sessionStorage-cache the probe. ----
+// NOTE: the current live worker returns HTTP 200 ("X Refresh Proxy") for ALL unknown
+// paths, so a bare `r.ok` check is a false positive. Require the v2 endpoint to return
+// JSON with regen:true — the catch-all text fails JSON.parse and stays hidden.
+async function probeRegen() {
+  const btn = document.getElementById("btn-regen");
+  if (!btn) return;
+  let ok = sessionStorage.getItem("regen_ok");
+  if (ok === null) {
+    ok = "0";
+    try {
+      const r = await fetch(`${REFRESH_PROXY}/regen/health`, { method: "GET" });
+      if (r.ok) {
+        const j = await r.json().catch(() => null);
+        if (j && j.regen === true) ok = "1";
+      }
+    } catch (e) { ok = "0"; }
+    sessionStorage.setItem("regen_ok", ok);
+  }
+  if (ok === "1") {
+    btn.hidden = false;
+    btn.addEventListener("click", () => showToast("Regenerating drafts…", 2000));
+  }
+}
+
 setInterval(updateStats, 60000);
 
-// Service worker registration
 if ("serviceWorker" in navigator) {
   navigator.serviceWorker.register("sw.js").catch(e => console.log("SW reg failed:", e));
 }
 
+// ---- Growth panel ----
+async function fetchJSON(url) {
+  try { const r = await fetch(url, { cache: "no-store" }); return r.ok ? await r.json() : null; } catch (e) { return null; }
+}
+async function fetchText(url) {
+  try { const r = await fetch(url, { cache: "no-store" }); return r.ok ? await r.text() : null; } catch (e) { return null; }
+}
+
+// Parse learnings.jsonl → offered counts (from "offered" lines) + picked counts (from post/reply events).
+function parseLearnings(text) {
+  const offered = {}, picked = {};
+  if (!text) return { offered, picked, hasOffered: false };
+  let hasOffered = false;
+  for (const line of text.split("\n")) {
+    const s = line.trim(); if (!s) continue;
+    let o; try { o = JSON.parse(s); } catch (e) { continue; }
+    if (o.action === "offered" && o.counts) {
+      hasOffered = true;
+      // Number() coercion: a string value here would string-concat and later land
+      // in an innerHTML-built title attribute unescaped. Numbers only.
+      for (const k of Object.keys(o.counts)) offered[k] = (offered[k]||0) + (Number(o.counts[k])||0);
+    } else if ((o.action === "posted" || o.action === "reply_click") && o.mode) {
+      picked[o.mode] = (picked[o.mode]||0) + 1;
+    }
+  }
+  return { offered, picked, hasOffered };
+}
 
 async function renderGrowth() {
-  try {
-    const m = await fetch("metrics.json?cb=" + Date.now()).then(r => r.ok ? r.json() : null);
-    if (!m || !Array.isArray(m.followers) || m.followers.length === 0) return;
-    const box = document.getElementById("growth");
+  const box = document.getElementById("growth");
+  const [m, learnText] = await Promise.all([ fetchJSON("metrics.json"), fetchText("learnings.jsonl") ]);
+  let any = false;
+
+  if (m && Array.isArray(m.followers) && m.followers.length) {
     const pts = m.followers;
     const last = pts[pts.length - 1].followers;
     const first = pts[0].followers;
     document.getElementById("g-followers").textContent = last.toLocaleString();
+    document.getElementById("g-headline").textContent = `· ${last} followers`;
     const diff = last - first;
     const dEl = document.getElementById("g-delta");
     if (pts.length > 1) {
       dEl.textContent = (diff > 0 ? "+" : "") + diff + " since " + pts[0].date;
       dEl.className = "g-delta " + (diff > 0 ? "up" : diff < 0 ? "down" : "flat");
-    }
-    // sparkline
-    if (pts.length > 1) {
       const vals = pts.map(p => p.followers);
       const min = Math.min(...vals), max = Math.max(...vals), range = (max - min) || 1;
       const W = 220, H = 34, pad = 3;
@@ -704,22 +1206,53 @@ async function renderGrowth() {
         return x.toFixed(1) + "," + y.toFixed(1);
       });
       document.getElementById("g-spark").innerHTML =
-        '<polyline fill="none" stroke="#1d9bf0" stroke-width="2" stroke-linejoin="round" points="' + coords.join(" ") + '"/>';
+        '<polyline fill="none" stroke="var(--accent)" stroke-width="2" stroke-linejoin="round" points="' + coords.join(" ") + '"/>';
     }
-    // tier performance
     const tp = m.tier_perf || {};
-    const tpEl = document.getElementById("g-tierperf");
-    const pills = Object.keys(tp).sort().map(t =>
-      `<span class="g-pill">T${t}: <b>${tp[t].avg_likes}</b> avg likes · ${tp[t].replies} replies</span>`).join("");
-    tpEl.innerHTML = pills;
+    if (Object.keys(tp).length) {
+      // metrics.json is repo-controlled, but escape anyway — every fetched value
+      // that lands in an innerHTML sink goes through escapeHtml.
+      document.getElementById("g-tierperf").innerHTML = Object.keys(tp).sort().map(t =>
+        `<span class="g-pill">T${escapeHtml(String(t))}: <b>${escapeHtml(String((tp[t]||{}).avg_likes ?? "—"))}</b> avg likes · ${escapeHtml(String((tp[t]||{}).replies ?? 0))} replies</span>`).join("");
+    }
     const replyCount = m.replies ? Object.keys(m.replies).length : 0;
     document.getElementById("g-note").textContent = replyCount
       ? `Tracking ${replyCount} of your recent replies.`
-      : "No replies tracked yet — reply to a few accounts and your performance by tier shows up here.";
-    box.hidden = false;
-  } catch (e) { /* metrics optional */ }
-}
+      : "No replies tracked yet — post a few and your per-tier performance shows up here.";
+    any = true;
+  }
 
+  // Offered-vs-picked bars
+  const { offered, picked, hasOffered } = parseLearnings(learnText);
+  const modes = ["RECEIPT","SHARPENER","HONEST_QUESTION","HUMAN_REPLY"];
+  const present = modes.filter(mo => (offered[mo]||0) > 0 || (picked[mo]||0) > 0);
+  if (present.length) {
+    const maxOff = Math.max(1, ...present.map(mo => offered[mo]||0));
+    const maxPick = Math.max(1, ...present.map(mo => picked[mo]||0));
+    const rows = present.map(mo => {
+      const offW = ((offered[mo]||0) / maxOff * 100).toFixed(1);
+      const pickW = ((picked[mo]||0) / maxPick * 100).toFixed(1);
+      const label = mo.replace("HONEST_QUESTION","QUESTION").replace("HUMAN_REPLY","HUMAN");
+      return `<div class="g-mode-row">
+        <span class="g-mode-name">${label}</span>
+        <div class="g-bars">
+          <div class="g-bar-track"><div class="g-bar offered" style="width:${offW}%" title="offered ${offered[mo]||0}"></div></div>
+          <div class="g-bar-track"><div class="g-bar picked" style="width:${pickW}%" title="picked ${picked[mo]||0}"></div></div>
+        </div>
+      </div>`;
+    }).join("");
+    document.getElementById("g-mode-rows").innerHTML = rows;
+    document.getElementById("g-modes").hidden = false;
+    if (!hasOffered) {
+      // Only pick data available (old learnings.jsonl) — note it so shares aren't misread.
+      document.getElementById("g-note").textContent =
+        (document.getElementById("g-note").textContent || "") + " (Offered counts start once the v2 engine logs them.)";
+    }
+    any = true;
+  }
+
+  if (any) box.hidden = false;
+}
 
 // ---- Push notifications ----
 const VAPID_PUBLIC_KEY = "BGxW8B3erUXZrwN-VLRZezYU_IWUmis23DvWJtgt2e_7XMzJ1RTDLOxpb2WEnbDK3ZN5VRI7pkWbDKNAPbHt_F0";
@@ -736,15 +1269,12 @@ function updatePushBtn() {
   if (!pushSupported()) { b.hidden = true; return; }
   b.hidden = false;
   const on = Notification.permission === "granted" && localStorage.getItem("push_enabled") === "1";
-  b.textContent = on ? "🔔 On" : "🔔 Alerts";
+  b.textContent = on ? "🔔" : "🔔";
   b.classList.toggle("on", on);
 }
 async function enablePush() {
   try {
-    if (!pushSupported()) {
-      showToast("Add this app to your Home Screen first, then enable alerts.", 3500);
-      return;
-    }
+    if (!pushSupported()) { showToast("Add this app to your Home Screen first, then enable alerts.", 3500); return; }
     const perm = await Notification.requestPermission();
     if (perm !== "granted") { showToast("Notifications not allowed", 2500); return; }
     const reg = await navigator.serviceWorker.ready;
@@ -757,10 +1287,42 @@ async function enablePush() {
 }
 document.getElementById("btn-push")?.addEventListener("click", enablePush);
 
+// ---- Growth panel expand ----
+document.getElementById("growth-toggle").addEventListener("click", () => {
+  const t = document.getElementById("growth-toggle");
+  const body = document.getElementById("growth-body");
+  const open = t.getAttribute("aria-expanded") === "true";
+  t.setAttribute("aria-expanded", String(!open));
+  body.hidden = open;
+});
+
+// ---- Model-served line (which LLM drafted today's queue) ----
+// textContent only — never innerHTML — so model names from DATA are inert.
+function renderModelLine() {
+  const el = document.getElementById("model-line");
+  const entries = Object.entries(DATA.models || {})
+    .map(([m, n]) => [String(m), Number(n) || 0])
+    .filter(([, n]) => n > 0)
+    .sort((a, b) => b[1] - a[1]);
+  if (!el || !entries.length) return;
+  const total = entries.reduce((s, [, n]) => s + n, 0);
+  const fallback = entries.filter(([m]) => !/^claude/i.test(m)).reduce((s, [, n]) => s + n, 0);
+  let line = "Drafted by " + entries.map(([m, n]) => `${m} ×${n}`).join(" · ");
+  if (fallback / total > 0.5) {
+    line += " · ⚠ mostly fallback models — check Anthropic credits";
+    el.classList.add("model-warn");
+  }
+  el.textContent = line;
+  el.hidden = false;
+}
+
+pruneLocalStorage();
 updateStats();
 render();
+renderModelLine();
 renderGrowth();
 updatePushBtn();
+probeRegen();
 </script>
 </body>
 </html>

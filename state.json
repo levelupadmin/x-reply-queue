@@ -1,32 +1,62 @@
 {
-  "lastRefresh": "2026-07-02T05:02:53.511821+00:00",
-  "ready": 19,
-  "skipped": 22,
+  "lastRefresh": "2026-07-02T16:28:17.382092+00:00",
+  "ready": 35,
+  "skipped": 0,
   "by_tier": {
-    "1": 5,
-    "2": 8,
-    "3": 6
+    "1": 7,
+    "2": 13,
+    "3": 15
   },
   "hot_5": [
     {
-      "handle": "aakashgupta",
-      "text": "The razor blade slot is one of the most quietly brilliant pieces of home engineering ever built, and the reason it looks insane is the exact reason it worked.\n\nA 1903-style Gillette double-edge blade "
-    },
-    {
-      "handle": "levelsio",
-      "text": "As someone who lives in Portugal which already stops every single package you get from outside EU with no exceptions for a decade or more:\n\nI can tell you how this will go\n\nFrom now on if you receive "
-    },
-    {
       "handle": "SahilBloom",
-      "text": "I'm convinced that it\u2019s perfectly ok to live a life that looks confusing to others. Wake up early. Do hard things. Focus deeply. Eat real foods. Go on walks. Obsess over one thing. Read old books. Avo"
+      "text": "WARNING: Longer post (but worth reading or bookmarking for later).\n\nYour life has seasons.\n\nEach one is unique. Characterized by its own distinct desires, struggles, opportunities, and identity.\n\nBut "
+    },
+    {
+      "handle": "svembu",
+      "text": "Anthropic's latest models available worldwide. In other words, Chinese open source models posed a serious enough threat to market share.\n\nIn a different context, an Indian customer of some of our prod"
+    },
+    {
+      "handle": "mahikaa101",
+      "text": "Love working from this cafe \u2728 https://t.co/QKpVJbPImF"
+    },
+    {
+      "handle": "colejaczko",
+      "text": "A tweet I think about over &amp; over again https://t.co/dKAJrkGYJm"
     },
     {
       "handle": "rajshamani",
-      "text": "Your brain actually loves boredom, but you never give it any. The exact second you feel a pause in your day, you reach for a screen. Creativity only happens when you let your mind sit without any new "
-    },
-    {
-      "handle": "paraschopra",
-      "text": "I tried ditching typing for speaking using AI tools but something always felt off. Typing (or writing) gives you a buffer in the head to think, revise and explore thoughts in a way that speaking doesn"
+      "text": "Today, long-term planning fails because the world shifts faster than the plan can execute. Modern strategy is no longer about mapping out a precise ten-year path, but about building deep structural fl"
     }
-  ]
+  ],
+  "receipts_used": {
+    "price-signal-trust": "2026-07-02",
+    "discount-attracts-worst-buyers": "2026-07-02",
+    "process-after-pain": "2026-07-02",
+    "small-budget-perf-marketing": "2026-07-02",
+    "lovable-6-weeks": "2026-07-02",
+    "referral-quietly-cheapest": "2026-07-02",
+    "profit-buys-patience": "2026-07-02",
+    "operator-not-guru": "2026-07-02",
+    "drm-piracy-tradeoff": "2026-07-02",
+    "hook-carries-the-ad": "2026-07-02",
+    "micropaywall-showup": "2026-07-02",
+    "bootstrapped-36-months": "2026-07-02",
+    "first-hire-was-a-doer": "2026-07-02",
+    "specific-beats-clever": "2026-07-02",
+    "in-person-writing-cohorts": "2026-07-02",
+    "70k-learners": "2026-07-02",
+    "waitlist-warms-the-room": "2026-07-02",
+    "cohort-shows-up-for-people": "2026-07-02"
+  },
+  "offered_today": {
+    "RECEIPT": 17,
+    "SHARPENER": 55,
+    "HONEST_QUESTION": 31,
+    "HUMAN_REPLY": 21,
+    "SHORT PUNCHY": 1
+  },
+  "models": {
+    "gpt-4.1": 35
+  }
 }
