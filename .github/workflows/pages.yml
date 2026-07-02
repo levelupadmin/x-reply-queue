@@ -3,6 +3,11 @@ name: Deploy GitHub Pages
 on:
   push:
     branches: [main]
+  # The refresh bot commits with the default Actions token, whose pushes do NOT
+  # trigger push workflows — deploy on the refresh workflow's completion instead.
+  workflow_run:
+    workflows: ["Refresh X reply queue"]
+    types: [completed]
   workflow_dispatch:
 
 permissions:
