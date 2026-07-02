@@ -1,32 +1,32 @@
 {
-  "lastRefresh": "2026-07-01T05:27:09.036555+00:00",
-  "ready": 18,
-  "skipped": 23,
+  "lastRefresh": "2026-07-02T05:02:53.511821+00:00",
+  "ready": 19,
+  "skipped": 22,
   "by_tier": {
-    "1": 3,
-    "2": 10,
-    "3": 5
+    "1": 5,
+    "2": 8,
+    "3": 6
   },
   "hot_5": [
     {
-      "handle": "shantanugoel",
-      "text": "That Digital Arrest scam?\nIt will now say \"MumbaiCrimeBranch\" instead of a +92 number that you could recognize!\nFun!!"
+      "handle": "aakashgupta",
+      "text": "The razor blade slot is one of the most quietly brilliant pieces of home engineering ever built, and the reason it looks insane is the exact reason it worked.\n\nA 1903-style Gillette double-edge blade "
     },
     {
-      "handle": "amasad",
-      "text": "AI is expensive to run partly because most workloads today run on generic hardware designed pre-LLMs. Etched is the first system designed from the ground up for modern inference."
+      "handle": "levelsio",
+      "text": "As someone who lives in Portugal which already stops every single package you get from outside EU with no exceptions for a decade or more:\n\nI can tell you how this will go\n\nFrom now on if you receive "
+    },
+    {
+      "handle": "SahilBloom",
+      "text": "I'm convinced that it\u2019s perfectly ok to live a life that looks confusing to others. Wake up early. Do hard things. Focus deeply. Eat real foods. Go on walks. Obsess over one thing. Read old books. Avo"
     },
     {
       "handle": "rajshamani",
-      "text": "Constantly talking about your past struggles becomes an excuse to avoid taking responsibility for your future. It feels safe to blame your upbringing or your environment because fixing your current re"
+      "text": "Your brain actually loves boredom, but you never give it any. The exact second you feel a pause in your day, you reach for a screen. Creativity only happens when you let your mind sit without any new "
     },
     {
       "handle": "paraschopra",
       "text": "I tried ditching typing for speaking using AI tools but something always felt off. Typing (or writing) gives you a buffer in the head to think, revise and explore thoughts in a way that speaking doesn"
-    },
-    {
-      "handle": "SahilBloom",
-      "text": "Here's something everyone should do: Record a video interview with your parents. Ask about their childhood adventures. Their worst regrets. Their hopes, dreams, and fears. Advice they wish they learne"
     }
   ]
 }
