@@ -26,7 +26,7 @@ id = "REPLACE_WITH_EXISTING_KV_ID"   # prefix 542b1ebf — see `npx wrangler kv 
 #
 #   REFRESH_TOKEN     gate for /refresh, /log, /regen (was hardcoded in v1 — now a secret)
 #   PUSH_SUBS_TOKEN   gate for /subs, /unsub (consumed by send_push.js in GitHub Actions)
-#   ANTHROPIC_API_KEY sk-ant-...  for /regen drafting (claude-sonnet-4-6)
+#   OPENAI_API_KEY sk-...  for /regen drafting (gpt-5.5)
 #   GITHUB_TOKEN      fine-grained PAT on levelupadmin/x-reply-queue, contents:rw + actions:rw ONLY
 # ---------------------------------------------------------------------------
 

@@ -7,15 +7,14 @@ Scrapes ~390 X accounts via Apify, filters, then:
   1. TRIAGE (cheap model): score topic-fit + tags + human_ok per tweet.
   2. SELECT: rank by engagement-velocity * early-bonus * fit; kill the HUMAN_REPLY
      flood structurally (on-niche pool fit>=5; off-niche human pool hard-capped 4/day).
-  3. DRAFT (strong model, Claude Sonnet primary): 2-4 varied variants, topic-relevant
+  3. DRAFT (strong model, GPT-5.5 primary): 2-4 varied variants, topic-relevant
      receipts injected per call, no hardcoded receipt library.
   4. VALIDATE: programmatic voice/safety checks, one retry, drop still-failing variants.
 Writes index.html from index.template.html (__DATA_INJECTION__). Rahul posts manually.
 
 Required env vars:
     APIFY_TOKEN
-    ANTHROPIC_API_KEY   (primary drafter + triage)
-    OPENAI_API_KEY      (fallback drafter + triage fallback)
+    OPENAI_API_KEY      (drafting + triage; GPT-5.x chain with gpt-4.1 fallback)
 
 Env modes:
     DRY_RUN=1           -> no state/metrics mutation; write index to $DRY_RUN_OUT;
@@ -41,17 +40,15 @@ from pathlib import Path
 
 APIFY_TOKEN = os.environ["APIFY_TOKEN"]
 OPENAI_API_KEY = os.environ.get("OPENAI_API_KEY", "")
-ANTHROPIC_API_KEY = os.environ.get("ANTHROPIC_API_KEY", "")
 
 APIFY_ACTOR = "61RPP7dywgiy0JPD0"  # apidojo/tweet-scraper
 
 # Models
-TRIAGE_MODEL_ANTHROPIC = "claude-haiku-4-5-20251001"  # cheap triage primary
-TRIAGE_MODEL_OPENAI = "gpt-4.1-mini"                   # triage fallback
-DRAFT_MODEL_ANTHROPIC = "claude-sonnet-4-6"            # drafting primary
-DRAFT_MODEL_OPENAI = "gpt-4.1"                         # drafting fallback 1
-DRAFT_MODEL_OPENAI_MINI = "gpt-4.1-mini"              # drafting fallback 2
-ANTHROPIC_VERSION = "2023-06-01"
+# All-OpenAI stack (single provider by owner's choice). GPT-5.x models take
+# max_completion_tokens (not max_tokens) and run with reasoning_effort "none"
+# so replies stay fast/cheap; openai_chat() handles the per-family params.
+TRIAGE_MODEL_CHAIN = ("gpt-5.4-mini", "gpt-4.1-mini")
+DRAFT_MODEL_CHAIN = ("gpt-5.5", "gpt-5.4", "gpt-4.1")
 
 # Env modes
 DRY_RUN = os.environ.get("DRY_RUN") == "1"
@@ -223,30 +220,6 @@ def _strip_json(text):
     return json.loads(t)
 
 
-def anthropic_messages(model, system, user, max_tokens=900, temperature=0.7, timeout=90):
-    """Anthropic Messages API. Returns the text of content[0]."""
-    if not ANTHROPIC_API_KEY:
-        raise RuntimeError("no ANTHROPIC_API_KEY")
-    body = {
-        "model": model,
-        "max_tokens": max_tokens,
-        "temperature": temperature,
-        "system": system,
-        "messages": [{"role": "user", "content": user}],
-    }
-    headers = {
-        "x-api-key": ANTHROPIC_API_KEY,
-        "anthropic-version": ANTHROPIC_VERSION,
-    }
-    r = http_json("https://api.anthropic.com/v1/messages", data=body, headers=headers, timeout=timeout)
-    parts = r.get("content") or []
-    for p in parts:
-        if p.get("type") == "text":
-            return p.get("text", "")
-    # fallback: first block text
-    return parts[0].get("text", "") if parts else ""
-
-
 def openai_chat(model, system, user, max_tokens=900, temperature=0.7, json_mode=True, timeout=90):
     if not OPENAI_API_KEY:
         raise RuntimeError("no OPENAI_API_KEY")
@@ -257,12 +230,26 @@ def openai_chat(model, system, user, max_tokens=900, temperature=0.7, json_mode=
             {"role": "user", "content": user},
         ],
         "temperature": temperature,
-        "max_tokens": max_tokens,
     }
+    if model.startswith(("gpt-5", "o3", "o4")):
+        # GPT-5 / o-series: max_tokens is rejected; reasoning off keeps replies
+        # fast and avoids burning the completion budget on hidden reasoning.
+        body["max_completion_tokens"] = max_tokens
+        body["reasoning_effort"] = "none"
+    else:
+        body["max_tokens"] = max_tokens
     if json_mode:
         body["response_format"] = {"type": "json_object"}
     headers = {"Authorization": f"Bearer {OPENAI_API_KEY}"}
-    r = http_json("https://api.openai.com/v1/chat/completions", data=body, headers=headers, timeout=timeout)
+    try:
+        r = http_json("https://api.openai.com/v1/chat/completions", data=body, headers=headers, timeout=timeout)
+    except urllib.error.HTTPError as e:
+        # Some model revisions reject non-default temperature; retry once without it.
+        if e.code == 400 and "temperature" in str(e.read()[:500]):
+            body.pop("temperature", None)
+            r = http_json("https://api.openai.com/v1/chat/completions", data=body, headers=headers, timeout=timeout)
+        else:
+            raise
     return r["choices"][0]["message"]["content"]
 
 
@@ -455,19 +442,18 @@ def triage_batch(batch, receipts):
     user = _triage_user_payload(batch)
     _TOK["triage_in"] += _est_tokens(system) + _est_tokens(user)
     raw = None
-    try:
-        raw = anthropic_messages(TRIAGE_MODEL_ANTHROPIC, system, user,
-                                 max_tokens=1500, temperature=0.2, timeout=90)
-    except Exception as e:
-        log(f"  triage anthropic failed ({e}); trying openai")
+    for model in TRIAGE_MODEL_CHAIN:
         try:
             # OpenAI json_mode requires an object; ask for {"items":[...]}
-            raw = openai_chat(TRIAGE_MODEL_OPENAI, system,
+            raw = openai_chat(model, system,
                               user + '\nReturn as {"items": [...]}.',
                               max_tokens=1500, temperature=0.2, json_mode=True, timeout=90)
-        except Exception as e2:
-            log(f"  triage openai failed ({e2}); defaulting fit=5 for batch of {len(batch)}")
-            return {str(t.get("id")): {"fit": 5, "topics": [], "human_ok": False} for t in batch}
+            break
+        except Exception as e:
+            log(f"  triage {model} failed ({e}); trying next")
+    if raw is None:
+        log(f"  triage failed on all models; defaulting fit=5 for batch of {len(batch)}")
+        return {str(t.get("id")): {"fit": 5, "topics": [], "human_ok": False} for t in batch}
     _TOK["triage_out"] += _est_tokens(raw)
     try:
         parsed = _strip_json(raw)
@@ -659,7 +645,7 @@ def _draft_user_payload(tweet, receipts_for_call, human_only):
 
 
 def draft_reply(tweet, receipts_for_call, human_only, feedback=None):
-    """Draft variants. Fallback chain: Claude Sonnet -> gpt-4.1 -> gpt-4.1-mini.
+    """Draft variants. Fallback chain: gpt-5.5 -> gpt-5.4 -> gpt-4.1.
     Returns (parsed_dict, model_name)."""
     system = MASTER_PROMPT
     user = _draft_user_payload(tweet, receipts_for_call, human_only)
@@ -667,17 +653,7 @@ def draft_reply(tweet, receipts_for_call, human_only, feedback=None):
         user += f"\n\nYour previous attempt had these problems, fix them:\n{feedback}"
     _TOK["draft_in"] += _est_tokens(system) + _est_tokens(user)
 
-    # 1) Anthropic Sonnet
-    try:
-        raw = anthropic_messages(DRAFT_MODEL_ANTHROPIC, system, user,
-                                 max_tokens=900, temperature=0.8, timeout=90)
-        _TOK["draft_out"] += _est_tokens(raw)
-        return _strip_json(raw), DRAFT_MODEL_ANTHROPIC
-    except Exception as e:
-        log(f"  draft anthropic failed on @{_handle(tweet)}: {e}")
-
-    # 2) OpenAI gpt-4.1
-    for model in (DRAFT_MODEL_OPENAI, DRAFT_MODEL_OPENAI_MINI):
+    for model in DRAFT_MODEL_CHAIN:
         try:
             raw = openai_chat(model, system, user, max_tokens=900, temperature=0.8,
                               json_mode=True, timeout=90)

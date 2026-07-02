@@ -90,8 +90,8 @@ npx wrangler secret put REFRESH_TOKEN
 # Gate for /subs and /unsub (used by send_push.js via the PUSH_SUBS_TOKEN Actions secret).
 npx wrangler secret put PUSH_SUBS_TOKEN
 
-# Anthropic key (sk-ant-...) for /regen drafting.
-npx wrangler secret put ANTHROPIC_API_KEY
+# OpenAI key (sk-...) for /regen drafting (gpt-5.5).
+npx wrangler secret put OPENAI_API_KEY
 
 # GitHub PAT for /status, /refresh, /log — see scope note below.
 npx wrangler secret put GITHUB_TOKEN
@@ -112,7 +112,7 @@ Verify the secret names are present (values are never shown):
 npx wrangler secret list
 ```
 
-Expected: `REFRESH_TOKEN`, `PUSH_SUBS_TOKEN`, `ANTHROPIC_API_KEY`, `GITHUB_TOKEN`.
+Expected: `REFRESH_TOKEN`, `PUSH_SUBS_TOKEN`, `OPENAI_API_KEY`, `GITHUB_TOKEN`.
 
 ---
 

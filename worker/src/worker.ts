@@ -35,7 +35,7 @@ export interface Env {
   // --- Secrets (set via `wrangler secret put`, NEVER in wrangler.toml) ---
   REFRESH_TOKEN: string;      // gate for /refresh, /log, /regen  (was hardcoded in v1)
   PUSH_SUBS_TOKEN: string;    // gate for /subs, /unsub  (consumed by send_push.js)
-  ANTHROPIC_API_KEY: string;  // sk-ant-...  for /regen
+  OPENAI_API_KEY: string;    // sk-...  for /regen drafting
   GITHUB_TOKEN: string;       // fine-grained PAT: levelupadmin/x-reply-queue contents:rw + actions:rw
 
   // --- KV binding (id lives in wrangler.toml) ---
@@ -52,10 +52,9 @@ const RECEIPTS_RAW = `https://raw.githubusercontent.com/${GH_OWNER}/${GH_REPO}/$
 const GH_API = "https://api.github.com";
 const UA = "x-refresh-proxy/2";
 
-// Anthropic
-const ANTHROPIC_URL = "https://api.anthropic.com/v1/messages";
-const ANTHROPIC_MODEL = "claude-sonnet-4-6";
-const ANTHROPIC_VERSION = "2023-06-01";
+// OpenAI (all-OpenAI stack by owner's choice; GPT-5.x needs max_completion_tokens)
+const OPENAI_URL = "https://api.openai.com/v1/chat/completions";
+const OPENAI_MODEL = "gpt-5.5";
 
 // Limits / cooldowns
 const REFRESH_COOLDOWN_MS = 8 * 60 * 1000;      // 8-minute global refresh cooldown (v1 behaviour)
@@ -347,26 +346,29 @@ async function handleRegen(req: Request, env: Env, origin: string | null): Promi
   const system = buildRegenSystemPrompt(receipts, direction);
   const userMsg = buildRegenUserPrompt(tweetText, author, priorVariants, direction);
 
-  const r = await fetch(ANTHROPIC_URL, {
+  const r = await fetch(OPENAI_URL, {
     method: "POST",
     headers: {
-      "x-api-key": env.ANTHROPIC_API_KEY,
-      "anthropic-version": ANTHROPIC_VERSION,
+      "authorization": `Bearer ${env.OPENAI_API_KEY}`,
       "content-type": "application/json",
     },
     body: JSON.stringify({
-      model: ANTHROPIC_MODEL,
-      max_tokens: 500,
-      system,
-      messages: [{ role: "user", content: userMsg }],
+      model: OPENAI_MODEL,
+      max_completion_tokens: 500,
+      reasoning_effort: "none",
+      response_format: { type: "json_object" },
+      messages: [
+        { role: "system", content: system },
+        { role: "user", content: userMsg },
+      ],
     }),
   });
   if (!r.ok) {
-    console.log("anthropic error status:", r.status); // status only, never the key/body
+    console.log("openai error status:", r.status); // status only, never the key/body
     return json({ ok: false, error: "drafting failed" }, 502, origin);
   }
   const j: any = await r.json();
-  const text: string = j?.content?.[0]?.text || "";
+  const text: string = j?.choices?.[0]?.message?.content || "";
 
   const variants = parseVariants(text);
   if (variants.length === 0) return json({ ok: false, error: "no variants" }, 502, origin);

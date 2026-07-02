@@ -43,7 +43,6 @@ jobs:
         env:
           APIFY_TOKEN: ${{ secrets.APIFY_TOKEN }}
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
-          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
           DRY_RUN: '1'
           SMOKE_HANDLES: ${{ inputs.handles }}
           DRY_RUN_OUT: dry_run_index.html

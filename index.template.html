@@ -1306,10 +1306,10 @@ function renderModelLine() {
     .sort((a, b) => b[1] - a[1]);
   if (!el || !entries.length) return;
   const total = entries.reduce((s, [, n]) => s + n, 0);
-  const fallback = entries.filter(([m]) => !/^claude/i.test(m)).reduce((s, [, n]) => s + n, 0);
+  const fallback = entries.filter(([m]) => !/^gpt-5/i.test(m)).reduce((s, [, n]) => s + n, 0);
   let line = "Drafted by " + entries.map(([m, n]) => `${m} ×${n}`).join(" · ");
   if (fallback / total > 0.5) {
-    line += " · ⚠ mostly fallback models — check Anthropic credits";
+    line += " · ⚠ mostly fallback models — check OpenAI account";
     el.classList.add("model-warn");
   }
   el.textContent = line;
