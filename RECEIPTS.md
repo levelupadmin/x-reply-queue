@@ -1,15 +1,18 @@
-# Adding a receipt from your phone
+# Receipts: verified-only personal memory
 
-1. GitHub mobile → this repo → `receipts.json` → ✏️ Edit.
-2. Add an entry to the `"receipts"` array (keep valid JSON — mind commas).
-3. Commit to `main`. The next scheduled refresh picks it up automatically.
+The active pool (`receipts.json`) is **empty by design** since 2026-07-03. The engine
+drafts perspective-first replies with zero personal claims. The 20 old LLM-authored,
+never-verified receipts sit in `receipts.quarantine.json` and are never used.
 
-Copy-paste example (edit every field):
-
+## Add a TRUE receipt from your phone (only you should do this)
+1. Open github.com/levelupadmin/x-reply-queue on your phone, edit `receipts.json`.
+2. Add an entry inside `"receipts": [...]` and commit; the next morning run uses it:
 ```json
-{"id": "short-brand-neutral-slug", "kind": "stat", "topics": ["pricing", "india", "trust"],
- "text": "The claim in Rahul's first-person voice. Only things literally true.",
- "use_when": "topics/takes where this receipt fits"}
+{"id": "my-real-story", "kind": "story|stat|observation|opinion",
+ "topics": ["marketing", "pricing"],
+ "text": "The receipt exactly as you would say it, in first person.",
+ "use_when": "one line on when it fits"}
 ```
-
-Rules: never your own brand/company name in `id`/`text` (third-party tools like Lovable are fine); no numbers you can't defend. `_meta.confirm_before_ship` lists receipts awaiting your factual sign-off.
+3. Only add things that are literally true. The model will state them as YOUR life.
+4. To resurrect a quarantined receipt you know is true, copy it across from
+   `receipts.quarantine.json` unchanged.

@@ -1,0 +1,249 @@
+{
+ "_meta": {
+  "note": "QUARANTINED 2026-07-03 on Rahul's instruction: these receipts were LLM-authored autobiography from the May 2026 x-strategy docs, never verified by Rahul, and the engine over-leaned on them. NOTHING here may be moved back to receipts.json unless Rahul personally confirms it is literally true (then copy the entry across).",
+  "quarantined_from": "receipts.json"
+ },
+ "receipts": [
+  {
+   "id": "price-signal-trust",
+   "kind": "observation",
+   "topics": [
+    "buyer-psychology",
+    "positioning",
+    "india",
+    "trust"
+   ],
+   "text": "Indian buyers price-signal trust, not affordability. Drop a price to look accessible and you read as low-stakes; the ones who convert want to feel they bought something serious.",
+   "use_when": "positioning, premium vs cheap, how a price reads, trust signals"
+  },
+  {
+   "id": "micropaywall-showup",
+   "kind": "stat",
+   "topics": [
+    "conversion",
+    "webinars",
+    "funnels",
+    "lead-quality"
+   ],
+   "text": "Free webinars got me about 4% show-up. A small paid deposit took it to roughly 38%. The money wasn't the filter, the commitment was.",
+   "use_when": "funnels, free vs paid, no-shows, lead quality, deposits"
+  },
+  {
+   "id": "discount-attracts-worst-buyers",
+   "kind": "opinion",
+   "topics": [
+    "pricing",
+    "discounting",
+    "buyer-psychology",
+    "india"
+   ],
+   "text": "Every time I ran a heavy discount, the refund and support load went up, not down. Cheapest buyers ask the most and trust the least.",
+   "use_when": "discounts, sales, 'just lower the price' takes, refund pain"
+  },
+  {
+   "id": "lovable-6-weeks",
+   "kind": "story",
+   "topics": [
+    "building",
+    "ai-tools",
+    "no-code",
+    "shipping"
+   ],
+   "text": "Built our masterclass app on Lovable in 6 weeks, DRM and all, before I'd have finished scoping it the old way. The bottleneck was never the code.",
+   "use_when": "building with AI, shipping speed, no-code, solo founder velocity"
+  },
+  {
+   "id": "drm-piracy-tradeoff",
+   "kind": "observation",
+   "topics": [
+    "product",
+    "building",
+    "edtech",
+    "video"
+   ],
+   "text": "We added DRM to our course video knowing a determined pirate gets through anything. I treat it as a signal to honest buyers, not a wall. The point was never to be uncrackable.",
+   "use_when": "piracy, content protection, DRM, over-engineering security"
+  },
+  {
+   "id": "70k-learners",
+   "kind": "stat",
+   "topics": [
+    "edtech",
+    "scale",
+    "audience",
+    "cohorts"
+   ],
+   "text": "We're past 70,000 paid learners now. The thing that scaled wasn't content, it was the reason people trusted us with their money.",
+   "use_when": "scale, audience, edtech, trust at volume"
+  },
+  {
+   "id": "content-was-never-the-moat",
+   "kind": "opinion",
+   "topics": [
+    "moat",
+    "pricing",
+    "trust",
+    "defensibility"
+   ],
+   "text": "Everyone thinks the course is the product. After enough cohorts I'm sure the product is the accountability around it. Content is the cheapest part to copy, so it was never the moat.",
+   "use_when": "moats, defensibility, what people actually pay for, why content is commoditized"
+  },
+  {
+   "id": "in-person-writing-cohorts",
+   "kind": "story",
+   "topics": [
+    "writing",
+    "community",
+    "in-person",
+    "retention"
+   ],
+   "text": "I run in-person writing programs in Dehradun and Bangalore. Thousands of photos in, the single biggest retention lever is people meeting in a room, not the curriculum.",
+   "use_when": "community, in-person, cohorts, retention, writing"
+  },
+  {
+   "id": "cohort-shows-up-for-people",
+   "kind": "observation",
+   "topics": [
+    "community",
+    "cohorts",
+    "retention",
+    "teaching"
+   ],
+   "text": "People don't finish a course for the certificate. They finish it because someone in the group would notice if they didn't show up.",
+   "use_when": "completion rates, motivation, community, accountability"
+  },
+  {
+   "id": "small-budget-perf-marketing",
+   "kind": "observation",
+   "topics": [
+    "ads",
+    "performance-marketing",
+    "creative",
+    "india",
+    "budgets"
+   ],
+   "text": "Running Meta and Google on small-to-mid Indian budgets teaches you fast that creative fatigue kills you before CPMs do. I refresh angles before the numbers even dip.",
+   "use_when": "paid ads, performance marketing, creative, CAC"
+  },
+  {
+   "id": "hook-carries-the-ad",
+   "kind": "opinion",
+   "topics": [
+    "ads",
+    "creative",
+    "content",
+    "hooks"
+   ],
+   "text": "On our ad account the first three seconds decide almost everything. I've watched a mediocre offer with a sharp hook beat a great offer with a soft one, every time.",
+   "use_when": "ad creative, hooks, thumbnails, first-line-matters takes"
+  },
+  {
+   "id": "referral-quietly-cheapest",
+   "kind": "stat",
+   "topics": [
+    "growth",
+    "referral",
+    "distribution",
+    "cac"
+   ],
+   "text": "Our cheapest, highest-trust channel was never an ad. Word of mouth from past learners closes without me spending a rupee, it just doesn't show up in a dashboard.",
+   "use_when": "CAC, channels, organic vs paid, word of mouth, attribution"
+  },
+  {
+   "id": "waitlist-warms-the-room",
+   "kind": "observation",
+   "topics": [
+    "launch",
+    "distribution",
+    "audience",
+    "demand"
+   ],
+   "text": "A waitlist isn't a vanity list, it's a warm-up. The cohorts that filled fastest were the ones where I'd been talking to the room for weeks before opening.",
+   "use_when": "launches, waitlists, demand, pre-selling, audience building"
+  },
+  {
+   "id": "bootstrapped-36-months",
+   "kind": "opinion",
+   "topics": [
+    "bootstrapping",
+    "founder",
+    "startup",
+    "india"
+   ],
+   "text": "36 months bootstrapped in India. The freedom people romanticize is real but it's paid for in the deals you say no to when raising would've made them easy.",
+   "use_when": "bootstrapping vs raising, founder tradeoffs, discipline"
+  },
+  {
+   "id": "profit-buys-patience",
+   "kind": "opinion",
+   "topics": [
+    "bootstrapping",
+    "founder",
+    "finance",
+    "startup"
+   ],
+   "text": "Being profitable didn't make us fast, it made us patient. We could wait out a bad quarter instead of pitching through it. That patience is the whole advantage.",
+   "use_when": "profitability, runway, raising, slow vs fast growth"
+  },
+  {
+   "id": "operator-not-guru",
+   "kind": "opinion",
+   "topics": [
+    "branding",
+    "positioning",
+    "creators",
+    "authority"
+   ],
+   "text": "I'd rather be read as an operator than a guru. People trust the person still doing the boring work over the one who's graduated to selling the framework for it.",
+   "use_when": "personal brand positioning, operator vs thought-leader, credibility, who to trust"
+  },
+  {
+   "id": "specific-beats-clever",
+   "kind": "observation",
+   "topics": [
+    "writing",
+    "copywriting",
+    "hooks",
+    "specificity"
+   ],
+   "text": "The posts that landed for me were never the clever ones. They were the specific ones: one number, one moment, one thing I got wrong. Specific is what people trust.",
+   "use_when": "writing advice, going viral, why content flops, specificity"
+  },
+  {
+   "id": "first-hire-was-a-doer",
+   "kind": "story",
+   "topics": [
+    "hiring",
+    "team",
+    "founder",
+    "ops"
+   ],
+   "text": "My first real hire wasn't a strategist, it was someone who'd actually ship the boring work daily. I'd have grown faster if I'd stopped hiring people who thought like me.",
+   "use_when": "hiring, first hires, team building, delegation"
+  },
+  {
+   "id": "process-after-pain",
+   "kind": "opinion",
+   "topics": [
+    "ops",
+    "process",
+    "founder",
+    "team"
+   ],
+   "text": "Every process we have exists because something broke first. I stopped trying to write the playbook in advance, the pain tells you exactly which one you actually need.",
+   "use_when": "ops, systems, process, scaling a team, premature structure"
+  },
+  {
+   "id": "teach-the-one-thing",
+   "kind": "observation",
+   "topics": [
+    "teaching",
+    "curriculum",
+    "scope",
+    "learning"
+   ],
+   "text": "When I try to teach ten things, people finish none. When I teach one thing they can use tomorrow, they come back for the next. Scope is the lesson.",
+   "use_when": "teaching, curriculum, course design, scope, learning"
+  }
+ ]
+}
