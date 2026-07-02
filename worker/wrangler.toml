@@ -1,0 +1,34 @@
+# x-refresh-proxy — Cloudflare Worker v2
+# Name is pinned so the deployed URL stays UNCHANGED:
+#   https://x-refresh-proxy.levelupedtech.workers.dev
+# The PWA (index.template.html) and send_push.js hardcode that URL, so DO NOT rename.
+
+name = "x-refresh-proxy"
+main = "src/worker.ts"
+compatibility_date = "2026-05-01"
+
+# ---------------------------------------------------------------------------
+# KV namespace — stores push subscriptions, per-IP rate-limit counters, and the
+# /refresh cooldown timestamp. This namespace ALREADY EXISTS (v1 created it for
+# /subscribe). Do NOT create a new one, or existing push subscribers are lost.
+#
+#   Find the real id:   npx wrangler kv namespace list
+#   The existing id starts with the prefix  542b1ebf
+#   Paste the full id below, replacing REPLACE_WITH_EXISTING_KV_ID.
+# ---------------------------------------------------------------------------
+[[kv_namespaces]]
+binding = "QUEUE_KV"
+id = "REPLACE_WITH_EXISTING_KV_ID"   # prefix 542b1ebf — see `npx wrangler kv namespace list`
+
+# ---------------------------------------------------------------------------
+# Secrets — set with `npx wrangler secret put <NAME>` (NEVER commit these).
+# They bind to the Env interface in src/worker.ts.
+#
+#   REFRESH_TOKEN     gate for /refresh, /log, /regen (was hardcoded in v1 — now a secret)
+#   PUSH_SUBS_TOKEN   gate for /subs, /unsub (consumed by send_push.js in GitHub Actions)
+#   ANTHROPIC_API_KEY sk-ant-...  for /regen drafting (claude-sonnet-4-6)
+#   GITHUB_TOKEN      fine-grained PAT on levelupadmin/x-reply-queue, contents:rw + actions:rw ONLY
+# ---------------------------------------------------------------------------
+
+# No [vars] block: all sensitive config is a secret; all non-sensitive config
+# (owner/repo/branch/workflow) is fixed as consts in src/worker.ts.

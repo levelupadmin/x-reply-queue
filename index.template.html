@@ -4,13 +4,13 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, user-scalable=yes">
 <title>X Reply Queue · @rahul_reddy</title>
-<meta name="description" content="Daily X reply drafts. Tap Reply A/B and X opens with your draft pre-filled.">
+<meta name="description" content="Daily X reply drafts. Tap a variant, tweak it, and X opens with your draft pre-filled.">
 
 <!-- PWA -->
 <link rel="manifest" href="manifest.json">
-<meta name="theme-color" content="#1c1917" media="(prefers-color-scheme: light)">
-<meta name="theme-color" content="#1c1917" media="(prefers-color-scheme: dark)">
-<meta name="color-scheme" content="light">
+<meta name="theme-color" content="#fafaf9" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0c0a09" media="(prefers-color-scheme: dark)">
+<meta name="color-scheme" content="light dark">
 
 <!-- iOS PWA -->
 <meta name="apple-mobile-web-app-capable" content="yes">
@@ -20,12 +20,8 @@
 <link rel="icon" type="image/png" sizes="192x192" href="icon-192.png">
 <link rel="icon" type="image/png" sizes="512x512" href="icon-512.png">
 
-<!-- Iframe-friendly: explicitly allow embedding -->
-<meta http-equiv="Content-Security-Policy" content="frame-ancestors *">
-
 <style>
   :root {
-    color-scheme: light;
     --bg: #fafaf9;
     --surface: #ffffff;
     --surface-2: #f5f5f4;
@@ -37,18 +33,28 @@
     --text-mute: #a8a29e;
     --accent: #1d9bf0;
     --accent-2: #1a8cd8;
+    --accent-ink: #ffffff;
     --success: #16a34a;
     --success-bg: #f0fdf4;
+    --success-border: #86efac;
     --warn: #b45309;
     --warn-bg: #fef3c7;
     --hot: #b91c1c;
     --hot-bg: #fee2e2;
+    --early: #7c3aed;
+    --early-bg: #f3e8ff;
     --info-bg: #eff6ff;
     --info-text: #1e40af;
+    --info-border: #bfdbfe;
     --t1-bg: #fef3c7; --t1-text: #92400e;
     --t2-bg: #dcfce7; --t2-text: #166534;
     --t3-bg: #dbeafe; --t3-text: #1e40af;
     --human-bg: #e0f2fe; --human-text: #075985;
+    --pick-bg: #fffbeb; --pick-border: #fcd34d;
+    --skip-bg: #fefbf6; --skip-border: #fde68a;
+    --human-card-bg: #f0f9ff; --human-card-border: #bae6fd;
+    --shadow: 0 8px 24px rgba(0,0,0,0.18);
+    --header-bg: rgba(250,250,249,0.92);
     --tap: 44px;
     --radius: 12px;
     --radius-sm: 8px;
@@ -56,7 +62,44 @@
     --safe-top: env(safe-area-inset-top, 0px);
     --safe-bottom: env(safe-area-inset-bottom, 0px);
   }
+  :root[data-theme="dark"] {
+    color-scheme: dark;
+    --bg: #0c0a09;
+    --surface: #1c1917;
+    --surface-2: #292524;
+    --border: #292524;
+    --border-2: #44403c;
+    --text: #f5f5f4;
+    --text-2: #d6d3d1;
+    --text-3: #a8a29e;
+    --text-mute: #78716c;
+    --accent: #1d9bf0;
+    --accent-2: #4bb3f5;
+    --accent-ink: #ffffff;
+    --success: #4ade80;
+    --success-bg: #14251a;
+    --success-border: #166534;
+    --warn: #fbbf24;
+    --warn-bg: #3a2e12;
+    --hot: #f87171;
+    --hot-bg: #3a1a1a;
+    --early: #c084fc;
+    --early-bg: #2a1a3d;
+    --info-bg: #16233a;
+    --info-text: #93c5fd;
+    --info-border: #1e3a5f;
+    --t1-bg: #3a2e12; --t1-text: #fcd34d;
+    --t2-bg: #14251a; --t2-text: #86efac;
+    --t3-bg: #16233a; --t3-text: #93c5fd;
+    --human-bg: #16233a; --human-text: #7dd3fc;
+    --pick-bg: #241f10; --pick-border: #6b5715;
+    --skip-bg: #1a1712; --skip-border: #453a1a;
+    --human-card-bg: #0f1b28; --human-card-border: #1e3a5f;
+    --shadow: 0 8px 24px rgba(0,0,0,0.5);
+    --header-bg: rgba(12,10,9,0.92);
+  }
   * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+  [hidden] { display: none !important; }
   html, body { margin: 0; padding: 0; }
   body {
     font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", system-ui, sans-serif;
@@ -67,14 +110,13 @@
   .sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; }
   a { color: inherit; }
 
-  /* Skip link for accessibility */
-  .skip-link { position: absolute; top: -40px; left: 0; background: var(--text); color: white; padding: 8px 12px; z-index: 1000; }
+  .skip-link { position: absolute; top: -40px; left: 0; background: var(--text); color: var(--bg); padding: 8px 12px; z-index: 1000; }
   .skip-link:focus { top: 0; }
 
   /* Sticky header */
   header.app {
     position: sticky; top: 0; z-index: 10;
-    background: rgba(250,250,249,0.92);
+    background: var(--header-bg);
     backdrop-filter: saturate(180%) blur(12px);
     -webkit-backdrop-filter: saturate(180%) blur(12px);
     border-bottom: 0.5px solid var(--border);
@@ -84,9 +126,10 @@
   .row.wrap { flex-wrap: wrap; }
   h1 { font-size: 18px; font-weight: 600; margin: 0; letter-spacing: -0.01em; }
   .meta { font-size: 11px; color: var(--text-3); margin-top: 2px; }
+  .meta.model-warn { color: var(--warn); }
+  .hdr-btns { margin-left: auto; display: flex; align-items: center; gap: 8px; }
   .refresh {
-    margin-left: auto;
-    background: var(--text); color: white; border: none;
+    background: var(--text); color: var(--bg); border: none;
     height: 36px; min-width: 36px; padding: 0 12px; border-radius: 18px;
     font-size: 13px; font-weight: 500; cursor: pointer;
     display: inline-flex; align-items: center; justify-content: center; gap: 6px;
@@ -95,6 +138,14 @@
   .refresh .spin { display: inline-block; }
   .refresh.spinning .spin { animation: spin 1s linear infinite; }
   @keyframes spin { to { transform: rotate(360deg); } }
+  .icon-btn {
+    background: var(--surface); color: var(--text-2); border: 0.5px solid var(--border-2);
+    height: 36px; min-width: 36px; padding: 0 10px; border-radius: 18px; font-size: 15px;
+    cursor: pointer; display: inline-flex; align-items: center; justify-content: center; gap: 6px;
+    font-family: inherit;
+  }
+  .icon-btn:active { transform: scale(0.96); }
+  .icon-btn.on { background: var(--success-bg); color: var(--success); border-color: var(--success-border); }
 
   /* Today widget */
   .today {
@@ -112,10 +163,25 @@
   /* Container */
   main { max-width: 760px; margin: 0 auto; padding: 0 16px 80px; }
 
+  /* Search */
+  .search-wrap { margin: 14px 0 0; position: relative; }
+  .search-wrap input {
+    width: 100%; height: 40px; padding: 0 36px 0 12px;
+    background: var(--surface); border: 0.5px solid var(--border-2);
+    border-radius: var(--radius-sm); font-size: 14px; color: var(--text);
+    font-family: inherit;
+  }
+  .search-wrap input::placeholder { color: var(--text-mute); }
+  .search-clear {
+    position: absolute; right: 6px; top: 50%; transform: translateY(-50%);
+    width: 28px; height: 28px; border: none; background: transparent; color: var(--text-3);
+    font-size: 16px; cursor: pointer; border-radius: 50%;
+  }
+
   /* Filters */
   .filters {
     display: flex; gap: 6px; overflow-x: auto;
-    margin: 14px 0 10px; padding: 2px;
+    margin: 12px 0 10px; padding: 2px;
     scrollbar-width: none;
   }
   .filters::-webkit-scrollbar { display: none; }
@@ -130,7 +196,7 @@
     transition: all 0.15s;
   }
   .chip:active { transform: scale(0.97); }
-  .chip[aria-pressed="true"] { background: var(--text); color: white; border-color: var(--text); }
+  .chip[aria-pressed="true"] { background: var(--text); color: var(--bg); border-color: var(--text); }
 
   /* Sort */
   .sort {
@@ -147,14 +213,35 @@
     padding-right: 32px;
   }
 
+  /* Section headings */
+  .sec-head {
+    display: flex; align-items: center; gap: 8px; margin: 6px 2px 10px;
+    font-size: 12px; font-weight: 600; color: var(--text-2);
+    text-transform: uppercase; letter-spacing: 0.04em;
+  }
+  .sec-head .count { color: var(--text-mute); font-weight: 500; }
+
+  /* Expander */
+  .expander {
+    width: 100%; height: 44px; margin: 4px 0 14px;
+    background: var(--surface); border: 0.5px solid var(--border-2);
+    border-radius: var(--radius-sm); color: var(--text-2); font-size: 13px; font-weight: 500;
+    cursor: pointer; font-family: inherit; display: flex; align-items: center; justify-content: center; gap: 8px;
+  }
+  .expander:active { transform: scale(0.99); }
+  .expander .caret { transition: transform 0.2s; }
+  .expander[aria-expanded="true"] .caret { transform: rotate(180deg); }
+
   /* Cards */
   .card {
     background: var(--surface); border: 0.5px solid var(--border);
     border-radius: var(--radius); padding: 14px; margin-bottom: 12px;
   }
-  .card.skip { background: #fefbf6; border-color: #fde68a; opacity: 0.72; }
-  .card.human { background: #f0f9ff; border-color: #bae6fd; }
-  .card.warn { border-color: #fcd34d; border-width: 1px; }
+  .card.pick { border-color: var(--pick-border); border-width: 1px; }
+  .card.skip { background: var(--skip-bg); border-color: var(--skip-border); opacity: 0.72; }
+  .card.human { background: var(--human-card-bg); border-color: var(--human-card-border); }
+  .card.warn { border-color: var(--warn); border-width: 1px; }
+  .card.dismissing { opacity: 0; transform: scale(0.96); transition: opacity 0.25s, transform 0.25s; }
   .card-head { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; margin-bottom: 6px; }
   .tag {
     display: inline-flex; align-items: center;
@@ -168,9 +255,13 @@
   .tag-skip { background: var(--surface-2); color: var(--text-3); }
   .tag-hot { background: var(--hot-bg); color: var(--hot); font-weight: 600; }
   .tag-velocity { background: var(--warn-bg); color: var(--warn); font-weight: 600; }
-  .tag-warn { background: #fef9c3; color: #854d0e; font-weight: 500; }
+  .tag-early { background: var(--early-bg); color: var(--early); font-weight: 600; }
+  .tag-fit { background: var(--surface-2); color: var(--text-2); font-weight: 600; }
+  .tag-warn { background: var(--warn-bg); color: var(--warn); font-weight: 500; }
   .author { font-weight: 500; color: var(--text); text-decoration: none; font-size: 14px; }
-  .author:focus-visible, .chip:focus-visible, .reply-btn:focus-visible, .btn-small:focus-visible, .open-btn:focus-visible, .refresh:focus-visible, select:focus-visible {
+  .author:focus-visible, .chip:focus-visible, .reply-btn:focus-visible, .btn-small:focus-visible,
+  .open-btn:focus-visible, .refresh:focus-visible, .icon-btn:focus-visible, .expander:focus-visible,
+  .card-act:focus-visible, select:focus-visible, input:focus-visible, textarea:focus-visible {
     outline: 2px solid var(--accent); outline-offset: 2px;
   }
   .author-meta { font-size: 11px; color: var(--text-3); }
@@ -181,20 +272,44 @@
     font-size: 14px; margin: 8px 0; white-space: pre-wrap; word-wrap: break-word;
   }
   .tweet-stats { font-size: 11px; color: var(--text-mute); margin-top: 4px; }
-  .why { font-size: 11px; color: var(--text-3); font-style: italic; margin: 8px 0 10px; padding: 5px 9px; background: var(--surface-2); border-radius: var(--radius-xs); }
+  .why { font-size: 11px; color: var(--text-3); font-style: italic; margin: 8px 0 10px; padding: 5px 9px; background: var(--surface-2); border-radius: var(--radius-xs); overflow-wrap: anywhere; word-break: break-word; }
+  .why b { font-style: normal; font-weight: 600; color: var(--text-2); }
+
+  /* Card action bar (snooze / dismiss) */
+  .card-actions { display: flex; gap: 6px; margin-top: 10px; }
+  .card-act {
+    font-size: 11px; padding: 0 10px; border-radius: var(--radius-xs);
+    border: 0.5px solid var(--border-2); background: var(--surface); color: var(--text-3);
+    min-height: 34px; cursor: pointer; font-family: inherit;
+    display: inline-flex; align-items: center; gap: 4px;
+  }
+  .card-act:active { transform: scale(0.97); }
 
   /* Variants */
   .variants { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 8px; }
   @media (max-width: 640px) { .variants { grid-template-columns: 1fr; } }
   .variant { background: var(--surface-2); border: 0.5px solid var(--border); border-radius: var(--radius-sm); padding: 11px 12px; display: flex; flex-direction: column; position: relative; }
-  .variant.posted { background: var(--success-bg); border-color: #86efac; }
-  .variant.posted::before { content: "✓"; position: absolute; top: 6px; right: 8px; color: var(--success); font-weight: 700; font-size: 14px; }
-  .variant-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; }
+  .variant.posted { background: var(--success-bg); border-color: var(--success-border); }
+  .variant.posted::before { content: "\2713"; position: absolute; top: 6px; right: 8px; color: var(--success); font-weight: 700; font-size: 14px; }
+  .variant-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; gap: 6px; }
   .variant-label { font-size: 10px; font-weight: 600; color: var(--text-3); letter-spacing: 0.04em; text-transform: uppercase; }
-  .variant-text { font-size: 13px; color: var(--text); line-height: 1.5; flex: 1; margin-bottom: 10px; white-space: pre-wrap; }
+  .variant-mode { font-size: 10px; font-weight: 600; letter-spacing: 0.03em; padding: 1px 6px; border-radius: 4px; background: var(--surface); border: 0.5px solid var(--border-2); color: var(--text-2); }
+  .variant-text { font-size: 13px; color: var(--text); line-height: 1.5; flex: 1; margin-bottom: 10px; white-space: pre-wrap; overflow-wrap: anywhere; word-break: break-word; cursor: text; }
+  .variant-text:hover { color: var(--accent-2); }
+  .edit-wrap { margin-bottom: 10px; }
+  .edit-area {
+    width: 100%; min-height: 92px; resize: vertical;
+    font-family: inherit; font-size: 13px; line-height: 1.5; color: var(--text);
+    background: var(--surface); border: 1px solid var(--accent); border-radius: var(--radius-xs);
+    padding: 8px 10px; overflow-wrap: anywhere; word-break: break-word;
+  }
+  .edit-meta { display: flex; justify-content: space-between; align-items: center; margin-top: 4px; }
+  .char-count { font-size: 11px; color: var(--text-3); font-variant-numeric: tabular-nums; }
+  .char-count.over { color: var(--hot); font-weight: 600; }
+  .edit-reset { font-size: 11px; background: none; border: none; color: var(--text-3); cursor: pointer; text-decoration: underline; font-family: inherit; padding: 2px 4px; }
   .reply-btn {
     display: inline-flex; align-items: center; justify-content: center; gap: 6px;
-    background: var(--accent); color: white; padding: 0 14px;
+    background: var(--accent); color: var(--accent-ink); padding: 0 14px;
     border-radius: var(--radius-sm); font-size: 13px; font-weight: 500;
     text-decoration: none; min-height: var(--tap); border: none; cursor: pointer;
     font-family: inherit;
@@ -208,10 +323,10 @@
     min-height: 34px; cursor: pointer; font-family: inherit;
   }
   .btn-small:active { transform: scale(0.97); }
-  .btn-small.posted { background: var(--success); color: white; border-color: #15803d; }
+  .btn-small.posted { background: var(--success); color: #fff; border-color: var(--success); }
   .open-btn {
     display: inline-flex; align-items: center; gap: 6px;
-    background: var(--text); color: white; padding: 0 14px;
+    background: var(--text); color: var(--bg); padding: 0 14px;
     border-radius: var(--radius-sm); font-size: 12px; text-decoration: none;
     margin-top: 10px; font-weight: 500; min-height: 36px;
   }
@@ -223,16 +338,16 @@
   /* Toast */
   .toast {
     position: fixed; bottom: calc(20px + var(--safe-bottom)); left: 50%; transform: translateX(-50%);
-    background: var(--text); color: white; padding: 10px 18px; border-radius: 24px;
+    background: var(--text); color: var(--bg); padding: 10px 18px; border-radius: 24px;
     font-size: 13px; opacity: 0; transition: opacity 0.2s, transform 0.2s;
     pointer-events: none; z-index: 999; max-width: 90vw;
-    box-shadow: 0 8px 24px rgba(0,0,0,0.18);
+    box-shadow: var(--shadow);
   }
   .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
 
   /* Banner */
   .banner {
-    background: var(--info-bg); border: 0.5px solid #bfdbfe;
+    background: var(--info-bg); border: 0.5px solid var(--info-border);
     border-radius: var(--radius); padding: 10px 14px;
     font-size: 12px; color: var(--info-text); margin: 14px 0;
     display: flex; align-items: flex-start; gap: 8px;
@@ -240,7 +355,15 @@
   .banner b { font-weight: 600; }
 
   /* Growth widget */
-  .growth { margin: 14px 0 0; background: var(--surface); border: 0.5px solid var(--border); border-radius: var(--radius); padding: 12px 14px; }
+  .growth { margin: 14px 0 0; background: var(--surface); border: 0.5px solid var(--border); border-radius: var(--radius); }
+  .growth-toggle {
+    width: 100%; padding: 12px 14px; background: none; border: none; cursor: pointer;
+    display: flex; align-items: center; gap: 8px; font-family: inherit; color: var(--text);
+    font-size: 13px; font-weight: 600;
+  }
+  .growth-toggle .caret { margin-left: auto; transition: transform 0.2s; color: var(--text-3); }
+  .growth-toggle[aria-expanded="true"] .caret { transform: rotate(180deg); }
+  .growth-body { padding: 0 14px 14px; }
   .growth-row { display: flex; align-items: center; gap: 14px; }
   .g-stat { display: flex; flex-direction: column; }
   .g-num { font-size: 22px; font-weight: 600; line-height: 1; }
@@ -248,17 +371,23 @@
   .g-delta { font-size: 11px; font-weight: 600; margin-top: 3px; }
   .g-delta.up { color: var(--success); } .g-delta.flat { color: var(--text-mute); } .g-delta.down { color: var(--hot); }
   .spark { flex: 1; height: 34px; max-width: 220px; }
-  .g-tierperf { display: flex; gap: 8px; margin-top: 10px; flex-wrap: wrap; }
+  .g-tierperf { display: flex; gap: 8px; margin-top: 12px; flex-wrap: wrap; }
   .g-pill { font-size: 11px; background: var(--surface-2); border-radius: 6px; padding: 4px 8px; color: var(--text-2); }
   .g-pill b { color: var(--text); }
-  .g-note { font-size: 11px; color: var(--text-mute); margin-top: 8px; }
-
-  .pushbtn { background: var(--surface); color: var(--text-2); border: 0.5px solid var(--border-2);
-    height: 36px; padding: 0 12px; border-radius: 18px; font-size: 13px; font-weight: 500;
-    cursor: pointer; display: inline-flex; align-items: center; gap: 6px; margin-left: auto; font-family: inherit; }
-  .pushbtn:active { transform: scale(0.96); }
-  .pushbtn.on { background: var(--success-bg); color: var(--success); border-color: #86efac; }
-  header .refresh { margin-left: 8px; }
+  .g-note { font-size: 11px; color: var(--text-mute); margin-top: 10px; }
+  /* offered vs picked bars */
+  .g-modes { margin-top: 14px; }
+  .g-modes-title { font-size: 11px; font-weight: 600; color: var(--text-2); text-transform: uppercase; letter-spacing: 0.04em; margin-bottom: 8px; }
+  .g-mode-row { display: grid; grid-template-columns: 92px 1fr; gap: 8px; align-items: center; margin-bottom: 7px; }
+  .g-mode-name { font-size: 11px; color: var(--text-2); font-weight: 500; }
+  .g-bars { display: flex; flex-direction: column; gap: 3px; }
+  .g-bar-track { height: 7px; background: var(--surface-2); border-radius: 4px; overflow: hidden; }
+  .g-bar { height: 100%; border-radius: 4px; min-width: 2px; }
+  .g-bar.offered { background: var(--border-2); }
+  .g-bar.picked { background: var(--accent); }
+  .g-legend { display: flex; gap: 12px; font-size: 10px; color: var(--text-3); margin-top: 8px; }
+  .g-legend span { display: inline-flex; align-items: center; gap: 4px; }
+  .g-swatch { width: 10px; height: 10px; border-radius: 2px; display: inline-block; }
 </style>
 </head>
 <body>
@@ -269,12 +398,17 @@
     <div>
       <h1>X reply queue</h1>
       <div class="meta" id="meta-line"></div>
+      <div class="meta" id="model-line" hidden></div>
     </div>
-    <button class="pushbtn" id="btn-push" hidden aria-label="Enable notifications">🔔 Alerts</button>
-    <button class="refresh" id="btn-refresh" aria-label="Refresh queue">
-      <span class="spin" aria-hidden="true">↻</span>
-      <span class="refresh-label">Refresh</span>
-    </button>
+    <div class="hdr-btns">
+      <button class="icon-btn" id="btn-theme" aria-label="Toggle dark mode" title="Toggle theme">🌙</button>
+      <button class="icon-btn" id="btn-regen" hidden aria-label="Regenerate drafts">✨ Regen</button>
+      <button class="icon-btn" id="btn-push" hidden aria-label="Enable notifications">🔔</button>
+      <button class="refresh" id="btn-refresh" aria-label="Refresh queue">
+        <span class="spin" aria-hidden="true">↻</span>
+        <span class="refresh-label">Refresh</span>
+      </button>
+    </div>
   </div>
 
   <div class="today" role="region" aria-label="Today summary">
@@ -299,25 +433,45 @@
 <main>
   <div class="banner" role="note">
     <span aria-hidden="true">ⓘ</span>
-    <div><b>1-tap reply:</b> Tap <b>Reply A/B on 𝕏</b>. The X app opens directly with the draft pre-filled and threaded. Hit Post. (Falls back to tweet URL with reply copied to clipboard if X app missing.) ✓ wraps any tweet whose author you've already replied to today (Author Diversity rule).</div>
+    <div><b>Today's Picks</b> are the top drafts by priority. Tap any reply's text to <b>edit before posting</b>, then <b>Reply on 𝕏</b> opens X with your (edited) draft pre-filled. ✓ marks authors you've already replied to today.</div>
   </div>
 
   <section class="growth" id="growth" hidden aria-label="Your X growth">
-    <div class="growth-row">
-      <div class="g-stat">
-        <span class="g-num" id="g-followers">—</span>
-        <span class="g-lbl">followers</span>
-        <span class="g-delta" id="g-delta"></span>
+    <button class="growth-toggle" id="growth-toggle" aria-expanded="false" aria-controls="growth-body">
+      📈 Growth <span id="g-headline" style="font-weight:500;color:var(--text-3)"></span>
+      <span class="caret" aria-hidden="true">▾</span>
+    </button>
+    <div class="growth-body" id="growth-body" hidden>
+      <div class="growth-row">
+        <div class="g-stat">
+          <span class="g-num" id="g-followers">—</span>
+          <span class="g-lbl">followers</span>
+          <span class="g-delta" id="g-delta"></span>
+        </div>
+        <svg class="spark" id="g-spark" viewBox="0 0 220 34" preserveAspectRatio="none" aria-hidden="true"></svg>
       </div>
-      <svg class="spark" id="g-spark" viewBox="0 0 220 34" preserveAspectRatio="none" aria-hidden="true"></svg>
+      <div class="g-tierperf" id="g-tierperf"></div>
+      <div class="g-modes" id="g-modes" hidden>
+        <div class="g-modes-title">Offered vs picked (by mode)</div>
+        <div id="g-mode-rows"></div>
+        <div class="g-legend">
+          <span><i class="g-swatch" style="background:var(--border-2)"></i> offered</span>
+          <span><i class="g-swatch" style="background:var(--accent)"></i> picked</span>
+        </div>
+      </div>
+      <div class="g-note" id="g-note"></div>
     </div>
-    <div class="g-tierperf" id="g-tierperf"></div>
-    <div class="g-note" id="g-note"></div>
   </section>
+
+  <div class="search-wrap">
+    <input type="search" id="search" placeholder="Search handle or text…" aria-label="Search tweets" autocomplete="off">
+    <button class="search-clear" id="search-clear" hidden aria-label="Clear search">✕</button>
+  </div>
 
   <div class="filters" role="tablist" aria-label="Filter tweets">
     <button class="chip" role="tab" aria-pressed="true" data-filter="ready">Reply-ready</button>
     <button class="chip" role="tab" aria-pressed="false" data-filter="all">All</button>
+    <button class="chip" role="tab" aria-pressed="false" data-filter="early">⚡ Early</button>
     <button class="chip" role="tab" aria-pressed="false" data-filter="t1">T1</button>
     <button class="chip" role="tab" aria-pressed="false" data-filter="t2">T2</button>
     <button class="chip" role="tab" aria-pressed="false" data-filter="t3">T3</button>
@@ -328,6 +482,8 @@
   <div class="sort">
     <label for="sort-select">Sort</label>
     <select id="sort-select" aria-label="Sort tweets by">
+      <option value="priority">⭐ Best picks</option>
+      <option value="early">⚡ Early first</option>
       <option value="hot">🔥 Hottest now</option>
       <option value="new">🕐 Newest</option>
       <option value="window">💬 Reply window</option>
@@ -343,19 +499,52 @@
 
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
+<!-- Queue data is emitted as inert application/json, never as executable JS.
+     Parsing it here (not `const DATA = …`) means attacker-controlled tweet text
+     containing `</script>`, quotes, or angle brackets can never break out of the
+     script context and execute. render_html additionally escapes the
+     `</` / `<!--` / LS / PS sequences so the data can't prematurely close THIS
+     json tag either. -->
+<script id="queue-data" type="application/json">__DATA_INJECTION__</script>
 <script>
-const DATA = __DATA_INJECTION__;
+const DATA = (function () {
+  try {
+    return JSON.parse(document.getElementById("queue-data").textContent);
+  } catch (e) {
+    console.error("Failed to parse queue data:", e);
+    return { generatedAt: null, accounts: 0, tweets: [] };
+  }
+})();
 
 const FIT_KEYWORDS = ["india","indian","founder","startup","edtech","building","operator","marketing","ads","product","launch","distribution","creator","cohort","paid","pricing","learner","student","course","masterclass","ai","consumer","growth","tier 2","tier 3","bootstrapped","ship","lovable","vibe"];
+const PICKS_LIMIT = 8;
 
-function fmtNum(n) { return n >= 1000 ? (n/1000).toFixed(n >= 10000 ? 0 : 1) + "K" : String(n); }
+function fmtNum(n) { n = n||0; return n >= 1000 ? (n/1000).toFixed(n >= 10000 ? 0 : 1) + "K" : String(n); }
 function getEng(t) { return (t.likes||0) + 5*(t.replies||0) + 3*(t.retweets||0); }
 function getHoursAgo(t) {
   if (!t.createdAt) return 999;
   return Math.max(0.5, (Date.now() - new Date(t.createdAt).getTime()) / 3600000);
 }
 function getVelocity(t) { return getEng(t) / getHoursAgo(t); }
-function getFitScore(t) { const text = (t.text || "").toLowerCase(); return FIT_KEYWORDS.filter(k => text.includes(k)).length; }
+// Keyword fit as a 0-10 heuristic fallback when engine `fit` is absent.
+function getFitHeuristic(t) {
+  const text = (t.text || "").toLowerCase();
+  return Math.min(10, FIT_KEYWORDS.filter(k => text.includes(k)).length);
+}
+// NEW-contract-aware accessors — all degrade gracefully on old (fixture) data.
+function getFit(t) { return (typeof t.fit === "number") ? t.fit : getFitHeuristic(t); }
+function hasFit(t) { return typeof t.fit === "number"; }
+function isEarly(t) {
+  if (typeof t.early === "boolean") return t.early;
+  // Fallback heuristic mirrors engine rule: <3h old AND < 25 replies at scrape.
+  return getHoursAgo(t) < 3 && (t.replies||0) < 25;
+}
+// Priority for default sort. Uses engine `priority` when present, else velocity,
+// with a small early-window nudge so fresh tweets edge ahead on ties.
+function getPriority(t) {
+  if (typeof t.priority === "number") return t.priority;
+  return getVelocity(t) * (isEarly(t) ? 1.15 : 1);
+}
 function getReplyWindow(t) { return getEng(t) / (1 + Math.log(1 + (t.replies||0)) * 0.5); }
 function relativeTime(iso) {
   if (!iso) return "?";
@@ -371,116 +560,276 @@ function authorRepliedToday(handle) {
   const last = localStorage.getItem("author_reply_" + handle.toLowerCase());
   return last ? (Date.now() - parseInt(last)) < 24*3600*1000 : false;
 }
-function markAuthorReplied(handle) { localStorage.setItem("author_reply_" + handle.toLowerCase(), String(Date.now())); }
+function markAuthorReplied(handle) { lsSetTracked("author_reply_" + handle.toLowerCase(), String(Date.now())); }
+
+// ---- Snooze / dismiss (localStorage, cleared next day) ----
+function todayKey() { return new Date().toISOString().slice(0, 10); }
+function hiddenMap() {
+  try {
+    const raw = JSON.parse(localStorage.getItem("x_hidden") || "{}");
+    if (raw.day !== todayKey()) return { day: todayKey(), ids: {} };
+    return raw;
+  } catch (e) { return { day: todayKey(), ids: {} }; }
+}
+function isHidden(id) { return !!hiddenMap().ids[id]; }
+function hideCard(id, why) {
+  const m = hiddenMap();
+  m.ids[id] = why || "snoozed";
+  localStorage.setItem("x_hidden", JSON.stringify(m));
+}
 
 function sortTweets(tweets, mode) {
   const arr = [...tweets];
-  const cmp = { hot: (a,b)=>getVelocity(b)-getVelocity(a),
+  const cmp = {
+    priority: (a,b)=>getPriority(b)-getPriority(a),
+    early: (a,b)=>(isEarly(b)-isEarly(a))||(getPriority(b)-getPriority(a)),
+    hot: (a,b)=>getVelocity(b)-getVelocity(a),
     new: (a,b)=>new Date(b.createdAt||0)-new Date(a.createdAt||0),
     window: (a,b)=>getReplyWindow(b)-getReplyWindow(a),
     tier: (a,b)=>(a.tier-b.tier)||(getEng(b)-getEng(a)),
-    fit: (a,b)=>(getFitScore(b)-getFitScore(a))||(getEng(b)-getEng(a)),
+    fit: (a,b)=>(getFit(b)-getFit(a))||(getEng(b)-getEng(a)),
     reach: (a,b)=>(b.followers||0)-(a.followers||0),
     small: (a,b)=>(a.followers||9e9)-(b.followers||9e9) };
-  arr.sort(cmp[mode] || cmp.hot);
+  arr.sort(cmp[mode] || cmp.priority);
   return arr.sort((a,b) => authorRepliedToday(a.handle) - authorRepliedToday(b.handle));
 }
 function sortMetric(t, mode) {
-  const m = { hot: `🔥 ${getVelocity(t).toFixed(0)}/hr`, new: relativeTime(t.createdAt),
+  const m = {
+    priority: `⭐ ${Math.round(getPriority(t))}`,
+    early: isEarly(t) ? "⚡ early" : `${getHoursAgo(t).toFixed(0)}h`,
+    hot: `🔥 ${getVelocity(t).toFixed(0)}/hr`, new: relativeTime(t.createdAt),
     window: `💬 ${getReplyWindow(t).toFixed(0)}`, tier: `T${t.tier}`,
-    fit: `🧭 ${getFitScore(t)}`, reach: `📣 ${fmtNum(t.followers)}`, small: `🌱 ${fmtNum(t.followers)}` };
+    fit: `🧭 ${getFit(t)}`, reach: `📣 ${fmtNum(t.followers)}`, small: `🌱 ${fmtNum(t.followers)}` };
   return m[mode] || "";
 }
-// Build a reply URL that opens the X app directly on mobile (twitter:// scheme).
-// Falls back to x.com web intent on desktop. The @author prefix is REQUIRED for
-// the X app to link the reply correctly via in_reply_to_status_id.
+
 const IS_MOBILE = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
-function intentUrl(tweetId, text, authorHandle) {
-  // No @mention prefix needed: X threads via in_reply_to_status_id and already shows "Replying to @user".
+function intentUrl(tweetId, text) {
   if (IS_MOBILE) {
     return `twitter://post?message=${encodeURIComponent(text)}&in_reply_to_status_id=${tweetId}`;
   }
   return `https://x.com/intent/post?text=${encodeURIComponent(text)}&in_reply_to=${tweetId}`;
 }
 function escapeHtml(s) { return (s||"").replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;"); }
+// href guard: only https:// links may become a real href. Anything else
+// (javascript:, data:, relative, empty) falls back to the canonical tweet URL
+// or, failing that, "#". The value is still escapeHtml'd for the attribute.
+function safeUrl(url, handle, tweetId) {
+  const u = (url || "").trim();
+  if (/^https:\/\//i.test(u)) return escapeHtml(u);
+  if (handle && tweetId) return escapeHtml(`https://x.com/${handle}/status/${tweetId}`);
+  return "#";
+}
 
-function renderCard(t, mode) {
+// Persisted edited text per variant (survives reload; used for final_text on post).
+function editKey(tweetId, idx) { return "edit_" + tweetId + "_" + idx; }
+function getEditedText(tweetId, idx, original) {
+  const v = localStorage.getItem(editKey(tweetId, idx));
+  return (v === null) ? original : v;
+}
+function isEdited(tweetId, idx, original) {
+  const v = localStorage.getItem(editKey(tweetId, idx));
+  return v !== null && v !== original;
+}
+
+// ---- localStorage pruning ----
+// posted_<id>, edit_<id>_<idx> and author_reply_<handle> keys otherwise grow
+// forever. Write timestamps live in the x_key_ts map (author_reply_ values ARE
+// timestamps already). On load: keep every key referenced by the current DATA
+// queue, keep anything younger than 45 days, evict the rest; a 500-key cap
+// evicts oldest-first as a backstop. ONLY the three prefixes above are ever
+// touched — x_theme / x_hidden / x_queue_sort / push_enabled etc. are never pruned.
+const PRUNE_PREFIXES = ["posted_", "edit_", "author_reply_"];
+const PRUNE_MAX_AGE_MS = 45 * 24 * 3600 * 1000;
+const PRUNE_KEY_CAP = 500;
+function _keyTsMap() {
+  try { return JSON.parse(localStorage.getItem("x_key_ts") || "{}") || {}; } catch (e) { return {}; }
+}
+function lsSetTracked(key, val) {
+  localStorage.setItem(key, val);
+  try {
+    const m = _keyTsMap();
+    m[key] = Date.now();
+    localStorage.setItem("x_key_ts", JSON.stringify(m));
+  } catch (e) {}
+}
+function pruneLocalStorage() {
+  try {
+    const now = Date.now();
+    const ts = _keyTsMap();
+    const live = new Set();
+    for (const t of (DATA.tweets || [])) {
+      live.add("posted_" + t.tweetId);
+      live.add("author_reply_" + (t.handle || "").toLowerCase());
+      for (let i = 0; i < Math.max((t.variants || []).length, 4); i++) live.add(editKey(t.tweetId, i));
+    }
+    const tracked = [];
+    for (let i = 0; i < localStorage.length; i++) {
+      const k = localStorage.key(i);
+      if (!PRUNE_PREFIXES.some(p => k.startsWith(p))) continue;
+      let when = Number(ts[k]) || 0;
+      if (!when && k.startsWith("author_reply_")) when = parseInt(localStorage.getItem(k), 10) || 0;
+      if (!when) { when = now; ts[k] = now; } // legacy key with unknown age: grandfather it 45d from first sighting
+      tracked.push({ k, when });
+    }
+    const evict = new Set();
+    for (const c of tracked) {
+      if (live.has(c.k)) continue;                       // never touch the current queue's state
+      if (now - c.when > PRUNE_MAX_AGE_MS) evict.add(c.k);
+    }
+    // Count-cap backstop: oldest first, still never evicting current-queue keys.
+    const survivors = tracked.filter(c => !evict.has(c.k)).sort((a, b) => a.when - b.when);
+    let excess = survivors.length - PRUNE_KEY_CAP;
+    for (const c of survivors) {
+      if (excess <= 0) break;
+      if (live.has(c.k)) continue;
+      evict.add(c.k); excess--;
+    }
+    for (const k of evict) { localStorage.removeItem(k); delete ts[k]; }
+    for (const k of Object.keys(ts)) { if (localStorage.getItem(k) === null) delete ts[k]; }
+    localStorage.setItem("x_key_ts", JSON.stringify(ts));
+    if (evict.size) console.log("Pruned " + evict.size + " stale localStorage key(s)");
+  } catch (e) { console.log("localStorage prune skipped:", e); }
+}
+
+function renderCard(t, mode, opts) {
+  opts = opts || {};
   const isSkip = t.decision === "SKIP";
   const isHuman = t.decision === "HUMAN_REPLY";
   const replied = authorRepliedToday(t.handle);
   let cls = "card";
+  if (opts.pick) cls += " pick";
   if (isSkip) cls += " skip"; else if (isHuman) cls += " human";
   if (replied && !isSkip) cls += " warn";
   const posted = JSON.parse(localStorage.getItem("posted_" + t.tweetId) || "[]");
   const tierTag = `<span class="tag tag-t${t.tier}">T${t.tier}</span>`;
   const humanTag = isHuman ? `<span class="tag tag-human">Human</span>` : "";
   const v = getVelocity(t);
+  const earlyTag = (isEarly(t) && !isSkip) ? `<span class="tag tag-early">⚡ early window</span>` : "";
   const hotTag = (v > 30 && !isSkip) ? `<span class="tag tag-hot">🔥 Hot</span>` : "";
   const phoenixTag = (v > 50 && getHoursAgo(t) < 6 && !isSkip) ? `<span class="tag tag-velocity">🚀 Phoenix</span>` : "";
+  const fitTag = (!isSkip && hasFit(t)) ? `<span class="tag tag-fit">🧭 fit ${t.fit}</span>` : "";
   const repliedTag = replied ? `<span class="tag tag-warn">✓ Replied today</span>` : "";
   const metric = `<span class="metric">${sortMetric(t, mode)}</span>`;
   if (isSkip) {
-    return `<article class="${cls}" aria-label="Skipped: @${t.handle}">
+    return `<article class="${cls}" data-card="${escapeHtml(t.tweetId)}" aria-label="Skipped: @${escapeHtml(t.handle)}">
       <div class="card-head">${tierTag}<span class="tag tag-skip">Skip</span>
-        <a class="author" href="${t.url}" target="_blank" rel="noopener">@${t.handle}</a>
+        <a class="author" href="${safeUrl(t.url, t.handle, t.tweetId)}" target="_blank" rel="noopener">@${escapeHtml(t.handle)}</a>
         <span class="author-meta">${escapeHtml(t.name)} · ${fmtNum(t.followers)} · ${relativeTime(t.createdAt)}</span>
         ${metric}</div>
       <div class="tweet">${escapeHtml(t.text)}</div>
       <div class="skip-reason">ⓘ ${escapeHtml(t.skip_reason||'')}</div>
     </article>`;
   }
-  return `<article class="${cls}" aria-label="Tweet from @${t.handle}">
-    <div class="card-head">${tierTag}${humanTag}${phoenixTag}${hotTag}${repliedTag}
-      <a class="author" href="${t.url}" target="_blank" rel="noopener">@${t.handle}</a>
+  return `<article class="${cls}" data-card="${escapeHtml(t.tweetId)}" aria-label="Tweet from @${escapeHtml(t.handle)}">
+    <div class="card-head">${tierTag}${humanTag}${earlyTag}${phoenixTag}${hotTag}${fitTag}${repliedTag}
+      <a class="author" href="${safeUrl(t.url, t.handle, t.tweetId)}" target="_blank" rel="noopener">@${escapeHtml(t.handle)}</a>
       <span class="author-meta">${escapeHtml(t.name)} · ${fmtNum(t.followers)} · ${relativeTime(t.createdAt)}</span>
       ${metric}</div>
     <div class="tweet">${escapeHtml(t.text)}</div>
-    <div class="tweet-stats">${fmtNum(t.likes)} likes · ${t.replies} replies · ${fmtNum(t.retweets)} reposts</div>
-    ${t.why ? `<div class="why">${escapeHtml(t.why)}</div>` : ""}
+    <div class="tweet-stats">${fmtNum(t.likes)} likes · ${t.replies||0} replies · ${fmtNum(t.retweets)} reposts</div>
+    ${(opts.showWhy && t.why) ? `<div class="why"><b>Why:</b> ${escapeHtml(t.why)}</div>` : ""}
     <div class="variants">
-      ${(t.variants||[]).map((vr, idx) => `
-        <div class="variant ${posted.includes(idx) ? 'posted' : ''}" aria-label="Reply variant ${String.fromCharCode(65 + idx)}: ${vr.mode}">
+      ${(t.variants||[]).map((vr, idx) => {
+        const label = String.fromCharCode(65 + idx);
+        const original = vr.text || "";
+        const current = getEditedText(t.tweetId, idx, original);
+        const edited = isEdited(t.tweetId, idx, original);
+        return `
+        <div class="variant ${posted.includes(idx) ? 'posted' : ''}" aria-label="Reply variant ${label}: ${escapeHtml(vr.mode||'')}">
           <div class="variant-head">
-            <span class="variant-label">Reply ${String.fromCharCode(65 + idx)}</span>
-            <span class="variant-label">${vr.mode}</span>
+            <span class="variant-label">Reply ${label}${edited ? ' · edited' : ''}</span>
+            <span class="variant-mode">${escapeHtml(vr.mode||'')}</span>
           </div>
-          <div class="variant-text">${escapeHtml(vr.text)}</div>
-          <a class="reply-btn" href="${intentUrl(t.tweetId, vr.text, t.handle)}" ${IS_MOBILE ? '' : 'target="_blank" rel="noopener"'} data-mark="${t.tweetId}-${idx}" data-author="${t.handle}" data-fallback="${t.url}" aria-label="Open X to post reply ${String.fromCharCode(65 + idx)}">
-            Reply ${String.fromCharCode(65 + idx)} on 𝕏
+          <div class="variant-text" data-edit-open="${escapeHtml(t.tweetId)}-${idx}" role="button" tabindex="0"
+               aria-label="Tap to edit reply ${label}">${escapeHtml(current)}</div>
+          <a class="reply-btn" href="${escapeHtml(intentUrl(t.tweetId, current))}" ${IS_MOBILE ? '' : 'target="_blank" rel="noopener"'}
+             data-mark="${escapeHtml(t.tweetId)}-${idx}" data-author="${escapeHtml(t.handle)}" data-fallback="${safeUrl(t.url, t.handle, t.tweetId)}"
+             aria-label="Open X to post reply ${label}">
+            Reply ${label} on 𝕏
           </a>
           <div class="variant-actions">
-            <button class="btn-small btn-copy" data-copy="${escapeHtml(vr.text)}" aria-label="Copy reply ${String.fromCharCode(65 + idx)}">⎘ Copy</button>
-            <button class="btn-small btn-mark ${posted.includes(idx) ? 'posted' : ''}" data-mark="${t.tweetId}-${idx}" data-author="${t.handle}" aria-pressed="${posted.includes(idx)}" aria-label="Mark reply ${String.fromCharCode(65 + idx)} as posted">
+            <button class="btn-small btn-copy" data-copy-key="${escapeHtml(t.tweetId)}-${idx}" aria-label="Copy reply ${label}">⎘ Copy</button>
+            <button class="btn-small btn-mark ${posted.includes(idx) ? 'posted' : ''}" data-mark="${escapeHtml(t.tweetId)}-${idx}" data-author="${escapeHtml(t.handle)}" aria-pressed="${posted.includes(idx)}" aria-label="Mark reply ${label} as posted">
               ${posted.includes(idx) ? '✓ Posted' : '○ Mark'}
             </button>
           </div>
-        </div>`).join("")}
+        </div>`;
+      }).join("")}
     </div>
-    <a class="open-btn" href="${t.url}" target="_blank" rel="noopener" aria-label="View original tweet on X">↗ View original</a>
+    <div class="card-actions">
+      <a class="card-act" href="${safeUrl(t.url, t.handle, t.tweetId)}" target="_blank" rel="noopener" aria-label="View original tweet on X">↗ View</a>
+      <button class="card-act" data-snooze="${escapeHtml(t.tweetId)}" aria-label="Snooze until tomorrow">💤 Snooze</button>
+      <button class="card-act" data-dismiss="${escapeHtml(t.tweetId)}" aria-label="Dismiss">✕ Dismiss</button>
+    </div>
   </article>`;
 }
 
 let filter = new URLSearchParams(location.search).get("filter") || "ready";
-let sortMode = new URLSearchParams(location.search).get("sort") || localStorage.getItem("x_queue_sort") || "hot";
+let sortMode = new URLSearchParams(location.search).get("sort") || localStorage.getItem("x_queue_sort") || "priority";
+let searchTerm = "";
+let picksExpanded = false;
 
 function applyFilter(tweets) {
-  if (filter === "ready") return tweets.filter(t => t.decision !== "SKIP");
-  if (filter === "t1") return tweets.filter(t => t.tier === 1 && t.decision !== "SKIP");
-  if (filter === "t2") return tweets.filter(t => t.tier === 2 && t.decision !== "SKIP");
-  if (filter === "t3") return tweets.filter(t => t.tier === 3 && t.decision !== "SKIP");
-  if (filter === "human") return tweets.filter(t => t.decision === "HUMAN_REPLY");
-  if (filter === "skip") return tweets.filter(t => t.decision === "SKIP");
-  return tweets;
+  let out;
+  if (filter === "ready") out = tweets.filter(t => t.decision !== "SKIP");
+  else if (filter === "early") out = tweets.filter(t => t.decision !== "SKIP" && isEarly(t));
+  else if (filter === "t1") out = tweets.filter(t => t.tier === 1 && t.decision !== "SKIP");
+  else if (filter === "t2") out = tweets.filter(t => t.tier === 2 && t.decision !== "SKIP");
+  else if (filter === "t3") out = tweets.filter(t => t.tier === 3 && t.decision !== "SKIP");
+  else if (filter === "human") out = tweets.filter(t => t.decision === "HUMAN_REPLY");
+  else if (filter === "skip") out = tweets.filter(t => t.decision === "SKIP");
+  else out = tweets;
+  // Search filter (handle or text)
+  if (searchTerm) {
+    const q = searchTerm.toLowerCase();
+    out = out.filter(t => (t.handle||"").toLowerCase().includes(q) || (t.text||"").toLowerCase().includes(q) || (t.name||"").toLowerCase().includes(q));
+  }
+  // Hide snoozed/dismissed (but never on the Skipped tab, and never when searching)
+  if (filter !== "skip" && !searchTerm) out = out.filter(t => !isHidden(t.tweetId));
+  return out;
 }
 
 function render() {
   const queue = document.getElementById("queue");
-  let tweets = sortTweets(applyFilter(DATA.tweets), sortMode);
-  if (tweets.length === 0) {
-    queue.innerHTML = `<div class="empty"><div class="empty-icon">∅</div>No tweets in this view. Try a different filter.</div>`;
-  } else {
-    queue.innerHTML = tweets.map(t => renderCard(t, sortMode)).join("");
+  const filtered = applyFilter(DATA.tweets);
+  const sorted = sortTweets(filtered, sortMode);
+
+  // Today's Picks band only on the reply-ready-style default views (not skip/search/all-explicit is fine).
+  const showPicks = (filter === "ready" || filter === "early") && !searchTerm && sorted.length > 0;
+
+  if (sorted.length === 0) {
+    queue.innerHTML = `<div class="empty"><div class="empty-icon">∅</div>${searchTerm ? "No matches. Clear search to see the queue." : "No tweets in this view. Try a different filter."}</div>`;
+    wireUp();
+    return;
   }
+
+  if (!showPicks) {
+    queue.innerHTML = sorted.map(t => renderCard(t, sortMode, { showWhy: false })).join("");
+    wireUp();
+    return;
+  }
+
+  const readyByPriority = [...sorted].sort((a,b) => getPriority(b) - getPriority(a));
+  const picks = readyByPriority.slice(0, PICKS_LIMIT);
+  // Split by object identity (array position), not tweetId. If two items ever share a
+  // tweetId (bad data), an id-based Set would collapse them and silently drop cards.
+  const pickSet = new Set(picks);
+  const rest = sorted.filter(t => !pickSet.has(t));
+
+  let html = `<div class="sec-head">⭐ Today's Picks <span class="count">top ${picks.length} by priority</span></div>`;
+  html += picks.map(t => renderCard(t, sortMode, { showWhy: true, pick: true })).join("");
+
+  if (rest.length) {
+    html += `<button class="expander" id="more-toggle" aria-expanded="${picksExpanded}">
+      <span class="caret" aria-hidden="true">▾</span>
+      <span>${picksExpanded ? "Hide" : "More replies"} (${rest.length})</span>
+    </button>`;
+    if (picksExpanded) {
+      html += `<div id="more-list">` + rest.map(t => renderCard(t, sortMode, { showWhy: false })).join("") + `</div>`;
+    }
+  }
+  queue.innerHTML = html;
   wireUp();
 }
 
@@ -494,7 +843,6 @@ function postedCountToday() {
 }
 
 function nextRefreshCountdown() {
-  // 01:00 UTC = 6:30 AM IST, Mon-Fri
   const now = new Date();
   const next = new Date(now);
   next.setUTCHours(1, 0, 0, 0);
@@ -509,7 +857,6 @@ function nextRefreshCountdown() {
 
 function updateStats() {
   const ready = DATA.tweets.filter(t => t.decision !== "SKIP").length;
-  const skip = DATA.tweets.filter(t => t.decision === "SKIP").length;
   const t1 = DATA.tweets.filter(t => t.tier === 1 && t.decision !== "SKIP").length;
   const t2 = DATA.tweets.filter(t => t.tier === 2 && t.decision !== "SKIP").length;
   const t3 = DATA.tweets.filter(t => t.tier === 3 && t.decision !== "SKIP").length;
@@ -520,8 +867,8 @@ function updateStats() {
   document.getElementById("stat-ready-sub").textContent = `T1 ${t1} · T2 ${t2} · T3 ${t3}`;
   document.getElementById("stat-countdown").textContent = nextRefreshCountdown();
   const d = new Date(DATA.generatedAt);
-  const istFmt = d.toLocaleString("en-IN", { hour: "numeric", minute: "2-digit", day: "numeric", month: "short", timeZone: "Asia/Kolkata" });
-  document.getElementById("meta-line").textContent = `Refreshed ${istFmt} IST · ${DATA.accounts} accounts · auto-cron 6:30 IST Mon-Fri`;
+  const istFmt = isNaN(d) ? "—" : d.toLocaleString("en-IN", { hour: "numeric", minute: "2-digit", day: "numeric", month: "short", timeZone: "Asia/Kolkata" });
+  document.getElementById("meta-line").textContent = `Refreshed ${istFmt} IST · ${DATA.accounts||"?"} accounts · auto-cron 6:30 IST Mon-Fri`;
 }
 
 function showToast(msg, ms = 1800) {
@@ -534,49 +881,95 @@ function showToast(msg, ms = 1800) {
 }
 
 function markPosted(key, author) {
-  const [tweetId, idx] = key.split("-");
+  const [tweetId, idxStr] = key.split("-");
+  const idx = parseInt(idxStr);
   const sk = "posted_" + tweetId;
   const arr = JSON.parse(localStorage.getItem(sk) || "[]");
-  const i = parseInt(idx);
-  if (arr.includes(i)) {
-    localStorage.setItem(sk, JSON.stringify(arr.filter(x => x !== i)));
+  if (arr.includes(idx)) {
+    lsSetTracked(sk, JSON.stringify(arr.filter(x => x !== idx)));
   } else {
-    arr.push(i);
-    localStorage.setItem(sk, JSON.stringify(arr));
+    arr.push(idx);
+    lsSetTracked(sk, JSON.stringify(arr));
     if (author) markAuthorReplied(author);
-    logPick(tweetId, i, "posted");
+    logPost(tweetId, idx);
   }
   updateStats(); render();
 }
 
+// Open the inline editor for a variant.
+function openEditor(variantEl, tweetId, idx) {
+  if (variantEl.querySelector(".edit-wrap")) return; // already open
+  const t = DATA.tweets.find(x => x.tweetId === tweetId);
+  const original = (t && t.variants[idx]) ? t.variants[idx].text : "";
+  const current = getEditedText(tweetId, idx, original);
+  const textEl = variantEl.querySelector(".variant-text");
+  const wrap = document.createElement("div");
+  wrap.className = "edit-wrap";
+  wrap.innerHTML = `
+    <textarea class="edit-area" maxlength="600" aria-label="Edit reply text">${escapeHtml(current)}</textarea>
+    <div class="edit-meta">
+      <button class="edit-reset" type="button">↺ Reset to draft</button>
+      <span class="char-count">0 / 280</span>
+    </div>`;
+  textEl.style.display = "none";
+  textEl.insertAdjacentElement("afterend", wrap);
+  const ta = wrap.querySelector(".edit-area");
+  const cc = wrap.querySelector(".char-count");
+  const replyBtn = variantEl.querySelector(".reply-btn");
+  const update = () => {
+    const val = ta.value;
+    cc.textContent = `${val.length} / 280`;
+    cc.classList.toggle("over", val.length > 280);
+    // persist + keep deep link in sync
+    if (val === original) localStorage.removeItem(editKey(tweetId, idx));
+    else lsSetTracked(editKey(tweetId, idx), val);
+    if (replyBtn) replyBtn.href = intentUrl(tweetId, val);
+  };
+  ta.addEventListener("input", update);
+  wrap.querySelector(".edit-reset").addEventListener("click", () => {
+    ta.value = original; update(); ta.focus();
+  });
+  update();
+  ta.focus();
+  ta.setSelectionRange(ta.value.length, ta.value.length);
+}
+
+function copyText(tweetId, idx) {
+  const t = DATA.tweets.find(x => x.tweetId === tweetId);
+  const original = (t && t.variants[idx]) ? t.variants[idx].text : "";
+  const text = getEditedText(tweetId, idx, original);
+  navigator.clipboard.writeText(text).then(() => showToast("Copied ✓")).catch(() => showToast("Copy failed", 2200));
+}
+
 function wireUp() {
+  document.querySelectorAll(".variant-text[data-edit-open]").forEach(el => {
+    const [tweetId, idx] = el.getAttribute("data-edit-open").split("-");
+    const open = () => openEditor(el.closest(".variant"), tweetId, parseInt(idx));
+    el.addEventListener("click", open);
+    el.addEventListener("keydown", e => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); open(); } });
+  });
   document.querySelectorAll(".btn-copy").forEach(b => b.addEventListener("click", () => {
-    const text = b.getAttribute("data-copy").replace(/&quot;/g,'"').replace(/&amp;/g,'&').replace(/&lt;/g,'<').replace(/&gt;/g,'>');
-    navigator.clipboard.writeText(text).then(() => showToast("Copied ✓"));
+    const [tweetId, idx] = b.getAttribute("data-copy-key").split("-");
+    copyText(tweetId, parseInt(idx));
   }));
   document.querySelectorAll(".btn-mark").forEach(b => b.addEventListener("click", () => markPosted(b.getAttribute("data-mark"), b.getAttribute("data-author"))));
-  document.querySelectorAll(".reply-btn").forEach(b => b.addEventListener("click", (e) => {
+  document.querySelectorAll(".reply-btn").forEach(b => b.addEventListener("click", () => {
     const key = b.getAttribute("data-mark");
     const author = b.getAttribute("data-author");
     const fallback = b.getAttribute("data-fallback");
-    const [tweetId, idx] = key.split("-");
+    const [tweetId, idxStr] = key.split("-");
+    const idx = parseInt(idxStr);
     const sk = "posted_" + tweetId;
     const arr = JSON.parse(localStorage.getItem(sk) || "[]");
-    const i = parseInt(idx);
-    if (!arr.includes(i)) { arr.push(i); localStorage.setItem(sk, JSON.stringify(arr)); if (author) markAuthorReplied(author); }
-    logPick(tweetId, i, "reply_click");
+    if (!arr.includes(idx)) { arr.push(idx); lsSetTracked(sk, JSON.stringify(arr)); if (author) markAuthorReplied(author); }
+    logPost(tweetId, idx);
     if (navigator.vibrate) navigator.vibrate(8);
 
-    // Copy reply text to clipboard as a safety net (in case the X app deep-link
-    // doesn't catch — user can paste manually). Use the text from the variant.
-    const tweet = DATA.tweets.find(t => t.tweetId === tweetId);
-    const replyText = tweet?.variants?.[i]?.text;
-    if (replyText && navigator.clipboard) {
-      navigator.clipboard.writeText(replyText).catch(() => {});
-    }
+    const t = DATA.tweets.find(x => x.tweetId === tweetId);
+    const original = (t && t.variants[idx]) ? t.variants[idx].text : "";
+    const replyText = getEditedText(tweetId, idx, original);
+    if (replyText && navigator.clipboard) navigator.clipboard.writeText(replyText).catch(() => {});
 
-    // On mobile, if the twitter:// scheme doesn't fire within 1.5s, fall back
-    // to opening the tweet URL (a Universal Link that the X app does handle).
     if (IS_MOBILE && fallback) {
       const start = Date.now();
       setTimeout(() => {
@@ -588,14 +981,76 @@ function wireUp() {
     }
     setTimeout(() => { updateStats(); render(); }, 600);
   }));
+  document.querySelectorAll("[data-snooze]").forEach(b => b.addEventListener("click", () => {
+    hideCard(b.getAttribute("data-snooze"), "snoozed");
+    animateAndRerender(b);
+    showToast("Snoozed until tomorrow 💤");
+  }));
+  document.querySelectorAll("[data-dismiss]").forEach(b => b.addEventListener("click", () => {
+    hideCard(b.getAttribute("data-dismiss"), "dismissed");
+    animateAndRerender(b);
+    showToast("Dismissed");
+  }));
+  const moreToggle = document.getElementById("more-toggle");
+  if (moreToggle) moreToggle.addEventListener("click", () => { picksExpanded = !picksExpanded; render(); });
 }
 
+function animateAndRerender(btn) {
+  const card = btn.closest(".card");
+  if (card) {
+    card.classList.add("dismissing");
+    setTimeout(() => { updateStats(); render(); }, 260);
+  } else { updateStats(); render(); }
+}
+
+// ---- Worker logging ----
+const REFRESH_PROXY = "https://x-refresh-proxy.levelupedtech.workers.dev";
+const REFRESH_TOKEN = "Eb4ClMvBa9FU_j2JGtT3imtsOkSquidu";
+
+// Contract /log payload on post. Worker strips final_text/edited/fit today; send anyway (worker v2 persists).
+function logPost(tweetId, idx) {
+  try {
+    const t = DATA.tweets.find(x => x.tweetId === tweetId);
+    if (!t) return;
+    const vr = (t.variants || [])[idx] || {};
+    const original = vr.text || "";
+    const finalText = getEditedText(tweetId, idx, original);
+    fetch(`${REFRESH_PROXY}/log?t=${encodeURIComponent(REFRESH_TOKEN)}`, {
+      method: "POST", headers: { "Content-Type": "application/json" }, keepalive: true,
+      body: JSON.stringify({
+        action: "posted", tweetId, handle: t.handle, tier: t.tier,
+        mode: vr.mode || "", variant: String.fromCharCode(65 + idx),
+        final_text: finalText, edited: finalText !== original, fit: getFit(t)
+      })
+    }).catch(() => {});
+  } catch (e) {}
+}
+
+// ---- Search ----
+const searchInput = document.getElementById("search");
+const searchClear = document.getElementById("search-clear");
+let searchDebounce;
+searchInput.addEventListener("input", () => {
+  clearTimeout(searchDebounce);
+  searchDebounce = setTimeout(() => {
+    searchTerm = searchInput.value.trim();
+    searchClear.hidden = !searchTerm;
+    render();
+  }, 120);
+});
+searchClear.addEventListener("click", () => {
+  searchInput.value = ""; searchTerm = ""; searchClear.hidden = true; render(); searchInput.focus();
+});
+
+// ---- Filters / sort ----
 document.querySelectorAll(".chip").forEach(b => b.addEventListener("click", () => {
   document.querySelectorAll(".chip").forEach(x => x.setAttribute("aria-pressed", "false"));
   b.setAttribute("aria-pressed", "true");
   filter = b.getAttribute("data-filter");
+  picksExpanded = false;
   render();
 }));
+document.querySelectorAll(".chip").forEach(x => x.setAttribute("aria-pressed", "false"));
 document.querySelector(`.chip[data-filter="${filter}"]`)?.setAttribute("aria-pressed", "true");
 
 document.getElementById("sort-select").value = sortMode;
@@ -605,53 +1060,51 @@ document.getElementById("sort-select").addEventListener("change", e => {
   render();
 });
 
-// Live refresh: triggers GitHub Actions workflow via Cloudflare Worker proxy,
-// polls for the new commit, then reloads when fresh HTML is available.
-const REFRESH_PROXY = "https://x-refresh-proxy.levelupedtech.workers.dev";
-const REFRESH_TOKEN = "Eb4ClMvBa9FU_j2JGtT3imtsOkSquidu";
-function logPick(tweetId, idx, action) {
-  try {
-    const t = DATA.tweets.find(x => x.tweetId === tweetId);
-    if (!t) return;
-    const v = (t.variants || [])[idx] || {};
-    fetch(`${REFRESH_PROXY}/log?t=${encodeURIComponent(REFRESH_TOKEN)}`, {
-      method: "POST", headers: { "Content-Type": "application/json" },
-      keepalive: true,
-      body: JSON.stringify({ tweetId, handle: t.handle, tier: t.tier, mode: v.mode || "", variant: String.fromCharCode(65+idx), action })
-    }).catch(() => {});
-  } catch (e) {}
+// ---- Theme ----
+function currentTheme() {
+  const saved = localStorage.getItem("x_theme");
+  if (saved === "light" || saved === "dark") return saved;
+  return (window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches) ? "dark" : "light";
 }
+function applyTheme(theme) {
+  document.documentElement.setAttribute("data-theme", theme);
+  const b = document.getElementById("btn-theme");
+  if (b) { b.textContent = theme === "dark" ? "☀️" : "🌙"; b.setAttribute("aria-label", theme === "dark" ? "Switch to light mode" : "Switch to dark mode"); }
+}
+applyTheme(currentTheme());
+document.getElementById("btn-theme").addEventListener("click", () => {
+  const next = (document.documentElement.getAttribute("data-theme") === "dark") ? "light" : "dark";
+  localStorage.setItem("x_theme", next);
+  applyTheme(next);
+});
+if (window.matchMedia) {
+  window.matchMedia("(prefers-color-scheme: dark)").addEventListener("change", e => {
+    if (!localStorage.getItem("x_theme")) applyTheme(e.matches ? "dark" : "light");
+  });
+}
+
+// ---- Refresh ----
 document.getElementById("btn-refresh").addEventListener("click", async () => {
   const btn = document.getElementById("btn-refresh");
-  if (btn.classList.contains("spinning")) return; // prevent double-tap
+  if (btn.classList.contains("spinning")) return;
   btn.classList.add("spinning");
   btn.querySelector(".refresh-label").textContent = "Pulling…";
-
   try {
-    // Note current commit SHA so we can detect when fresh
     let beforeSha = null;
-    try {
-      const before = await fetch(`${REFRESH_PROXY}/status`).then(r => r.json());
-      beforeSha = before.sha;
-    } catch(e) { /* worker may be cold-starting, that's fine */ }
-
-    // Trigger the workflow
+    try { const before = await fetch(`${REFRESH_PROXY}/status`).then(r => r.json()); beforeSha = before.sha; } catch(e) {}
     const r = await fetch(`${REFRESH_PROXY}/refresh?t=${encodeURIComponent(REFRESH_TOKEN)}`);
     const j = await r.json();
     if (!j.ok) throw new Error(j.error || "refresh failed");
     showToast("Pulling fresh tweets… 60-90s", 2500);
-
-    // Poll /status every 8s until SHA changes (workflow finished + committed)
     const start = Date.now();
     btn.querySelector(".refresh-label").textContent = "Drafting…";
-    while (Date.now() - start < 150000) { // 2.5min max
-      await new Promise(r => setTimeout(r, 8000));
+    while (Date.now() - start < 150000) {
+      await new Promise(res => setTimeout(res, 8000));
       try {
         const s = await fetch(`${REFRESH_PROXY}/status`).then(r => r.json());
         if (beforeSha && s.sha && s.sha !== beforeSha) {
           btn.querySelector(".refresh-label").textContent = "Loading…";
           showToast("New batch ready ✓", 1500);
-          // Clear SW cache and reload
           if ("caches" in window) {
             const keys = await caches.keys();
             await Promise.all(keys.filter(k => k.startsWith("x-reply-queue-")).map(k => caches.delete(k)));
@@ -669,32 +1122,81 @@ document.getElementById("btn-refresh").addEventListener("click", async () => {
   }
 });
 
-// Re-tick countdown every minute
+// ---- Regenerate probe (worker v2 feature). Hidden today; sessionStorage-cache the probe. ----
+// NOTE: the current live worker returns HTTP 200 ("X Refresh Proxy") for ALL unknown
+// paths, so a bare `r.ok` check is a false positive. Require the v2 endpoint to return
+// JSON with regen:true — the catch-all text fails JSON.parse and stays hidden.
+async function probeRegen() {
+  const btn = document.getElementById("btn-regen");
+  if (!btn) return;
+  let ok = sessionStorage.getItem("regen_ok");
+  if (ok === null) {
+    ok = "0";
+    try {
+      const r = await fetch(`${REFRESH_PROXY}/regen/health`, { method: "GET" });
+      if (r.ok) {
+        const j = await r.json().catch(() => null);
+        if (j && j.regen === true) ok = "1";
+      }
+    } catch (e) { ok = "0"; }
+    sessionStorage.setItem("regen_ok", ok);
+  }
+  if (ok === "1") {
+    btn.hidden = false;
+    btn.addEventListener("click", () => showToast("Regenerating drafts…", 2000));
+  }
+}
+
 setInterval(updateStats, 60000);
 
-// Service worker registration
 if ("serviceWorker" in navigator) {
   navigator.serviceWorker.register("sw.js").catch(e => console.log("SW reg failed:", e));
 }
 
+// ---- Growth panel ----
+async function fetchJSON(url) {
+  try { const r = await fetch(url, { cache: "no-store" }); return r.ok ? await r.json() : null; } catch (e) { return null; }
+}
+async function fetchText(url) {
+  try { const r = await fetch(url, { cache: "no-store" }); return r.ok ? await r.text() : null; } catch (e) { return null; }
+}
+
+// Parse learnings.jsonl → offered counts (from "offered" lines) + picked counts (from post/reply events).
+function parseLearnings(text) {
+  const offered = {}, picked = {};
+  if (!text) return { offered, picked, hasOffered: false };
+  let hasOffered = false;
+  for (const line of text.split("\n")) {
+    const s = line.trim(); if (!s) continue;
+    let o; try { o = JSON.parse(s); } catch (e) { continue; }
+    if (o.action === "offered" && o.counts) {
+      hasOffered = true;
+      // Number() coercion: a string value here would string-concat and later land
+      // in an innerHTML-built title attribute unescaped. Numbers only.
+      for (const k of Object.keys(o.counts)) offered[k] = (offered[k]||0) + (Number(o.counts[k])||0);
+    } else if ((o.action === "posted" || o.action === "reply_click") && o.mode) {
+      picked[o.mode] = (picked[o.mode]||0) + 1;
+    }
+  }
+  return { offered, picked, hasOffered };
+}
 
 async function renderGrowth() {
-  try {
-    const m = await fetch("metrics.json?cb=" + Date.now()).then(r => r.ok ? r.json() : null);
-    if (!m || !Array.isArray(m.followers) || m.followers.length === 0) return;
-    const box = document.getElementById("growth");
+  const box = document.getElementById("growth");
+  const [m, learnText] = await Promise.all([ fetchJSON("metrics.json"), fetchText("learnings.jsonl") ]);
+  let any = false;
+
+  if (m && Array.isArray(m.followers) && m.followers.length) {
     const pts = m.followers;
     const last = pts[pts.length - 1].followers;
     const first = pts[0].followers;
     document.getElementById("g-followers").textContent = last.toLocaleString();
+    document.getElementById("g-headline").textContent = `· ${last} followers`;
     const diff = last - first;
     const dEl = document.getElementById("g-delta");
     if (pts.length > 1) {
       dEl.textContent = (diff > 0 ? "+" : "") + diff + " since " + pts[0].date;
       dEl.className = "g-delta " + (diff > 0 ? "up" : diff < 0 ? "down" : "flat");
-    }
-    // sparkline
-    if (pts.length > 1) {
       const vals = pts.map(p => p.followers);
       const min = Math.min(...vals), max = Math.max(...vals), range = (max - min) || 1;
       const W = 220, H = 34, pad = 3;
@@ -704,22 +1206,53 @@ async function renderGrowth() {
         return x.toFixed(1) + "," + y.toFixed(1);
       });
       document.getElementById("g-spark").innerHTML =
-        '<polyline fill="none" stroke="#1d9bf0" stroke-width="2" stroke-linejoin="round" points="' + coords.join(" ") + '"/>';
+        '<polyline fill="none" stroke="var(--accent)" stroke-width="2" stroke-linejoin="round" points="' + coords.join(" ") + '"/>';
     }
-    // tier performance
     const tp = m.tier_perf || {};
-    const tpEl = document.getElementById("g-tierperf");
-    const pills = Object.keys(tp).sort().map(t =>
-      `<span class="g-pill">T${t}: <b>${tp[t].avg_likes}</b> avg likes · ${tp[t].replies} replies</span>`).join("");
-    tpEl.innerHTML = pills;
+    if (Object.keys(tp).length) {
+      // metrics.json is repo-controlled, but escape anyway — every fetched value
+      // that lands in an innerHTML sink goes through escapeHtml.
+      document.getElementById("g-tierperf").innerHTML = Object.keys(tp).sort().map(t =>
+        `<span class="g-pill">T${escapeHtml(String(t))}: <b>${escapeHtml(String((tp[t]||{}).avg_likes ?? "—"))}</b> avg likes · ${escapeHtml(String((tp[t]||{}).replies ?? 0))} replies</span>`).join("");
+    }
     const replyCount = m.replies ? Object.keys(m.replies).length : 0;
     document.getElementById("g-note").textContent = replyCount
       ? `Tracking ${replyCount} of your recent replies.`
-      : "No replies tracked yet — reply to a few accounts and your performance by tier shows up here.";
-    box.hidden = false;
-  } catch (e) { /* metrics optional */ }
-}
+      : "No replies tracked yet — post a few and your per-tier performance shows up here.";
+    any = true;
+  }
 
+  // Offered-vs-picked bars
+  const { offered, picked, hasOffered } = parseLearnings(learnText);
+  const modes = ["RECEIPT","SHARPENER","HONEST_QUESTION","HUMAN_REPLY"];
+  const present = modes.filter(mo => (offered[mo]||0) > 0 || (picked[mo]||0) > 0);
+  if (present.length) {
+    const maxOff = Math.max(1, ...present.map(mo => offered[mo]||0));
+    const maxPick = Math.max(1, ...present.map(mo => picked[mo]||0));
+    const rows = present.map(mo => {
+      const offW = ((offered[mo]||0) / maxOff * 100).toFixed(1);
+      const pickW = ((picked[mo]||0) / maxPick * 100).toFixed(1);
+      const label = mo.replace("HONEST_QUESTION","QUESTION").replace("HUMAN_REPLY","HUMAN");
+      return `<div class="g-mode-row">
+        <span class="g-mode-name">${label}</span>
+        <div class="g-bars">
+          <div class="g-bar-track"><div class="g-bar offered" style="width:${offW}%" title="offered ${offered[mo]||0}"></div></div>
+          <div class="g-bar-track"><div class="g-bar picked" style="width:${pickW}%" title="picked ${picked[mo]||0}"></div></div>
+        </div>
+      </div>`;
+    }).join("");
+    document.getElementById("g-mode-rows").innerHTML = rows;
+    document.getElementById("g-modes").hidden = false;
+    if (!hasOffered) {
+      // Only pick data available (old learnings.jsonl) — note it so shares aren't misread.
+      document.getElementById("g-note").textContent =
+        (document.getElementById("g-note").textContent || "") + " (Offered counts start once the v2 engine logs them.)";
+    }
+    any = true;
+  }
+
+  if (any) box.hidden = false;
+}
 
 // ---- Push notifications ----
 const VAPID_PUBLIC_KEY = "BGxW8B3erUXZrwN-VLRZezYU_IWUmis23DvWJtgt2e_7XMzJ1RTDLOxpb2WEnbDK3ZN5VRI7pkWbDKNAPbHt_F0";
@@ -736,15 +1269,12 @@ function updatePushBtn() {
   if (!pushSupported()) { b.hidden = true; return; }
   b.hidden = false;
   const on = Notification.permission === "granted" && localStorage.getItem("push_enabled") === "1";
-  b.textContent = on ? "🔔 On" : "🔔 Alerts";
+  b.textContent = on ? "🔔" : "🔔";
   b.classList.toggle("on", on);
 }
 async function enablePush() {
   try {
-    if (!pushSupported()) {
-      showToast("Add this app to your Home Screen first, then enable alerts.", 3500);
-      return;
-    }
+    if (!pushSupported()) { showToast("Add this app to your Home Screen first, then enable alerts.", 3500); return; }
     const perm = await Notification.requestPermission();
     if (perm !== "granted") { showToast("Notifications not allowed", 2500); return; }
     const reg = await navigator.serviceWorker.ready;
@@ -757,10 +1287,42 @@ async function enablePush() {
 }
 document.getElementById("btn-push")?.addEventListener("click", enablePush);
 
+// ---- Growth panel expand ----
+document.getElementById("growth-toggle").addEventListener("click", () => {
+  const t = document.getElementById("growth-toggle");
+  const body = document.getElementById("growth-body");
+  const open = t.getAttribute("aria-expanded") === "true";
+  t.setAttribute("aria-expanded", String(!open));
+  body.hidden = open;
+});
+
+// ---- Model-served line (which LLM drafted today's queue) ----
+// textContent only — never innerHTML — so model names from DATA are inert.
+function renderModelLine() {
+  const el = document.getElementById("model-line");
+  const entries = Object.entries(DATA.models || {})
+    .map(([m, n]) => [String(m), Number(n) || 0])
+    .filter(([, n]) => n > 0)
+    .sort((a, b) => b[1] - a[1]);
+  if (!el || !entries.length) return;
+  const total = entries.reduce((s, [, n]) => s + n, 0);
+  const fallback = entries.filter(([m]) => !/^claude/i.test(m)).reduce((s, [, n]) => s + n, 0);
+  let line = "Drafted by " + entries.map(([m, n]) => `${m} ×${n}`).join(" · ");
+  if (fallback / total > 0.5) {
+    line += " · ⚠ mostly fallback models — check Anthropic credits";
+    el.classList.add("model-warn");
+  }
+  el.textContent = line;
+  el.hidden = false;
+}
+
+pruneLocalStorage();
 updateStats();
 render();
+renderModelLine();
 renderGrowth();
 updatePushBtn();
+probeRegen();
 </script>
 </body>
 </html>

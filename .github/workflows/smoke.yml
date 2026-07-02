@@ -1,0 +1,75 @@
+name: Smoke test refresh (dry run)
+
+on:
+  workflow_dispatch:
+    inputs:
+      handles:
+        description: 'Comma-separated X handles to scrape (no @).'
+        required: true
+        type: string
+        default: 'levelsio,SahilBloom,warikoo,paraschopra,shobhitic,dennisnotin,arindam___paul,bhatnaturally'
+      max_note:
+        description: 'Free-text note recorded alongside the run summary (why you ran this smoke).'
+        required: false
+        type: string
+        default: ''
+
+permissions:
+  contents: read
+
+# Same group as refresh.yml so a smoke run and a real refresh can never overlap.
+# cancel-in-progress:false => this waits for an in-flight refresh instead of killing it.
+concurrency:
+  group: refresh-queue
+  cancel-in-progress: false
+
+jobs:
+  smoke:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Run refresh (DRY_RUN)
+        # pipefail so `python refresh.py | tee` fails the step on an engine crash
+        # (default `bash -e {0}` lacks pipefail => pipeline exit status would be tee's 0).
+        shell: bash
+        env:
+          APIFY_TOKEN: ${{ secrets.APIFY_TOKEN }}
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          DRY_RUN: '1'
+          SMOKE_HANDLES: ${{ inputs.handles }}
+          DRY_RUN_OUT: dry_run_index.html
+          # Untrusted workflow_dispatch inputs pass through env, never interpolated
+          # into the script text (${{ }} in run: is expanded before bash => injectable).
+          HANDLES: ${{ inputs.handles }}
+          NOTE: ${{ inputs.max_note }}
+        run: |
+          set -o pipefail
+          {
+            echo "# Smoke run summary"
+            echo "handles: $HANDLES"
+            echo "note:    $NOTE"
+            echo "started: $(date -u +'%Y-%m-%d %H:%M:%S UTC')"
+            echo "----- refresh.py output -----"
+          } | tee smoke_summary.txt
+          # Never commits: DRY_RUN=1 tells the engine to write DRY_RUN_OUT and skip git.
+          python refresh.py 2>&1 | tee -a smoke_summary.txt
+
+      - name: Upload dry-run artifact
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: smoke-dry-run
+          path: |
+            dry_run_index.html
+            smoke_summary.txt
+          if-no-files-found: warn
+          retention-days: 7

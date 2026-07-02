@@ -1,6 +1,6 @@
 // Service Worker for X Reply Queue
 // Caches the main HTML so the app loads instantly even offline (showing last-cached batch).
-const VERSION = "v4-2026-06-01-push";
+const VERSION = "v5-2026-07-02-v2ui";
 const CACHE = "x-reply-queue-" + VERSION;
 const SCOPE = "/x-reply-queue/";
 const CORE = [
@@ -31,8 +31,10 @@ self.addEventListener("fetch", (event) => {
   const url = new URL(event.request.url);
   if (!url.pathname.startsWith(SCOPE)) return;
 
-  // Network-first for HTML (always get the freshest queue, fall back to cache offline)
-  if (event.request.mode === "navigate" || url.pathname.endsWith(".html") || url.pathname.endsWith("/")) {
+  // Network-first for HTML + live data (metrics/learnings): always get the freshest
+  // queue and growth data, fall back to cache offline.
+  const isLiveData = url.pathname.endsWith("metrics.json") || url.pathname.endsWith("learnings.jsonl");
+  if (event.request.mode === "navigate" || url.pathname.endsWith(".html") || url.pathname.endsWith("/") || isLiveData) {
     event.respondWith(
       fetch(event.request).then((res) => {
         const copy = res.clone();

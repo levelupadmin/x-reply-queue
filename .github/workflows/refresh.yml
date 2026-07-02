@@ -2,13 +2,30 @@ name: Refresh X reply queue
 
 on:
   schedule:
-    # 01:00 UTC = 06:30 AM IST, Monday through Friday
+    # 01:00 UTC = 06:30 AM IST, Monday through Friday (morning run, MIDDAY=0)
     - cron: '0 1 * * 1-5'
+    # 08:30 UTC = 14:00 PM IST, Monday through Friday (midday run, MIDDAY=1)
+    - cron: '30 8 * * 1-5'
   workflow_dispatch:
     # Manual trigger from GitHub UI / mobile app
+    inputs:
+      mode:
+        description: 'Run mode (auto = decide by UTC wall-clock like the crons do)'
+        type: choice
+        default: auto
+        options:
+          - auto
+          - morning
+          - midday
 
 permissions:
   contents: write
+
+# Shared with smoke.yml so a manual smoke test can never overlap a real refresh.
+# cancel-in-progress:false => a queued run waits instead of killing the running one.
+concurrency:
+  group: refresh-queue
+  cancel-in-progress: false
 
 jobs:
   refresh:
@@ -23,20 +40,58 @@ jobs:
         with:
           python-version: '3.11'
 
+      # GitHub cron can't pass env per-schedule, so derive MIDDAY from the wall clock.
+      # Morning cron fires at 01:00 UTC (hour 1 -> MIDDAY=0); midday cron fires at
+      # 08:30 UTC (hour 8 -> MIDDAY=1).
+      # For a manual (workflow_dispatch) run, the `mode` input wins so Rahul can force
+      # a full MORNING scrape from his phone regardless of the UTC hour; `mode=auto`
+      # (the default) keeps the wall-clock rule the crons rely on.
+      - name: Determine run mode (MIDDAY)
+        env:
+          DISPATCH_MODE: ${{ github.event.inputs.mode }}
+        run: |
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ] && [ "$DISPATCH_MODE" != "auto" ] && [ -n "$DISPATCH_MODE" ]; then
+            if [ "$DISPATCH_MODE" = "midday" ]; then
+              echo "MIDDAY=1" >> "$GITHUB_ENV"
+              echo "Run mode: MIDDAY (manual override)"
+            else
+              echo "MIDDAY=0" >> "$GITHUB_ENV"
+              echo "Run mode: MORNING (manual override)"
+            fi
+          else
+            hour=$(date -u +'%H')
+            if [ "$((10#$hour))" -ge 6 ]; then
+              echo "MIDDAY=1" >> "$GITHUB_ENV"
+              echo "Run mode: MIDDAY (UTC hour $hour)"
+            else
+              echo "MIDDAY=0" >> "$GITHUB_ENV"
+              echo "Run mode: MORNING (UTC hour $hour)"
+            fi
+          fi
+
       - name: Run refresh
         env:
           APIFY_TOKEN: ${{ secrets.APIFY_TOKEN }}
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
         run: python refresh.py
 
       - name: Commit and push if changed
+        id: commit
         run: |
           git config user.name "x-reply-engine-bot"
           git config user.email "bot@leveluplearning.in"
-          git add index.html state.json metrics.json
+          # Stage only files that exist: receipts.json is engine-authored and may be
+          # absent during a partial rollout; a bare `git add` on a missing path would
+          # abort the whole step.
+          for f in index.html state.json metrics.json receipts.json learnings.jsonl; do
+            [ -e "$f" ] && git add "$f"
+          done
           if git diff --staged --quiet; then
             echo "No changes to commit"
+            echo "changed=false" >> "$GITHUB_OUTPUT"
           else
+            echo "changed=true" >> "$GITHUB_OUTPUT"
             git commit -m "Auto-refresh $(date -u +'%Y-%m-%d %H:%M UTC')"
             for i in 1 2 3; do
               git pull --rebase --autostash origin main && git push && break
@@ -44,8 +99,11 @@ jobs:
             done
           fi
 
+      # Only notify when this run actually changed the queue. Without this guard a
+      # no-op run (empty midday queue, or a scrape of only already-seen tweets)
+      # would still fire a push reading a stale state.json, double-pinging users.
       - name: Send push notifications
-        if: success()
+        if: success() && steps.commit.outputs.changed == 'true'
         continue-on-error: true
         env:
           VAPID_PUBLIC_KEY: ${{ secrets.VAPID_PUBLIC_KEY }}

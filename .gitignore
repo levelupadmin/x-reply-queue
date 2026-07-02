@@ -1,2 +1,9 @@
 __pycache__/
 *.pyc
+dry-learnings.jsonl
+ui-test/
+int-test/
+ui-*.png
+int-*.png
+apify-self*.json
+engine-sample-drafts.json
