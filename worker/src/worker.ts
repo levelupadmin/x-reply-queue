@@ -36,10 +36,10 @@ export interface Env {
   REFRESH_TOKEN: string;      // gate for /refresh, /log, /regen  (was hardcoded in v1)
   PUSH_SUBS_TOKEN: string;    // gate for /subs, /unsub  (consumed by send_push.js)
   OPENAI_API_KEY: string;    // sk-...  for /regen drafting
-  GITHUB_TOKEN: string;       // fine-grained PAT: levelupadmin/x-reply-queue contents:rw + actions:rw
+  GH_PAT: string;             // fine-grained PAT (existing v1 secret): contents:rw + actions:rw
 
   // --- KV binding (id lives in wrangler.toml) ---
-  QUEUE_KV: KVNamespace;      // push subscriptions + rate-limit + refresh cooldown counters
+  PUSH_SUBS: KVNamespace;      // push subscriptions + rate-limit + refresh cooldown counters
 }
 
 // ---- Fixed config (non-secret; safe to hardcode) --------------------------
@@ -170,7 +170,7 @@ async function handleRefresh(env: Env, origin: string | null): Promise<Response>
   // with a KV timestamp updated on each successful dispatch. Fail-open only after
   // the window — never fire two dispatches inside 8 minutes.
   const now = Date.now();
-  const lastRaw = await env.QUEUE_KV.get("refresh:last");
+  const lastRaw = await env.PUSH_SUBS.get("refresh:last");
   const last = lastRaw ? parseInt(lastRaw, 10) : 0;
   if (last && now - last < REFRESH_COOLDOWN_MS) {
     const wait = Math.ceil((REFRESH_COOLDOWN_MS - (now - last)) / 1000);
@@ -190,7 +190,7 @@ async function handleRefresh(env: Env, origin: string | null): Promise<Response>
     return json({ ok: false, error: `dispatch failed ${r.status}` }, 502, origin);
   }
   // TTL keeps the key ~ the cooldown window so it self-heals if the engine wedges.
-  await env.QUEUE_KV.put("refresh:last", String(now), { expirationTtl: 600 });
+  await env.PUSH_SUBS.put("refresh:last", String(now), { expirationTtl: 600 });
   return json({ ok: true }, 200, origin);
 }
 
@@ -461,9 +461,11 @@ function parseVariants(text: string): Array<{ mode: string; text: string }> {
 // ============================================================================
 // /subscribe, /subs, /unsub  — web-push subscription registry in KV
 // ============================================================================
-// v1 stored each subscription under a per-endpoint KV key with a common prefix so
-// /subs can list them. We keep that shape: key = "sub:<hash(endpoint)>".
-const SUB_PREFIX = "sub:";
+// v1 stored each subscription under its RAW endpoint URL as the KV key (push
+// endpoints always start with https://, so listing by that prefix finds exactly
+// the subscriptions and never the rl:/refresh: bookkeeping keys). Keeping the
+// v1 scheme preserves every existing subscriber across the v2 deploy.
+const SUB_PREFIX = "https://";
 
 async function handleSubscribe(req: Request, env: Env, origin: string | null): Promise<Response> {
   const bodyText = await readBounded(req, 4096);
@@ -474,8 +476,7 @@ async function handleSubscribe(req: Request, env: Env, origin: string | null): P
   if (!sub || typeof sub.endpoint !== "string" || !/^https:\/\//.test(sub.endpoint)) {
     return json({ ok: false, error: "invalid subscription" }, 400, origin);
   }
-  const key = SUB_PREFIX + (await hashKey(sub.endpoint));
-  await env.QUEUE_KV.put(key, JSON.stringify(sub));
+  await env.PUSH_SUBS.put(sub.endpoint, JSON.stringify(sub));
   return json({ ok: true }, 200, origin);
 }
 
@@ -484,9 +485,9 @@ async function handleSubs(env: Env, origin: string | null): Promise<Response> {
   let cursor: string | undefined;
   // KV list is paginated; loop until complete (subscription counts are small).
   do {
-    const page = await env.QUEUE_KV.list({ prefix: SUB_PREFIX, cursor });
+    const page = await env.PUSH_SUBS.list({ prefix: SUB_PREFIX, cursor });
     for (const k of page.keys) {
-      const v = await env.QUEUE_KV.get(k.name);
+      const v = await env.PUSH_SUBS.get(k.name);
       if (v) { try { subs.push(JSON.parse(v)); } catch { /* skip corrupt */ } }
     }
     cursor = page.list_complete ? undefined : page.cursor;
@@ -500,8 +501,7 @@ async function handleUnsub(req: Request, env: Env, origin: string | null): Promi
   let b: any;
   try { b = JSON.parse(bodyText); } catch { return json({ ok: false, error: "bad json" }, 400, origin); }
   if (!b || typeof b.endpoint !== "string") return json({ ok: false, error: "endpoint required" }, 400, origin);
-  const key = SUB_PREFIX + (await hashKey(b.endpoint));
-  await env.QUEUE_KV.delete(key);
+  await env.PUSH_SUBS.delete(b.endpoint);
   return json({ ok: true }, 200, origin);
 }
 
@@ -534,13 +534,13 @@ async function rateLimit(
   env: Env, key: string, limit: number, windowSec: number
 ): Promise<{ ok: boolean }> {
   const kvKey = `rl:${key}`;
-  const cur = await env.QUEUE_KV.get(kvKey);
+  const cur = await env.PUSH_SUBS.get(kvKey);
   const n = cur ? parseInt(cur, 10) || 0 : 0;
   if (n >= limit) return { ok: false };
   // Fixed-window: TTL only set on the first write of the window so the window
   // expires ~windowSec after it opened. KV has no atomic incr, so under heavy
   // concurrency this is best-effort — acceptable for a single-user tool.
-  await env.QUEUE_KV.put(kvKey, String(n + 1), cur ? {} : { expirationTtl: windowSec });
+  await env.PUSH_SUBS.put(kvKey, String(n + 1), cur ? {} : { expirationTtl: windowSec });
   return { ok: true };
 }
 
@@ -593,7 +593,7 @@ async function readBounded(req: Request, max: number): Promise<string | null> {
 
 function ghHeaders(env: Env): Record<string, string> {
   return {
-    Authorization: `Bearer ${env.GITHUB_TOKEN}`,
+    Authorization: `Bearer ${env.GH_PAT}`,
     Accept: "application/vnd.github+json",
     "X-GitHub-Api-Version": "2022-11-28",
     "User-Agent": UA,
@@ -621,13 +621,6 @@ function short(s: string): string {
 
 function dayKey(): string {
   return new Date().toISOString().slice(0, 10); // YYYY-MM-DD (UTC)
-}
-
-// SHA-256 hex of a string (for stable, opaque KV keys from push endpoints).
-async function hashKey(s: string): Promise<string> {
-  const data = new TextEncoder().encode(s);
-  const buf = await crypto.subtle.digest("SHA-256", data);
-  return [...new Uint8Array(buf)].map(b => b.toString(16).padStart(2, "0")).join("").slice(0, 32);
 }
 
 // UTF-8 safe base64 encode/decode (GitHub contents API is base64).

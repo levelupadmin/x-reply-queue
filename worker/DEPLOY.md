@@ -1,3 +1,9 @@
+> **STATUS: DEPLOYED 2026-07-02** (version 79b6925a). Secrets set: REFRESH_TOKEN,
+> GH_PAT (both pre-existing, persisted), OPENAI_API_KEY, PUSH_SUBS_TOKEN. KV bound to
+> the existing x_push_subs namespace, legacy raw-endpoint subscription keys preserved.
+> Cloudflare auth for redeploys: `CLOUDFLARE_API_TOKEN_WORKERS` in iCloud
+> `LevelUp Core/.env.cloudflare` (export as CLOUDFLARE_API_TOKEN).
+
 # Deploy runbook — `x-refresh-proxy` Cloudflare Worker v2
 
 This worker is the privileged proxy for the X reply-queue PWA

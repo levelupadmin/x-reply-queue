@@ -5,7 +5,7 @@
 
 name = "x-refresh-proxy"
 main = "src/worker.ts"
-compatibility_date = "2026-05-01"
+compatibility_date = "2026-05-17"
 
 # ---------------------------------------------------------------------------
 # KV namespace — stores push subscriptions, per-IP rate-limit counters, and the
@@ -17,8 +17,8 @@ compatibility_date = "2026-05-01"
 #   Paste the full id below, replacing REPLACE_WITH_EXISTING_KV_ID.
 # ---------------------------------------------------------------------------
 [[kv_namespaces]]
-binding = "QUEUE_KV"
-id = "REPLACE_WITH_EXISTING_KV_ID"   # prefix 542b1ebf — see `npx wrangler kv namespace list`
+binding = "PUSH_SUBS"
+id = "542b1ebfff6c48c883fba827cfe59b7b"   # existing x_push_subs namespace (v1)
 
 # ---------------------------------------------------------------------------
 # Secrets — set with `npx wrangler secret put <NAME>` (NEVER commit these).
@@ -27,7 +27,7 @@ id = "REPLACE_WITH_EXISTING_KV_ID"   # prefix 542b1ebf — see `npx wrangler kv 
 #   REFRESH_TOKEN     gate for /refresh, /log, /regen (was hardcoded in v1 — now a secret)
 #   PUSH_SUBS_TOKEN   gate for /subs, /unsub (consumed by send_push.js in GitHub Actions)
 #   OPENAI_API_KEY sk-...  for /regen drafting (gpt-5.5)
-#   GITHUB_TOKEN      fine-grained PAT on levelupadmin/x-reply-queue, contents:rw + actions:rw ONLY
+#   GH_PAT            fine-grained PAT (already set on the live worker; persists across deploys)
 # ---------------------------------------------------------------------------
 
 # No [vars] block: all sensitive config is a secret; all non-sensitive config
