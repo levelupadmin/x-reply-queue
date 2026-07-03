@@ -1,17 +1,13 @@
 {
-  "lastRefresh": "2026-07-03T05:55:55.798792+00:00",
-  "ready": 41,
+  "lastRefresh": "2026-07-03T11:06:07.409791+00:00",
+  "ready": 20,
   "skipped": 0,
   "by_tier": {
-    "1": 9,
-    "2": 19,
-    "3": 13
+    "1": 7,
+    "2": 5,
+    "3": 8
   },
   "hot_5": [
-    {
-      "handle": "svembu",
-      "text": "Strong attack on frontier AI labs from silicon valley insider and Palantir CEO Alex Karp.\n\nHe explicitly mentions that enterprises must own the \"means of production\" in the video interview. I have lon"
-    },
     {
       "handle": "aakashgupta",
       "text": "Bridgewater just published numbers that should make every frontier lab nervous.\n\nThe world's largest hedge fund tested Gemini, Claude, and GPT on six document filtering tasks its investors do every da"
@@ -21,8 +17,12 @@
       "text": "Steal this idea.\n\nAt-home personalised newspaper printer.\n\nShip a printer with eco-friendly ink and recycled paper that prints daily a bundle of articles and news from multiple sources that you\u2019re exp"
     },
     {
-      "handle": "SandeepMall",
-      "text": "Bone loss starts after 40. About 1% a year. A small fall can break a fragile bone. So can bending to tie a shoelace. Strength training fights back. It builds bone instead of losing it. At 60 her T-sco"
+      "handle": "deepakshenoy",
+      "text": "We have all these open source models, but Indian tech/other cos haven't yet set up a token based model to have all the AI inference in India to keep token revenue from going out for most basic tasks. "
+    },
+    {
+      "handle": "levelsio",
+      "text": "Why Claude keeps telling me to connect MCP to Google Drive etc? https://t.co/SvTkXq7Qzx"
     },
     {
       "handle": "Rahul_J_Mathur",
@@ -50,11 +50,11 @@
     "cohort-shows-up-for-people": "2026-07-02"
   },
   "offered_today": {
-    "SHARPENER": 74,
-    "HONEST_QUESTION": 37,
-    "HUMAN_REPLY": 41
+    "SHARPENER": 32,
+    "HUMAN_REPLY": 20,
+    "HONEST_QUESTION": 15
   },
   "models": {
-    "gpt-5.5": 41
+    "gpt-5.5": 20
   }
 }
