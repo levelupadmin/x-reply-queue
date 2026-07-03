@@ -1,10 +1,10 @@
 {
-  "lastRefresh": "2026-07-03T04:46:53.030528+00:00",
-  "ready": 40,
+  "lastRefresh": "2026-07-03T05:55:55.798792+00:00",
+  "ready": 41,
   "skipped": 0,
   "by_tier": {
     "1": 9,
-    "2": 18,
+    "2": 19,
     "3": 13
   },
   "hot_5": [
@@ -13,20 +13,20 @@
       "text": "Strong attack on frontier AI labs from silicon valley insider and Palantir CEO Alex Karp.\n\nHe explicitly mentions that enterprises must own the \"means of production\" in the video interview. I have lon"
     },
     {
-      "handle": "SahilBloom",
-      "text": "WARNING: Longer post (but worth reading or bookmarking for later).\n\nYour life has seasons.\n\nEach one is unique. Characterized by its own distinct desires, struggles, opportunities, and identity.\n\nBut "
-    },
-    {
       "handle": "aakashgupta",
       "text": "Bridgewater just published numbers that should make every frontier lab nervous.\n\nThe world's largest hedge fund tested Gemini, Claude, and GPT on six document filtering tasks its investors do every da"
+    },
+    {
+      "handle": "paraschopra",
+      "text": "Steal this idea.\n\nAt-home personalised newspaper printer.\n\nShip a printer with eco-friendly ink and recycled paper that prints daily a bundle of articles and news from multiple sources that you\u2019re exp"
     },
     {
       "handle": "SandeepMall",
       "text": "Bone loss starts after 40. About 1% a year. A small fall can break a fragile bone. So can bending to tie a shoelace. Strength training fights back. It builds bone instead of losing it. At 60 her T-sco"
     },
     {
-      "handle": "levelsio",
-      "text": "Why Claude keeps telling me to connect MCP to Google Drive etc? https://t.co/SvTkXq7Qzx"
+      "handle": "Rahul_J_Mathur",
+      "text": "I\u2019ve automated 80% of my 2024 desk job. AI now saves me 600+ hrs per yr.\n\nOn 30th June 2025, I shared my 10,000 hours of AI goal. I\u2019m now 750+ hours into this journey.\n\nMy set-up costs ~$12k per annum"
     }
   ],
   "receipts_used": {
@@ -50,11 +50,11 @@
     "cohort-shows-up-for-people": "2026-07-02"
   },
   "offered_today": {
-    "SHARPENER": 72,
-    "HONEST_QUESTION": 36,
-    "HUMAN_REPLY": 40
+    "SHARPENER": 74,
+    "HONEST_QUESTION": 37,
+    "HUMAN_REPLY": 41
   },
   "models": {
-    "gpt-5.5": 40
+    "gpt-5.5": 41
   }
 }
