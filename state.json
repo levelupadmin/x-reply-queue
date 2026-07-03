@@ -1,32 +1,32 @@
 {
-  "lastRefresh": "2026-07-02T18:17:09.252394+00:00",
-  "ready": 39,
+  "lastRefresh": "2026-07-03T04:46:53.030528+00:00",
+  "ready": 40,
   "skipped": 0,
   "by_tier": {
-    "1": 8,
+    "1": 9,
     "2": 18,
     "3": 13
   },
   "hot_5": [
     {
-      "handle": "AravSrinivas",
-      "text": "The best application for models to run locally on hardware you own would be personal robots. There\u2019s no way anyone is going to get comfortable streaming your home to a server. And when this happens, t"
+      "handle": "svembu",
+      "text": "Strong attack on frontier AI labs from silicon valley insider and Palantir CEO Alex Karp.\n\nHe explicitly mentions that enterprises must own the \"means of production\" in the video interview. I have lon"
     },
     {
-      "handle": "svembu",
-      "text": "Anthropic's latest models available worldwide. In other words, Chinese open source models posed a serious enough threat to market share.\n\nIn a different context, an Indian customer of some of our prod"
+      "handle": "SahilBloom",
+      "text": "WARNING: Longer post (but worth reading or bookmarking for later).\n\nYour life has seasons.\n\nEach one is unique. Characterized by its own distinct desires, struggles, opportunities, and identity.\n\nBut "
+    },
+    {
+      "handle": "aakashgupta",
+      "text": "Bridgewater just published numbers that should make every frontier lab nervous.\n\nThe world's largest hedge fund tested Gemini, Claude, and GPT on six document filtering tasks its investors do every da"
+    },
+    {
+      "handle": "SandeepMall",
+      "text": "Bone loss starts after 40. About 1% a year. A small fall can break a fragile bone. So can bending to tie a shoelace. Strength training fights back. It builds bone instead of losing it. At 60 her T-sco"
     },
     {
       "handle": "levelsio",
       "text": "Why Claude keeps telling me to connect MCP to Google Drive etc? https://t.co/SvTkXq7Qzx"
-    },
-    {
-      "handle": "mahikaa101",
-      "text": "Love working from this cafe \u2728 https://t.co/QKpVJbPImF"
-    },
-    {
-      "handle": "deedydas",
-      "text": "Top 20 Startups by Web Traffic founded since 2020\n\n1. DeepSeek\n2. Perplexity\n3. Suno\n4. Polymarket\n5. Gamma\n6. ElevenLabs\n7. Lovable\n8. Arena\n9. xAI\n10. Supabase\n11. Manus\n12. Higgsfield\n13. Cursor\n14"
     }
   ],
   "receipts_used": {
@@ -50,11 +50,11 @@
     "cohort-shows-up-for-people": "2026-07-02"
   },
   "offered_today": {
-    "SHARPENER": 70,
-    "HONEST_QUESTION": 35,
-    "HUMAN_REPLY": 38
+    "SHARPENER": 72,
+    "HONEST_QUESTION": 36,
+    "HUMAN_REPLY": 40
   },
   "models": {
-    "gpt-5.5": 39
+    "gpt-5.5": 40
   }
 }
