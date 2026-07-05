@@ -1,7 +1,7 @@
 {
  "_meta": {
   "x_handle": "rahul_reddy",
-  "updated": "2026-06-28",
+  "updated": "2026-07-05",
   "note": "core = locked hand-picked accounts, never auto-removed. synced = auto-managed: source 'following' rows are added/removed by sync-following.yml based on who @rahul_reddy follows; source 'discovery' rows are sticky seeds.",
   "counts": {
    "core": 141,
@@ -2091,13 +2091,6 @@
    "added": "2026-05-31"
   },
   {
-   "handle": "Aadhithya_D2003",
-   "tier": 3,
-   "source": "following",
-   "category": "ai",
-   "added": "2026-05-31"
-  },
-  {
    "handle": "DanielGPT2022",
    "tier": 3,
    "source": "discovery",
@@ -2336,13 +2329,6 @@
    "added": "2026-05-31"
   },
   {
-   "handle": "JasonDigital",
-   "tier": 3,
-   "source": "following",
-   "category": "",
-   "added": "2026-06-07"
-  },
-  {
    "handle": "CindyXBi",
    "tier": 3,
    "source": "following",
@@ -2418,6 +2404,20 @@
    "source": "following",
    "category": "",
    "added": "2026-06-21"
+  },
+  {
+   "handle": "bridgebench",
+   "tier": 3,
+   "source": "following",
+   "category": "",
+   "added": "2026-07-05"
+  },
+  {
+   "handle": "AadhithyaD_",
+   "tier": 3,
+   "source": "following",
+   "category": "",
+   "added": "2026-07-05"
   }
  ],
  "_evaluated": [
@@ -2438,6 +2438,7 @@
   "_nithee___",
   "_skris",
   "aadhithya_d2003",
+  "aadhithyad_",
   "aaditsh",
   "aakashgupta",
   "aakhanpp",
@@ -2541,9 +2542,11 @@
   "brentbeshore",
   "brettfromdj",
   "brian_lovin",
+  "bridgebench",
   "brivael",
   "businessbarista",
   "byersblake",
+  "ca_ashhh",
   "captainqba",
   "carlweische",
   "carrollcre91139",
@@ -2659,6 +2662,7 @@
   "heybarsee",
   "heyblake",
   "heyeaslo",
+  "himansh01672356",
   "hirect_india",
   "hiresh1403",
   "hiunicornstudio",
