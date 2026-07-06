@@ -1,32 +1,32 @@
 {
-  "lastRefresh": "2026-07-06T05:17:17.509851+00:00",
-  "ready": 23,
+  "lastRefresh": "2026-07-06T12:17:30.210537+00:00",
+  "ready": 14,
   "skipped": 0,
   "by_tier": {
-    "1": 6,
-    "2": 10,
-    "3": 7
+    "1": 7,
+    "2": 4,
+    "3": 3
   },
   "hot_5": [
+    {
+      "handle": "aakashgupta",
+      "text": "The US Navy operates a 50,000 acre forest in Indiana whose entire job is keeping one wooden ship from 1797 afloat.\n\nThe ship is USS Constitution, still a commissioned warship with an active-duty crew."
+    },
     {
       "handle": "svembu",
       "text": "Nothing says Japan like running to catch the train...\ud83d\ude02 https://t.co/ckT0yDFAOH"
     },
     {
-      "handle": "iRadhikaGupta",
-      "text": "Days like today remind me why I love Mumbaikars.\n\nYes, the rain is relentless. Yes, it disrupts lives. But the professionalism, grit and quiet determination of people never ceases to amaze me. People "
+      "handle": "vikpai",
+      "text": "I\u2019m hiring a founding designer at @ReferRush \n\n1-2% equity \nMarket rate salary \n\nPlease comment your portfolio"
     },
     {
       "handle": "levelsio",
-      "text": "Europe fights for 6 years whether to install AC or not\n\nChina produces an AC in 6 seconds"
+      "text": "Mini feature idea for @nikitabier\n\nIt'd be nice if X could auto-translate metric system to imperial like 30\u00b0C to 86\u00b0F and vice versa\n\nThat'd make conversations even more international and understandab"
     },
     {
       "handle": "amasad",
       "text": "Happy 250 \ud83c\uddfa\ud83c\uddf8 https://t.co/Ya1Ymnq87G"
-    },
-    {
-      "handle": "vijayshekhar",
-      "text": "My friend Bhavin is back! This time with AI powered work space ! Do try \ud83d\ude80\ud83d\ude80"
     }
   ],
   "receipts_used": {
@@ -50,11 +50,11 @@
     "cohort-shows-up-for-people": "2026-07-02"
   },
   "offered_today": {
-    "SHARPENER": 38,
-    "HONEST_QUESTION": 19,
-    "HUMAN_REPLY": 23
+    "SHARPENER": 19,
+    "HONEST_QUESTION": 10,
+    "HUMAN_REPLY": 14
   },
   "models": {
-    "gpt-5.5": 23
+    "gpt-5.5": 14
   }
 }
