@@ -1,32 +1,32 @@
 {
-  "lastRefresh": "2026-07-03T11:06:07.409791+00:00",
-  "ready": 20,
+  "lastRefresh": "2026-07-06T05:17:17.509851+00:00",
+  "ready": 23,
   "skipped": 0,
   "by_tier": {
-    "1": 7,
-    "2": 5,
-    "3": 8
+    "1": 6,
+    "2": 10,
+    "3": 7
   },
   "hot_5": [
     {
-      "handle": "aakashgupta",
-      "text": "Bridgewater just published numbers that should make every frontier lab nervous.\n\nThe world's largest hedge fund tested Gemini, Claude, and GPT on six document filtering tasks its investors do every da"
+      "handle": "svembu",
+      "text": "Nothing says Japan like running to catch the train...\ud83d\ude02 https://t.co/ckT0yDFAOH"
     },
     {
-      "handle": "paraschopra",
-      "text": "Steal this idea.\n\nAt-home personalised newspaper printer.\n\nShip a printer with eco-friendly ink and recycled paper that prints daily a bundle of articles and news from multiple sources that you\u2019re exp"
-    },
-    {
-      "handle": "deepakshenoy",
-      "text": "We have all these open source models, but Indian tech/other cos haven't yet set up a token based model to have all the AI inference in India to keep token revenue from going out for most basic tasks. "
+      "handle": "iRadhikaGupta",
+      "text": "Days like today remind me why I love Mumbaikars.\n\nYes, the rain is relentless. Yes, it disrupts lives. But the professionalism, grit and quiet determination of people never ceases to amaze me. People "
     },
     {
       "handle": "levelsio",
-      "text": "Why Claude keeps telling me to connect MCP to Google Drive etc? https://t.co/SvTkXq7Qzx"
+      "text": "Europe fights for 6 years whether to install AC or not\n\nChina produces an AC in 6 seconds"
     },
     {
-      "handle": "Rahul_J_Mathur",
-      "text": "I\u2019ve automated 80% of my 2024 desk job. AI now saves me 600+ hrs per yr.\n\nOn 30th June 2025, I shared my 10,000 hours of AI goal. I\u2019m now 750+ hours into this journey.\n\nMy set-up costs ~$12k per annum"
+      "handle": "amasad",
+      "text": "Happy 250 \ud83c\uddfa\ud83c\uddf8 https://t.co/Ya1Ymnq87G"
+    },
+    {
+      "handle": "vijayshekhar",
+      "text": "My friend Bhavin is back! This time with AI powered work space ! Do try \ud83d\ude80\ud83d\ude80"
     }
   ],
   "receipts_used": {
@@ -50,11 +50,11 @@
     "cohort-shows-up-for-people": "2026-07-02"
   },
   "offered_today": {
-    "SHARPENER": 32,
-    "HUMAN_REPLY": 20,
-    "HONEST_QUESTION": 15
+    "SHARPENER": 38,
+    "HONEST_QUESTION": 19,
+    "HUMAN_REPLY": 23
   },
   "models": {
-    "gpt-5.5": 20
+    "gpt-5.5": 23
   }
 }
