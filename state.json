@@ -1,32 +1,32 @@
 {
-  "lastRefresh": "2026-07-06T12:17:30.210537+00:00",
-  "ready": 14,
+  "lastRefresh": "2026-07-07T04:57:31.005213+00:00",
+  "ready": 26,
   "skipped": 0,
   "by_tier": {
-    "1": 7,
-    "2": 4,
-    "3": 3
+    "1": 3,
+    "2": 12,
+    "3": 11
   },
   "hot_5": [
     {
-      "handle": "aakashgupta",
-      "text": "The US Navy operates a 50,000 acre forest in Indiana whose entire job is keeping one wooden ship from 1797 afloat.\n\nThe ship is USS Constitution, still a commissioned warship with an active-duty crew."
-    },
-    {
-      "handle": "svembu",
-      "text": "Nothing says Japan like running to catch the train...\ud83d\ude02 https://t.co/ckT0yDFAOH"
-    },
-    {
-      "handle": "vikpai",
-      "text": "I\u2019m hiring a founding designer at @ReferRush \n\n1-2% equity \nMarket rate salary \n\nPlease comment your portfolio"
-    },
-    {
-      "handle": "levelsio",
-      "text": "Mini feature idea for @nikitabier\n\nIt'd be nice if X could auto-translate metric system to imperial like 30\u00b0C to 86\u00b0F and vice versa\n\nThat'd make conversations even more international and understandab"
-    },
-    {
       "handle": "amasad",
-      "text": "Happy 250 \ud83c\uddfa\ud83c\uddf8 https://t.co/Ya1Ymnq87G"
+      "text": "Atlanta-based real estate company saved $100k by replacing Salesforce with their Replit-built CRM. https://t.co/3l7t6VljVw"
+    },
+    {
+      "handle": "patio11",
+      "text": "Japanese insurance company staff: May I enquire as to what you hope to do with a [yen-denominated] term life policy while not residing in Japan?\nMe: Pay premiums monthly and then *not* die before the "
+    },
+    {
+      "handle": "anuragwho",
+      "text": "a very uniquely desi concept we have is to say cousin sister or cousin brother instead of just cousin."
+    },
+    {
+      "handle": "aakashgupta",
+      "text": "Netflix built a machine that makes shows vanish from culture faster than it can produce new seasons.\n\nThe dropoffs are brutal. The Four Seasons lost 63% of its audience between seasons. Avatar: The La"
+    },
+    {
+      "handle": "SandeepMall",
+      "text": "It takes me few weeks to get out of jet lag. It will be amazing to know how he manages week after week. At 75+. #DestinationPostcard https://t.co/2mmvkJ3afk"
     }
   ],
   "receipts_used": {
@@ -50,11 +50,11 @@
     "cohort-shows-up-for-people": "2026-07-02"
   },
   "offered_today": {
-    "SHARPENER": 19,
-    "HONEST_QUESTION": 10,
-    "HUMAN_REPLY": 14
+    "SHARPENER": 42,
+    "HONEST_QUESTION": 22,
+    "HUMAN_REPLY": 26
   },
   "models": {
-    "gpt-5.5": 14
+    "gpt-5.5": 26
   }
 }
