@@ -1,32 +1,32 @@
 {
-  "lastRefresh": "2026-07-07T04:57:31.005213+00:00",
-  "ready": 26,
+  "lastRefresh": "2026-07-07T11:21:34.699535+00:00",
+  "ready": 16,
   "skipped": 0,
   "by_tier": {
-    "1": 3,
-    "2": 12,
-    "3": 11
+    "1": 6,
+    "2": 3,
+    "3": 7
   },
   "hot_5": [
+    {
+      "handle": "svembu",
+      "text": "Fortunate to meet Yoshifumi Shimagaki-san, a living legend of motors in Japan. Thank you Britto for making the introduction. https://t.co/qFQ7DTXYqY"
+    },
     {
       "handle": "amasad",
       "text": "Atlanta-based real estate company saved $100k by replacing Salesforce with their Replit-built CRM. https://t.co/3l7t6VljVw"
     },
     {
-      "handle": "patio11",
-      "text": "Japanese insurance company staff: May I enquire as to what you hope to do with a [yen-denominated] term life policy while not residing in Japan?\nMe: Pay premiums monthly and then *not* die before the "
+      "handle": "nush_1320",
+      "text": "New day, new adventure https://t.co/R1VOrcZDFz"
     },
     {
-      "handle": "anuragwho",
-      "text": "a very uniquely desi concept we have is to say cousin sister or cousin brother instead of just cousin."
+      "handle": "paraschopra",
+      "text": "Cool result but, well, isn't it sort of expected?\n\nIt's a common misconception that LLMs residual exists for predicting just the next token. While training, we sum/average the losses across whole sequ"
     },
     {
-      "handle": "aakashgupta",
-      "text": "Netflix built a machine that makes shows vanish from culture faster than it can produce new seasons.\n\nThe dropoffs are brutal. The Four Seasons lost 63% of its audience between seasons. Avatar: The La"
-    },
-    {
-      "handle": "SandeepMall",
-      "text": "It takes me few weeks to get out of jet lag. It will be amazing to know how he manages week after week. At 75+. #DestinationPostcard https://t.co/2mmvkJ3afk"
+      "handle": "shobhitic",
+      "text": "your best dev, who does nothing whole day but submits a 7 line PR that fixes a huge issue in the product"
     }
   ],
   "receipts_used": {
@@ -50,11 +50,11 @@
     "cohort-shows-up-for-people": "2026-07-02"
   },
   "offered_today": {
-    "SHARPENER": 42,
-    "HONEST_QUESTION": 22,
-    "HUMAN_REPLY": 26
+    "SHARPENER": 23,
+    "HONEST_QUESTION": 12,
+    "HUMAN_REPLY": 15
   },
   "models": {
-    "gpt-5.5": 26
+    "gpt-5.5": 16
   }
 }
