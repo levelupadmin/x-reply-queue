@@ -1,11 +1,11 @@
 {
-  "lastRefresh": "2026-07-08T04:18:19.002502+00:00",
-  "ready": 37,
+  "lastRefresh": "2026-07-08T10:32:54.637695+00:00",
+  "ready": 16,
   "skipped": 0,
   "by_tier": {
-    "1": 7,
-    "2": 17,
-    "3": 13
+    "1": 5,
+    "2": 4,
+    "3": 7
   },
   "hot_5": [
     {
@@ -13,20 +13,20 @@
       "text": "Fortunate to meet Yoshifumi Shimagaki-san, a living legend of motors in Japan. Thank you Britto for making the introduction. https://t.co/qFQ7DTXYqY"
     },
     {
-      "handle": "levelsio",
-      "text": "\ud83c\udf4c Got so lazy to order stuff on UberEats that I asked Claude Code to do it\n\nVery easy, it just installs Playwright and then you login once to UberEats on web (the iOS app is also just a web wrapper, n"
+      "handle": "rajshamani",
+      "text": "Procrastination is an emotional coping mechanism, not a lack of discipline. The brain craves the immediate safety of a cheap win, like clearing notifications, to escape the heavy load of a hard proble"
     },
     {
-      "handle": "swyx",
-      "text": "it_happening.gif https://t.co/XiwgDUvyWi"
+      "handle": "levelsio",
+      "text": "\ud83c\udf4c Got so lazy to order stuff on UberEats that I asked Claude Code to do it\n\nVery easy, it just installs Playwright and then you login once to UberEats on web (the iOS app is also just a web wrapper, n"
     },
     {
       "handle": "amasad",
       "text": "Atlanta-based real estate company saved $100k by replacing Salesforce with their Replit-built CRM. https://t.co/3l7t6VljVw"
     },
     {
-      "handle": "AravSrinivas",
-      "text": "Vera CPUs are custom-built for agentic runtime. \nWe've been working together with NVIDIA on running our sandbox infrastructure that powers Perplexity Computer on Vera CPUs, with significant improvemen"
+      "handle": "warikoo",
+      "text": "A team member asked me recently:\n\nWhen you're earning a decent income, but almost all of it goes toward EMIs, education loans, home loans, or other financial commitments, it can feel like life is on p"
     }
   ],
   "receipts_used": {
@@ -50,11 +50,11 @@
     "cohort-shows-up-for-people": "2026-07-02"
   },
   "offered_today": {
-    "SHARPENER": 63,
-    "HONEST_QUESTION": 33,
-    "HUMAN_REPLY": 37
+    "SHARPENER": 23,
+    "HONEST_QUESTION": 12,
+    "HUMAN_REPLY": 16
   },
   "models": {
-    "gpt-5.5": 37
+    "gpt-5.5": 16
   }
 }
