@@ -1,11 +1,11 @@
 {
-  "lastRefresh": "2026-07-08T10:32:54.637695+00:00",
-  "ready": 16,
+  "lastRefresh": "2026-07-09T04:58:03.375980+00:00",
+  "ready": 36,
   "skipped": 0,
   "by_tier": {
-    "1": 5,
-    "2": 4,
-    "3": 7
+    "1": 3,
+    "2": 19,
+    "3": 14
   },
   "hot_5": [
     {
@@ -13,20 +13,20 @@
       "text": "Fortunate to meet Yoshifumi Shimagaki-san, a living legend of motors in Japan. Thank you Britto for making the introduction. https://t.co/qFQ7DTXYqY"
     },
     {
-      "handle": "rajshamani",
-      "text": "Procrastination is an emotional coping mechanism, not a lack of discipline. The brain craves the immediate safety of a cheap win, like clearing notifications, to escape the heavy load of a hard proble"
-    },
-    {
       "handle": "levelsio",
-      "text": "\ud83c\udf4c Got so lazy to order stuff on UberEats that I asked Claude Code to do it\n\nVery easy, it just installs Playwright and then you login once to UberEats on web (the iOS app is also just a web wrapper, n"
+      "text": "It's so easy to make an iOS app with AI!!! I'm finally not iOS-retarded anymore \ud83d\ude0a\ud83d\ude0a\ud83d\ude0a https://t.co/RHtoK1Or4c"
     },
     {
       "handle": "amasad",
-      "text": "Atlanta-based real estate company saved $100k by replacing Salesforce with their Replit-built CRM. https://t.co/3l7t6VljVw"
+      "text": "Should we add CAD 3D modeling to Replit? https://t.co/5NsKXGDuxw"
     },
     {
-      "handle": "warikoo",
-      "text": "A team member asked me recently:\n\nWhen you're earning a decent income, but almost all of it goes toward EMIs, education loans, home loans, or other financial commitments, it can feel like life is on p"
+      "handle": "dharmeshba",
+      "text": "Spanish Ice Latte from Beanlore (HSR):\n\nSwiggy (with One sub): Rs. 362\nOwnly: Rs. 191\n\n Food delivery disruption is inevitable."
+    },
+    {
+      "handle": "SandeepMall",
+      "text": "I know many CEOs who lead major banks and corporations. Whenever I try to bypass the system by starting at the top, the work didn\u2019t happen.\nIf you want to get the work done, approach the person doing "
     }
   ],
   "receipts_used": {
@@ -50,11 +50,11 @@
     "cohort-shows-up-for-people": "2026-07-02"
   },
   "offered_today": {
-    "SHARPENER": 23,
-    "HONEST_QUESTION": 12,
-    "HUMAN_REPLY": 16
+    "SHARPENER": 62,
+    "HONEST_QUESTION": 32,
+    "HUMAN_REPLY": 36
   },
   "models": {
-    "gpt-5.5": 16
+    "gpt-5.5": 36
   }
 }
