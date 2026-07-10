@@ -1,32 +1,32 @@
 {
-  "lastRefresh": "2026-07-09T11:22:53.262142+00:00",
-  "ready": 19,
+  "lastRefresh": "2026-07-10T04:56:55.817089+00:00",
+  "ready": 37,
   "skipped": 0,
   "by_tier": {
-    "1": 5,
-    "2": 6,
-    "3": 8
+    "1": 6,
+    "2": 15,
+    "3": 16
   },
   "hot_5": [
     {
-      "handle": "aakashgupta",
-      "text": "40 out of 86 Brown students scored a perfect 100 on their midterm. Then the professor moved the final in person, and 22 of those perfect scorers never showed up again.\n\nHe'd suspected AI cheating from"
-    },
-    {
-      "handle": "Nithin0dha",
-      "text": "When we started the discount brokerage (flat fee per trade) model in India in 2010, we decided to charge the same fee regardless of trade size. The logic was simple: if the effort to execute a trade i"
+      "handle": "svembu",
+      "text": "Japan was our first office outside India and the US. That was 2001. \n\nYesterday, I visited our office in Yokohama and I'm reminded that we were a small unknown company from Chennai and we chose the ha"
     },
     {
       "handle": "levelsio",
-      "text": "eSIM renewal is still broken on @Revolut @NStoronsky \n\nWhatever you set to renewal, it has never actually renewed and it leaves you with no data in the middle of nowhere\n\nAnd lots of missed $$$ for yo"
+      "text": "I'm pretty bad at a lot of things but one thing I've (accidentally or not) have been pretty good at is being early at trends\n\nA lot of these trends are in my head in some way and I wanted to visualize"
     },
     {
-      "handle": "amasad",
-      "text": "When do we stop comparing autonomous agents to hand-written code? You don\u2019t see compilers comparing to engineers hand-writing assembly."
+      "handle": "anuragwho",
+      "text": "finally someone fighting for the big guy"
     },
     {
-      "handle": "nush_1320",
-      "text": "Black diaries are new obsession. https://t.co/MBzWIDN2IN"
+      "handle": "Suhail",
+      "text": "My evaluation of some of the models over past ~24 hours testing/building:\n\nGPT 5.6 Sol is excellent. You can feel the care in it. Bravo as usual OpenAI.  \n\nmuse-spark-1.1 is way off the mark after my "
+    },
+    {
+      "handle": "aakashgupta",
+      "text": "A third grader just scored a 5 on AP Calculus BC. The system that trained him contains no LLM. The core is a knowledge graph one man spent 250 hours encoding by hand, two minutes per edge.\n\nThe platfo"
     }
   ],
   "receipts_used": {
@@ -50,11 +50,11 @@
     "cohort-shows-up-for-people": "2026-07-02"
   },
   "offered_today": {
-    "SHARPENER": 30,
-    "HONEST_QUESTION": 15,
-    "HUMAN_REPLY": 19
+    "SHARPENER": 66,
+    "HONEST_QUESTION": 33,
+    "HUMAN_REPLY": 37
   },
   "models": {
-    "gpt-5.5": 19
+    "gpt-5.5": 37
   }
 }
