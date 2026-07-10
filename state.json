@@ -1,24 +1,16 @@
 {
-  "lastRefresh": "2026-07-10T04:56:55.817089+00:00",
-  "ready": 37,
+  "lastRefresh": "2026-07-10T11:22:07.528720+00:00",
+  "ready": 20,
   "skipped": 0,
   "by_tier": {
-    "1": 6,
-    "2": 15,
-    "3": 16
+    "1": 5,
+    "2": 6,
+    "3": 9
   },
   "hot_5": [
     {
-      "handle": "svembu",
-      "text": "Japan was our first office outside India and the US. That was 2001. \n\nYesterday, I visited our office in Yokohama and I'm reminded that we were a small unknown company from Chennai and we chose the ha"
-    },
-    {
       "handle": "levelsio",
-      "text": "I'm pretty bad at a lot of things but one thing I've (accidentally or not) have been pretty good at is being early at trends\n\nA lot of these trends are in my head in some way and I wanted to visualize"
-    },
-    {
-      "handle": "anuragwho",
-      "text": "finally someone fighting for the big guy"
+      "text": "VERY COOL!!\n\nThanks @jordandotbuilds for the tip, I can now test my iOS app on web\n\nI asked Claude Code to set up serve-sim, a web-based iOS simulator that can stream the iOS app my Claude Code on VPS"
     },
     {
       "handle": "Suhail",
@@ -26,7 +18,15 @@
     },
     {
       "handle": "aakashgupta",
-      "text": "A third grader just scored a 5 on AP Calculus BC. The system that trained him contains no LLM. The core is a knowledge graph one man spent 250 hours encoding by hand, two minutes per edge.\n\nThe platfo"
+      "text": "Your fingers contain zero muscles. Every movement they make comes from muscles in your forearm pulling tendons through your wrist. Robotics spent 70 years ignoring that design. The company that finall"
+    },
+    {
+      "handle": "amasad",
+      "text": "It\u2019s fantastic to see how dynamic the LLM market has become in just a short period.\n\nJust 6 months ago VCs suffered Anthropic psychosis and convinced themselves that it was going to be a monopoly.\n\nTh"
+    },
+    {
+      "handle": "Nithin0dha",
+      "text": "When we started the discount brokerage (flat fee per trade) model in India in 2010, we decided to charge the same fee regardless of trade size. The logic was simple: if the effort to execute a trade i"
     }
   ],
   "receipts_used": {
@@ -50,11 +50,11 @@
     "cohort-shows-up-for-people": "2026-07-02"
   },
   "offered_today": {
-    "SHARPENER": 66,
-    "HONEST_QUESTION": 33,
-    "HUMAN_REPLY": 37
+    "SHARPENER": 31,
+    "HONEST_QUESTION": 16,
+    "HUMAN_REPLY": 20
   },
   "models": {
-    "gpt-5.5": 37
+    "gpt-5.5": 20
   }
 }
