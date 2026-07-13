@@ -1,32 +1,32 @@
 {
-  "lastRefresh": "2026-07-10T11:22:07.528720+00:00",
-  "ready": 20,
+  "lastRefresh": "2026-07-13T04:33:40.294825+00:00",
+  "ready": 32,
   "skipped": 0,
   "by_tier": {
     "1": 5,
-    "2": 6,
-    "3": 9
+    "2": 15,
+    "3": 12
   },
   "hot_5": [
     {
+      "handle": "SandeepMall",
+      "text": "A student wanted an internship. He reached me through one of my friend. \nFirst meeting, he told me straight. He needed a certificate for his US college application. Nothing about the shop floor. Nothi"
+    },
+    {
       "handle": "levelsio",
-      "text": "VERY COOL!!\n\nThanks @jordandotbuilds for the tip, I can now test my iOS app on web\n\nI asked Claude Code to set up serve-sim, a web-based iOS simulator that can stream the iOS app my Claude Code on VPS"
+      "text": "Something that will eventually happen when you use Tailscale is\n\nYou think your site is down, you try reach it over SSH, it doesn't work, you try open the site in your browser, it doesn't open, you're"
     },
     {
-      "handle": "Suhail",
-      "text": "My evaluation of some of the models over past ~24 hours testing/building:\n\nGPT 5.6 Sol is excellent. You can feel the care in it. Bravo as usual OpenAI.  \n\nmuse-spark-1.1 is way off the mark after my "
+      "handle": "AravSrinivas",
+      "text": "Grok 4.5 inside Perplexity Computer harness excels at work people actually do"
     },
     {
-      "handle": "aakashgupta",
-      "text": "Your fingers contain zero muscles. Every movement they make comes from muscles in your forearm pulling tendons through your wrist. Robotics spent 70 years ignoring that design. The company that finall"
+      "handle": "deedydas",
+      "text": "Every single startup selling AI Training Data (July 2026)\n\n&gt;50 cos sell data and RL environments to big AI labs and drive AI progress behind the scenes.\n\nThey total ~$8.5B in rev and ~$100B in valu"
     },
     {
-      "handle": "amasad",
-      "text": "It\u2019s fantastic to see how dynamic the LLM market has become in just a short period.\n\nJust 6 months ago VCs suffered Anthropic psychosis and convinced themselves that it was going to be a monopoly.\n\nTh"
-    },
-    {
-      "handle": "Nithin0dha",
-      "text": "When we started the discount brokerage (flat fee per trade) model in India in 2010, we decided to charge the same fee regardless of trade size. The logic was simple: if the effort to execute a trade i"
+      "handle": "paraschopra",
+      "text": "For most people and for most tasks, frontier models are an overkill.\n\nYou don\u2019t need Fable to find grammatical mistakes in your email.\n\nWhat ought to happen is everyone using ultra-cheap local or smal"
     }
   ],
   "receipts_used": {
@@ -50,11 +50,11 @@
     "cohort-shows-up-for-people": "2026-07-02"
   },
   "offered_today": {
-    "SHARPENER": 31,
-    "HONEST_QUESTION": 16,
-    "HUMAN_REPLY": 20
+    "SHARPENER": 53,
+    "HONEST_QUESTION": 28,
+    "HUMAN_REPLY": 32
   },
   "models": {
-    "gpt-5.5": 20
+    "gpt-5.5": 32
   }
 }
