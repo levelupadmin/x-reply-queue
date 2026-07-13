@@ -1,16 +1,20 @@
 {
-  "lastRefresh": "2026-07-13T04:33:40.294825+00:00",
-  "ready": 32,
+  "lastRefresh": "2026-07-13T11:34:30.460635+00:00",
+  "ready": 17,
   "skipped": 0,
   "by_tier": {
-    "1": 5,
-    "2": 15,
-    "3": 12
+    "1": 8,
+    "2": 4,
+    "3": 5
   },
   "hot_5": [
     {
-      "handle": "SandeepMall",
-      "text": "A student wanted an internship. He reached me through one of my friend. \nFirst meeting, he told me straight. He needed a certificate for his US college application. Nothing about the shop floor. Nothi"
+      "handle": "svembu",
+      "text": "Amazing news. This is why I am so optimistic about India. We have the brain power to solve our problems - and lead the world in solving the world's problems. \n\nPessimists who do not believe should wat"
+    },
+    {
+      "handle": "Nithin0dha",
+      "text": "By 2039, every Indian state will fall below the replacement fertility rate, with Bihar being the last to cross this milestone. The evidence shows that fertility is tightly linked to income and educati"
     },
     {
       "handle": "levelsio",
@@ -18,15 +22,11 @@
     },
     {
       "handle": "AravSrinivas",
-      "text": "Grok 4.5 inside Perplexity Computer harness excels at work people actually do"
+      "text": "\"I find it ironic that the status quo is to then turn around and impose restrictive terms on distillation, and to reserve the right to learn from customer usage and interaction data. If learning flows"
     },
     {
-      "handle": "deedydas",
-      "text": "Every single startup selling AI Training Data (July 2026)\n\n&gt;50 cos sell data and RL environments to big AI labs and drive AI progress behind the scenes.\n\nThey total ~$8.5B in rev and ~$100B in valu"
-    },
-    {
-      "handle": "paraschopra",
-      "text": "For most people and for most tasks, frontier models are an overkill.\n\nYou don\u2019t need Fable to find grammatical mistakes in your email.\n\nWhat ought to happen is everyone using ultra-cheap local or smal"
+      "handle": "SahilBloom",
+      "text": "I think there are two types of optimism:\n\n1. Passive Optimism\n2. Active Optimism\n\nPassive Optimism is exclusively about belief. The belief that things will work out. Blind faith.\n\nActive Optimism is a"
     }
   ],
   "receipts_used": {
@@ -50,11 +50,11 @@
     "cohort-shows-up-for-people": "2026-07-02"
   },
   "offered_today": {
-    "SHARPENER": 53,
-    "HONEST_QUESTION": 28,
-    "HUMAN_REPLY": 32
+    "SHARPENER": 25,
+    "HONEST_QUESTION": 13,
+    "HUMAN_REPLY": 17
   },
   "models": {
-    "gpt-5.5": 32
+    "gpt-5.5": 17
   }
 }
