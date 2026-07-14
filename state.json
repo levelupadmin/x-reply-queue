@@ -1,24 +1,16 @@
 {
-  "lastRefresh": "2026-07-14T04:07:07.397763+00:00",
-  "ready": 39,
+  "lastRefresh": "2026-07-14T10:13:45.253180+00:00",
+  "ready": 19,
   "skipped": 0,
   "by_tier": {
-    "1": 10,
-    "2": 17,
-    "3": 12
+    "1": 11,
+    "2": 4,
+    "3": 4
   },
   "hot_5": [
     {
-      "handle": "colejaczko",
-      "text": "Buying the first round of drinks for your friends or people you meet is such an underrated high ROI activity"
-    },
-    {
-      "handle": "patio11",
-      "text": "The decision to not just forward \u201csort by amount received\u201d to the fraud department is, always and everywhere, a policy choice."
-    },
-    {
       "handle": "svembu",
-      "text": "When you build something big long term, be prepared to live in the construction zone a long time too."
+      "text": "Last week, I was fortunate to visit the workshop (the Tamil word pattarai \u0baa\u0b9f\u0bcd\u0b9f\u0bb1\u0bc8 is so appropriate) of the leading motor designer in the world Morihiro Saito-san. \n\nSaito-san is 80+ and still designin"
     },
     {
       "handle": "nikhilkamathcio",
@@ -27,6 +19,14 @@
     {
       "handle": "rajshamani",
       "text": "The new education gap will be between people who use AI to sharpen their thinking and people who use it to avoid thinking."
+    },
+    {
+      "handle": "AravSrinivas",
+      "text": "Two reasons why we integrated Grok 4.5 inside Perplexity Computer within a few hours: \n\n1) It scored the best on our evals and was the most cost effective option \n\n2) ZDR was available from the get go"
+    },
+    {
+      "handle": "levelsio",
+      "text": "Why my Claude Code keeps switching back to Opus secretly? Like every hour I have to put it back on Fable?????? https://t.co/oFIKYOzr22"
     }
   ],
   "receipts_used": {
@@ -50,11 +50,11 @@
     "cohort-shows-up-for-people": "2026-07-02"
   },
   "offered_today": {
-    "SHARPENER": 68,
-    "HONEST_QUESTION": 35,
-    "HUMAN_REPLY": 39
+    "SHARPENER": 30,
+    "HONEST_QUESTION": 15,
+    "HUMAN_REPLY": 19
   },
   "models": {
-    "gpt-5.5": 39
+    "gpt-5.5": 19
   }
 }
