@@ -1,32 +1,32 @@
 {
-  "lastRefresh": "2026-07-13T11:34:30.460635+00:00",
-  "ready": 17,
+  "lastRefresh": "2026-07-14T04:07:07.397763+00:00",
+  "ready": 39,
   "skipped": 0,
   "by_tier": {
-    "1": 8,
-    "2": 4,
-    "3": 5
+    "1": 10,
+    "2": 17,
+    "3": 12
   },
   "hot_5": [
     {
+      "handle": "colejaczko",
+      "text": "Buying the first round of drinks for your friends or people you meet is such an underrated high ROI activity"
+    },
+    {
+      "handle": "patio11",
+      "text": "The decision to not just forward \u201csort by amount received\u201d to the fraud department is, always and everywhere, a policy choice."
+    },
+    {
       "handle": "svembu",
-      "text": "Amazing news. This is why I am so optimistic about India. We have the brain power to solve our problems - and lead the world in solving the world's problems. \n\nPessimists who do not believe should wat"
+      "text": "When you build something big long term, be prepared to live in the construction zone a long time too."
     },
     {
-      "handle": "Nithin0dha",
-      "text": "By 2039, every Indian state will fall below the replacement fertility rate, with Bihar being the last to cross this milestone. The evidence shows that fertility is tightly linked to income and educati"
+      "handle": "nikhilkamathcio",
+      "text": "Did you know your \u20b9100 in the bank isn\u2019t sitting in a vault?\n\nIt\u2019s lent, spent, and re-deposited within hours. One printed \u20b9100 turns into \u20b9500 across the economy. Banks decide how much.\n\nIndia runs t"
     },
     {
-      "handle": "levelsio",
-      "text": "Something that will eventually happen when you use Tailscale is\n\nYou think your site is down, you try reach it over SSH, it doesn't work, you try open the site in your browser, it doesn't open, you're"
-    },
-    {
-      "handle": "AravSrinivas",
-      "text": "\"I find it ironic that the status quo is to then turn around and impose restrictive terms on distillation, and to reserve the right to learn from customer usage and interaction data. If learning flows"
-    },
-    {
-      "handle": "SahilBloom",
-      "text": "I think there are two types of optimism:\n\n1. Passive Optimism\n2. Active Optimism\n\nPassive Optimism is exclusively about belief. The belief that things will work out. Blind faith.\n\nActive Optimism is a"
+      "handle": "rajshamani",
+      "text": "The new education gap will be between people who use AI to sharpen their thinking and people who use it to avoid thinking."
     }
   ],
   "receipts_used": {
@@ -50,11 +50,11 @@
     "cohort-shows-up-for-people": "2026-07-02"
   },
   "offered_today": {
-    "SHARPENER": 25,
-    "HONEST_QUESTION": 13,
-    "HUMAN_REPLY": 17
+    "SHARPENER": 68,
+    "HONEST_QUESTION": 35,
+    "HUMAN_REPLY": 39
   },
   "models": {
-    "gpt-5.5": 17
+    "gpt-5.5": 39
   }
 }
