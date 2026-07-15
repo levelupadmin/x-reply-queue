@@ -1,32 +1,32 @@
 {
-  "lastRefresh": "2026-07-15T10:18:18.453850+00:00",
-  "ready": 8,
+  "lastRefresh": "2026-07-15T11:37:51.086079+00:00",
+  "ready": 20,
   "skipped": 0,
   "by_tier": {
-    "1": 0,
-    "2": 0,
-    "3": 8
+    "1": 11,
+    "2": 4,
+    "3": 5
   },
   "hot_5": [
     {
-      "handle": "mahikaa101",
-      "text": "I\u2019m a growth girlie living in Bangalore but I suck when it comes to investing\ud83d\ude2d\ud83d\ude2d\ud83d\ude2d\n\nCame across @Trackkofficial recently, and they have cracked it for people like me fr\nAlso look what they sent hot whee"
+      "handle": "rajshamani",
+      "text": "The brain does not hate hard work. It hates unclear effort. If it cannot see where the work is going, how long it will last, or why it matters, it starts treating the task like failure instead of a ch"
     },
     {
-      "handle": "vikpai",
-      "text": "My work at @ReferRush has been very light as I\u2019ve delegated most things away and built systems. \n\nI need to focus on making Instagram content but I\u2019m just not sure what to make on Instagram. \n\nAny tho"
+      "handle": "levelsio",
+      "text": "So I made this little bot, every day it messages when I should go sit in the sun outside, we're in Southern Europe so it might be more wherever you are\n\n\"\u2600\ufe0f Vitamin D window \u2014 go sit in the sun for ~1"
     },
     {
-      "handle": "khyatimaloo",
-      "text": "Shitiest mood in a long, long time. So, I booked a ticket for a quick getaway to tickle my creative juices. I blame mercury."
+      "handle": "svembu",
+      "text": "Last week, I was fortunate to visit the workshop (the Tamil word pattarai \u0baa\u0b9f\u0bcd\u0b9f\u0bb1\u0bc8 is so appropriate) of the leading motor designer in the world Morihiro Saito-san. \n\nSaito-san is 80+ and still designin"
     },
     {
-      "handle": "nush_1320",
-      "text": "I need a bit guidance on how do i connect with potential leads on X for companies X handle. \nwhat are things i should not be missing out as a growth/ marketing person???\nand what are some mistakes ppl"
+      "handle": "SahilBloom",
+      "text": "The fastest way to improve your entire life is to sign up for a physical side quest. A race. A competition. Whatever. Your day becomes more structured with the training. You sleep deeper because you'r"
     },
     {
-      "handle": "indiesoftwaredv",
-      "text": "Today's marketing is done \u2705\n\nOne viral YouTube shorts\nOne new paid subscriber \n\nYouTube viral made +$60\nApp monthly sub +$7.6\n\nTomorrow is another marketing day https://t.co/zKyzt3H6d6"
+      "handle": "kunalb11",
+      "text": "Any incredibly hard thing pursued diligently has an ability to feel like purpose. Those who chase hard problems often never struggle to find purpose in life."
     }
   ],
   "receipts_used": {
@@ -50,11 +50,11 @@
     "cohort-shows-up-for-people": "2026-07-02"
   },
   "offered_today": {
-    "SHARPENER": 10,
-    "HONEST_QUESTION": 5,
-    "HUMAN_REPLY": 8
+    "SHARPENER": 32,
+    "HONEST_QUESTION": 16,
+    "HUMAN_REPLY": 20
   },
   "models": {
-    "gpt-5.5": 8
+    "gpt-5.5": 20
   }
 }
