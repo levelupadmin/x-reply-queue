@@ -1,32 +1,32 @@
 {
-  "lastRefresh": "2026-07-14T10:13:45.253180+00:00",
-  "ready": 19,
+  "lastRefresh": "2026-07-15T04:08:56.953838+00:00",
+  "ready": 42,
   "skipped": 0,
   "by_tier": {
-    "1": 11,
-    "2": 4,
-    "3": 4
+    "1": 9,
+    "2": 18,
+    "3": 15
   },
   "hot_5": [
     {
-      "handle": "svembu",
-      "text": "Last week, I was fortunate to visit the workshop (the Tamil word pattarai \u0baa\u0b9f\u0bcd\u0b9f\u0bb1\u0bc8 is so appropriate) of the leading motor designer in the world Morihiro Saito-san. \n\nSaito-san is 80+ and still designin"
-    },
-    {
-      "handle": "nikhilkamathcio",
-      "text": "Did you know your \u20b9100 in the bank isn\u2019t sitting in a vault?\n\nIt\u2019s lent, spent, and re-deposited within hours. One printed \u20b9100 turns into \u20b9500 across the economy. Banks decide how much.\n\nIndia runs t"
+      "handle": "colejaczko",
+      "text": "Buying the first round of drinks for your friends or people you meet is such an underrated high ROI activity"
     },
     {
       "handle": "rajshamani",
-      "text": "The new education gap will be between people who use AI to sharpen their thinking and people who use it to avoid thinking."
-    },
-    {
-      "handle": "AravSrinivas",
-      "text": "Two reasons why we integrated Grok 4.5 inside Perplexity Computer within a few hours: \n\n1) It scored the best on our evals and was the most cost effective option \n\n2) ZDR was available from the get go"
+      "text": "The brain does not hate hard work. It hates unclear effort. If it cannot see where the work is going, how long it will last, or why it matters, it starts treating the task like failure instead of a ch"
     },
     {
       "handle": "levelsio",
-      "text": "Why my Claude Code keeps switching back to Opus secretly? Like every hour I have to put it back on Fable?????? https://t.co/oFIKYOzr22"
+      "text": "All you really need today to build a business is 100% free open source software that charges you $0/mo\n\n+ a VPS server\n+ an API to do some required AI stuff\n+ some R2/S3 file hosting\n\nThey don't want "
+    },
+    {
+      "handle": "nikhilkamathcio",
+      "text": "Somebody at this table had to take the against side.\n\nI\u2019ve never bought a Bitcoin. Brian Armstrong runs Coinbase, the company that holds more crypto than anyone else on the planet. In this trailer, he"
+    },
+    {
+      "handle": "patio11",
+      "text": "Attempted to get USD from a Japanese debit card at a U.S. ATM (yeah, weird even for me) and was presented with a screen clearly designed to bamboozle a tourist into paying 13.5%, and thus will repeat "
     }
   ],
   "receipts_used": {
@@ -50,11 +50,11 @@
     "cohort-shows-up-for-people": "2026-07-02"
   },
   "offered_today": {
-    "SHARPENER": 30,
-    "HONEST_QUESTION": 15,
-    "HUMAN_REPLY": 19
+    "SHARPENER": 75,
+    "HONEST_QUESTION": 38,
+    "HUMAN_REPLY": 42
   },
   "models": {
-    "gpt-5.5": 19
+    "gpt-5.5": 42
   }
 }
