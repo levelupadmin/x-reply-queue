@@ -1,32 +1,32 @@
 {
-  "lastRefresh": "2026-07-16T04:12:40.661569+00:00",
-  "ready": 40,
+  "lastRefresh": "2026-07-16T10:23:47.279666+00:00",
+  "ready": 19,
   "skipped": 0,
   "by_tier": {
     "1": 7,
-    "2": 19,
-    "3": 14
+    "2": 7,
+    "3": 5
   },
   "hot_5": [
     {
-      "handle": "rajshamani",
-      "text": "The brain does not hate hard work. It hates unclear effort. If it cannot see where the work is going, how long it will last, or why it matters, it starts treating the task like failure instead of a ch"
-    },
-    {
-      "handle": "SandeepMall",
-      "text": "I once carried my granddaughter to school on my lap. Then I walked her up the stairs, her bag on my shoulder. Now she climbs alone while I wait below. Soon she will walk from the gate. Then from home."
-    },
-    {
-      "handle": "deedydas",
-      "text": "Thinking Machines just dropped the best open weight AI model outside of China!\n\nInkling beats Nemotron 3 Ultra and benchmarks put it between Kimi 2.5 &amp; 2.6. Many were contending to this throne, bu"
+      "handle": "SahilBloom",
+      "text": "Major cheat code for life: Build a boring baseline. Go to bed early. Wake up early. Move your body. Eat simple foods. Save money. Read good books. Avoid drama. Be present. Listen intently. Change your"
     },
     {
       "handle": "levelsio",
       "text": "All you really need today to build a business is 100% free open source software that charges you $0/mo\n\n+ a VPS server\n+ an API to do some required AI stuff\n+ some R2/S3 file hosting\n\nThey don't want "
     },
     {
-      "handle": "upadhyay_harsh1",
-      "text": "Swiggy\u2019s Instamart launches LPG cylinder delivery in partnership with HPCL\n\nInteresting move https://t.co/u9F8GBr1iG"
+      "handle": "nikhilkamathcio",
+      "text": "Somebody at this table had to take the against side.\n\nI\u2019ve never bought a Bitcoin. Brian Armstrong runs Coinbase, the company that holds more crypto than anyone else on the planet. In this trailer, he"
+    },
+    {
+      "handle": "SandeepMall",
+      "text": "I once carried my granddaughter to school on my lap. Then I walked her up the stairs, her bag on my shoulder. Now she climbs alone while I wait below. Soon she will walk from the gate. Then from home."
+    },
+    {
+      "handle": "ravihanda",
+      "text": "A friend got laid off today. His 45th birthday. \n\nThankfully, he has a good buffer built up and a green card. \n\nOn the weekend we were chatting about how hard it is going to be to find a job in tech a"
     }
   ],
   "receipts_used": {
@@ -50,11 +50,11 @@
     "cohort-shows-up-for-people": "2026-07-02"
   },
   "offered_today": {
-    "SHARPENER": 72,
-    "HONEST_QUESTION": 36,
-    "HUMAN_REPLY": 40
+    "SHARPENER": 29,
+    "HONEST_QUESTION": 15,
+    "HUMAN_REPLY": 19
   },
   "models": {
-    "gpt-5.5": 40
+    "gpt-5.5": 19
   }
 }
