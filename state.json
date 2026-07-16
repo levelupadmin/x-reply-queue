@@ -1,11 +1,11 @@
 {
-  "lastRefresh": "2026-07-15T11:37:51.086079+00:00",
-  "ready": 20,
+  "lastRefresh": "2026-07-16T04:12:40.661569+00:00",
+  "ready": 40,
   "skipped": 0,
   "by_tier": {
-    "1": 11,
-    "2": 4,
-    "3": 5
+    "1": 7,
+    "2": 19,
+    "3": 14
   },
   "hot_5": [
     {
@@ -13,20 +13,20 @@
       "text": "The brain does not hate hard work. It hates unclear effort. If it cannot see where the work is going, how long it will last, or why it matters, it starts treating the task like failure instead of a ch"
     },
     {
+      "handle": "SandeepMall",
+      "text": "I once carried my granddaughter to school on my lap. Then I walked her up the stairs, her bag on my shoulder. Now she climbs alone while I wait below. Soon she will walk from the gate. Then from home."
+    },
+    {
+      "handle": "deedydas",
+      "text": "Thinking Machines just dropped the best open weight AI model outside of China!\n\nInkling beats Nemotron 3 Ultra and benchmarks put it between Kimi 2.5 &amp; 2.6. Many were contending to this throne, bu"
+    },
+    {
       "handle": "levelsio",
-      "text": "So I made this little bot, every day it messages when I should go sit in the sun outside, we're in Southern Europe so it might be more wherever you are\n\n\"\u2600\ufe0f Vitamin D window \u2014 go sit in the sun for ~1"
+      "text": "All you really need today to build a business is 100% free open source software that charges you $0/mo\n\n+ a VPS server\n+ an API to do some required AI stuff\n+ some R2/S3 file hosting\n\nThey don't want "
     },
     {
-      "handle": "svembu",
-      "text": "Last week, I was fortunate to visit the workshop (the Tamil word pattarai \u0baa\u0b9f\u0bcd\u0b9f\u0bb1\u0bc8 is so appropriate) of the leading motor designer in the world Morihiro Saito-san. \n\nSaito-san is 80+ and still designin"
-    },
-    {
-      "handle": "SahilBloom",
-      "text": "The fastest way to improve your entire life is to sign up for a physical side quest. A race. A competition. Whatever. Your day becomes more structured with the training. You sleep deeper because you'r"
-    },
-    {
-      "handle": "kunalb11",
-      "text": "Any incredibly hard thing pursued diligently has an ability to feel like purpose. Those who chase hard problems often never struggle to find purpose in life."
+      "handle": "upadhyay_harsh1",
+      "text": "Swiggy\u2019s Instamart launches LPG cylinder delivery in partnership with HPCL\n\nInteresting move https://t.co/u9F8GBr1iG"
     }
   ],
   "receipts_used": {
@@ -50,11 +50,11 @@
     "cohort-shows-up-for-people": "2026-07-02"
   },
   "offered_today": {
-    "SHARPENER": 32,
-    "HONEST_QUESTION": 16,
-    "HUMAN_REPLY": 20
+    "SHARPENER": 72,
+    "HONEST_QUESTION": 36,
+    "HUMAN_REPLY": 40
   },
   "models": {
-    "gpt-5.5": 20
+    "gpt-5.5": 40
   }
 }
