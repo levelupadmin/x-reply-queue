@@ -1,11 +1,11 @@
 {
-  "lastRefresh": "2026-07-17T04:11:28.852871+00:00",
-  "ready": 36,
+  "lastRefresh": "2026-07-17T10:15:01.935915+00:00",
+  "ready": 19,
   "skipped": 0,
   "by_tier": {
-    "1": 7,
-    "2": 16,
-    "3": 13
+    "1": 10,
+    "2": 4,
+    "3": 5
   },
   "hot_5": [
     {
@@ -13,20 +13,20 @@
       "text": "Apparently the distillation model can outperform the teacher model \ud83d\ude02"
     },
     {
+      "handle": "Nithin0dha",
+      "text": "Saw a tweet of some guy losing all his savings because he invested all his money in 2 stocks. We recently added a nudge on Kite to help investors avoid exactly this scenario. You will now see an alert"
+    },
+    {
+      "handle": "SahilBloom",
+      "text": "The older I get, the more I realize how many people waste their entire lives waiting to feel ready. Gathering more information. Creating the perfect plan. Simulating progress. Convincing themselves th"
+    },
+    {
       "handle": "dvassallo",
       "text": "This photo is like the birthday paradox. The odds that a random baby in a Messi photo grows up to face him in a world cup final 19 years later look absurdly low. But the two encounters were never full"
     },
     {
-      "handle": "colejaczko",
-      "text": "Here you go. Wrote the article on this: https://t.co/1PMtOugym8"
-    },
-    {
-      "handle": "Suhail",
-      "text": "Every single credible researcher I've talked to these past few weeks has said the \"distillation\" from Chinese labs is way overexaggerated. Have you tried distilling without logits yourself? Show me th"
-    },
-    {
-      "handle": "aakashgupta",
-      "text": "Mira Murati raised the largest seed round in history, $2 billion at a $12 billion valuation, spent 17 months training a 975 billion parameter model, and just released it as a free download under Apach"
+      "handle": "rajshamani",
+      "text": "The older generation calls young people impatient because they ask for proof early. But young people grew up watching degrees, loyalty, and stable jobs stop guaranteeing the promised life. \u201cTrust the "
     }
   ],
   "receipts_used": {
@@ -50,11 +50,11 @@
     "cohort-shows-up-for-people": "2026-07-02"
   },
   "offered_today": {
-    "SHARPENER": 62,
-    "HONEST_QUESTION": 33,
-    "HUMAN_REPLY": 36
+    "HONEST_QUESTION": 15,
+    "SHARPENER": 29,
+    "HUMAN_REPLY": 19
   },
   "models": {
-    "gpt-5.5": 36
+    "gpt-5.5": 19
   }
 }
