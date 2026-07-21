@@ -1,32 +1,32 @@
 {
-  "lastRefresh": "2026-07-20T11:18:35.820992+00:00",
-  "ready": 13,
+  "lastRefresh": "2026-07-21T04:18:02.412250+00:00",
+  "ready": 31,
   "skipped": 0,
   "by_tier": {
-    "1": 4,
-    "2": 3,
-    "3": 6
+    "1": 5,
+    "2": 12,
+    "3": 14
   },
   "hot_5": [
     {
-      "handle": "sidin",
-      "text": "Oh.\nOh no. \n\nIs there a body under the\u2026. Pitch?????"
+      "handle": "levelsio",
+      "text": "&gt; Last week I got to look through 80+ applications from a seed-level incubator batch, through a friend\n&gt; Every website was a 8/10, all vaguely similar, and the copy and grammar were a solid 8/10"
+    },
+    {
+      "handle": "RomanEcom",
+      "text": "6 unconventional things I do as an eCom founder over the course of each quarter:\n\n1/ Call 200 customers\n\nI run a fixed 5-question script with clear follow-ups. \nThen I turn the insights into a SOP for"
+    },
+    {
+      "handle": "rajshamani",
+      "text": "In a world where anyone can produce anything, the only scarcity left is taste."
     },
     {
       "handle": "amasad",
       "text": "Consumers spend money on food, rent, and entertainment, phone &amp; internet, and shopping. Software is typically bought by their companies. Which is why outside of Netflix, Spotify, etc it\u2019s hard to "
     },
     {
-      "handle": "levelsio",
-      "text": "\ud83d\udcb8 You think this is crazy low but ~5% ownership probably the most common final % most VC funded startups will have when they work out, especially when you have a co-founder\n\nRaising money is not free,"
-    },
-    {
-      "handle": "deepakshenoy",
-      "text": "Bank NIMs are down from earlier, and that's the natural progression for a market that is maturing. The thing to focus on now is growth, not NIMs. When you have lower NIMs and higher growth it means be"
-    },
-    {
-      "handle": "nush_1320",
-      "text": "anushka is not anushkaying today the way anushka should anushka"
+      "handle": "vijayshekhar",
+      "text": "Back-to-back double the UPI market growth!  Thanks for your 2x love \ud83d\udc99\ud83d\udcf2 we never took it for granted."
     }
   ],
   "receipts_used": {
@@ -50,11 +50,11 @@
     "cohort-shows-up-for-people": "2026-07-02"
   },
   "offered_today": {
-    "SHARPENER": 18,
-    "HONEST_QUESTION": 9,
-    "HUMAN_REPLY": 13
+    "SHARPENER": 54,
+    "HONEST_QUESTION": 27,
+    "HUMAN_REPLY": 31
   },
   "models": {
-    "gpt-5.5": 13
+    "gpt-5.5": 31
   }
 }
