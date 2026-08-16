@@ -1,7 +1,7 @@
 {
  "_meta": {
   "x_handle": "rahul_reddy",
-  "updated": "2026-07-19",
+  "updated": "2026-08-16",
   "note": "core = locked hand-picked accounts, never auto-removed. synced = auto-managed: source 'following' rows are added/removed by sync-following.yml based on who @rahul_reddy follows; source 'discovery' rows are sticky seeds.",
   "counts": {
    "core": 141,
@@ -2349,6 +2349,7 @@
   "bridgebench",
   "brivael",
   "businessbarista",
+  "bydefaultso",
   "byersblake",
   "ca_ashhh",
   "captainqba",
@@ -2448,6 +2449,7 @@
   "gdb",
   "gemalaurajgx",
   "george__mack",
+  "getcarnage",
   "getfrontrow",
   "gharkekalesh",
   "gibsonbiddle",
@@ -2507,6 +2509,7 @@
   "jayanthan_jay",
   "jeffreallyaaron",
   "jenniferjoha3l",
+  "jensenhuang",
   "jenzenan",
   "jingjing_li",
   "jjenglert",
@@ -2518,6 +2521,7 @@
   "jon_lerner",
   "jordanhaswings",
   "jordanmenard",
+  "joshtriedcoding",
   "joshuapnoq45",
   "joulee",
   "jsngr",
