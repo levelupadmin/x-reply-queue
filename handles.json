@@ -1,20 +1,20 @@
 {
  "_meta": {
   "x_handle": "rahul_reddy",
-  "updated": "2026-08-16",
+  "updated": "2026-08-23",
   "note": "core = locked hand-picked accounts, never auto-removed. synced = auto-managed: source 'following' rows are added/removed by sync-following.yml based on who @rahul_reddy follows; source 'discovery' rows are sticky seeds.",
   "counts": {
    "core": 141,
-   "synced": 234,
-   "total": 375,
+   "synced": 233,
+   "total": 374,
    "synced_by_tier": {
     "1": 44,
     "2": 54,
-    "3": 136
+    "3": 135
    },
    "synced_by_source": {
     "discovery": 42,
-    "following": 192
+    "following": 191
    }
   }
  },
@@ -2151,13 +2151,6 @@
    "tier": 3,
    "source": "following",
    "category": "operator",
-   "added": "2026-05-31"
-  },
-  {
-   "handle": "NehaSharmatips",
-   "tier": 3,
-   "source": "following",
-   "category": "creator",
    "added": "2026-05-31"
   },
   {
