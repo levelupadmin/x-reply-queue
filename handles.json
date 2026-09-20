@@ -1,7 +1,7 @@
 {
  "_meta": {
   "x_handle": "rahul_reddy",
-  "updated": "2026-09-13",
+  "updated": "2026-09-20",
   "note": "core = locked hand-picked accounts, never auto-removed. synced = auto-managed: source 'following' rows are added/removed by sync-following.yml based on who @rahul_reddy follows; source 'discovery' rows are sticky seeds.",
   "counts": {
    "core": 141,
@@ -2078,6 +2078,7 @@
   "alexhormozi",
   "alexisohanian",
   "aliabdaal",
+  "alkyarchetype",
   "alsraiehou1438",
   "amandanat",
   "amanhasnoname_2",
@@ -2427,6 +2428,7 @@
   "niaahs20",
   "nicholaschua",
   "nicholasychua",
+  "nicolejane41192",
   "nikhilkamathcio",
   "nikunjtaneja_",
   "nithin0dha",
@@ -2630,6 +2632,7 @@
   "tollymasti",
   "tombos21",
   "translatemom",
+  "trollywoodx",
   "trungtphan",
   "tssheth",
   "ttorres",
